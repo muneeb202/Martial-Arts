@@ -1,0 +1,143 @@
+
+# --------------------- Project info ----------------------------- #
+
+name: martial_art
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment: 
+  sdk: '>=2.12.0 <3.0.0'
+
+# --------------------- Dependencies ----------------------------- #
+
+dependencies: 
+
+  flutter: 
+    sdk: flutter
+    
+  get: ^4.6.6
+  connectivity_plus: ^5.0.2
+  shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+  carousel_slider: ^4.2.1
+  smooth_page_indicator: ^1.1.0
+  outline_gradient_button: ^2.0.1+1
+  readmore: ^2.2.0
+  intl: ^0.19.0
+  interactive_slider: ^0.2.2
+  gradient_slider: ^1.0.1
+  convex_bottom_bar: ^3.2.0
+  flutter_svg_provider: ^1.0.7
+  cupertino_icons: ^1.0.6
+  lottie: ^3.1.0
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.1.0
+
+
+# --------------------- Dev Dependencies ----------------------------- #
+
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+
+
+# --------------------- Assets ----------------------------- #
+
+  assets: 
+    - assets/
+    - assets/images/
+    - assets/lottie/
+    - assets/badges/
+    - assets/badgesPics/
+
+
+# --------------------- Fonts ----------------------------- #
+
+  fonts: 
+    - family: Montserrat
+      fonts: 
+        - asset: assets/fonts/MontserratRomanBold.ttf
+          weight: 700
+        - asset: assets/fonts/MontserratRegular.ttf
+          weight: 400
+
+    - family: ABeeZee
+      fonts: 
+        - asset: assets/fonts/ABeeZeeRegular.ttf
+          weight: 400
+
+    - family: Inter
+      fonts: 
+        - asset: assets/fonts/InterBold.ttf
+          weight: 700
+        - asset: assets/fonts/InterRegular.ttf
+          weight: 400
+        - asset: assets/fonts/InterMedium.ttf
+          weight: 500
+        - asset: assets/fonts/InterSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/InterExtraBold.ttf
+          weight: 800
+
+    - family: IBM Plex Sans
+      fonts: 
+        - asset: assets/fonts/IBMPlexSansBold.ttf
+          weight: 700
+
+    - family: Nunito
+      fonts: 
+        - asset: assets/fonts/NunitoBold.ttf
+          weight: 700
+        - asset: assets/fonts/NunitoSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NunitoRegular.ttf
+          weight: 400
+
+    - family: Raleway
+      fonts: 
+        - asset: assets/fonts/RalewayBold.ttf
+          weight: 700
+
+    - family: Roboto
+      fonts: 
+        - asset: assets/fonts/RobotoRomanBold.ttf
+          weight: 700
+
+    - family: Manrope
+      fonts: 
+        - asset: assets/fonts/ManropeBold.ttf
+          weight: 700
+
+    - family: Noto Sans
+      fonts: 
+        - asset: assets/fonts/NotoSansRegular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoSansBold.ttf
+          weight: 700
+
+    - family: Poppins
+      fonts: 
+        - asset: assets/fonts/PoppinsBold.ttf
+          weight: 700
+        - asset: assets/fonts/PoppinsMedium.ttf
+          weight: 500
+        - asset: assets/fonts/PoppinsBlack.ttf
+          weight: 900
+        - asset: assets/fonts/PoppinsSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PoppinsRegular.ttf
+          weight: 400
+
+    - family: Space Grotesk
+      fonts: 
+        - asset: assets/fonts/SpaceGroteskBold.ttf
+          weight: 700
+        - asset: assets/fonts/SpaceGroteskRegular.ttf
+          weight: 400
+
+
+# --------------------- End ----------------------------- #
