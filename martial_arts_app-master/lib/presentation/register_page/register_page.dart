@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ import 'package:martial_art/core/app_export.dart';
 import 'package:martial_art/core/utils/validation_functions.dart';
 import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
+import 'package:martial_art/services/ApiService.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -61,22 +64,19 @@ class RegisterPage extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: "lbl_already_user".tr,
-                                  style:
-                                      GoogleFonts.poppins(
-
-                                        color: Color(0XFF64748B),
-                                        fontWeight: FontWeight.w600,
-                                          fontSize: 11.fSize,
-                                      ),
+                                  style: GoogleFonts.poppins(
+                                    color: Color(0XFF64748B),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 11.fSize,
+                                  ),
                                 ),
                                 TextSpan(
                                   text: "lbl_sign_in".tr,
-                                  style:
-                                      GoogleFonts.montserrat(
-                                        color: Color(0XFFFF5B00),
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 11.fSize,
-                                      ),
+                                  style: GoogleFonts.montserrat(
+                                    color: Color(0XFFFF5B00),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11.fSize,
+                                  ),
                                 ),
                               ],
                             ),
@@ -108,7 +108,7 @@ class RegisterPage extends StatelessWidget {
       controller: controller.fullNameEditTextController,
       hintText: "lbl_full_name".tr,
       autofocus: false,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -122,7 +122,7 @@ class RegisterPage extends StatelessWidget {
         maxHeight: 52.v,
       ),
       validator: (value) {
-        if (!isText(value)) {
+        if (value == "") {
           return "err_msg_please_enter_valid_text".tr;
         }
         return null;
@@ -136,7 +136,7 @@ class RegisterPage extends StatelessWidget {
       controller: controller.userNameEditTextController,
       hintText: "lbl_user_name".tr,
       autofocus: false,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -150,7 +150,7 @@ class RegisterPage extends StatelessWidget {
         maxHeight: 52.v,
       ),
       validator: (value) {
-        if (!isText(value)) {
+        if (value == null) {
           return "err_msg_please_enter_valid_text".tr;
         }
         return null;
@@ -165,7 +165,7 @@ class RegisterPage extends StatelessWidget {
       hintText: "lbl_email_id".tr,
       autofocus: false,
       textInputType: TextInputType.emailAddress,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -195,7 +195,7 @@ class RegisterPage extends StatelessWidget {
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       autofocus: false,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -227,10 +227,24 @@ class RegisterPage extends StatelessWidget {
         height: 13.0,
         width: 13.0,
       ),
-      onPressed: () {
-        Get.toNamed(AppRoutes.homeScreenContainerScreen);
+      onPressed: () async {
+        if (_formKey.currentState!.validate()) {
+          if (await ApiService.createUser(
+              controller.fullNameEditTextController.text,
+              controller.userNameEditTextController.text,
+              controller.emailEditTextController.text,
+              controller.passwordEditTextController.text)) {
+            Get.toNamed(AppRoutes.homeScreenContainerScreen);
+          } else {
+            log('Could not sign up');
+          }
+        }
       },
-      buttonTextStyle: TextStyle(color: appTheme.whiteA70001, fontSize: 15.0,fontFamily: 'Montserrat',),
+      buttonTextStyle: TextStyle(
+        color: appTheme.whiteA70001,
+        fontSize: 15.0,
+        fontFamily: 'Montserrat',
+      ),
       buttonStyle: CustomButtonStyles.outlinePrimaryTL28,
     );
   }
@@ -299,7 +313,6 @@ class RegisterPage extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: appTheme.gray50001,
             fontFamily: 'Montserrat',
-
             fontSize: 15.0),
         margin: EdgeInsets.only(right: 4.h),
         leftIcon: Container(
@@ -321,7 +334,6 @@ class RegisterPage extends StatelessWidget {
         text: "lbl_apple".tr,
         buttonTextStyle: TextStyle(
             fontWeight: FontWeight.w600,
-
             color: appTheme.gray50001,
             fontFamily: 'Montserrat',
             fontSize: 15.0),
