@@ -112,20 +112,19 @@ app.post('/signup', (req, res) => {
       });
     });
     
-    // Get top 10 users by highest streak route
-    app.get('/users/top-10', (req, res) => {
-      const sql = 'SELECT * FROM users ORDER BY streaks DESC LIMIT 10';
-      db.query(sql, (err, result) => {
-        if (err) {
-          console.error('Error fetching top users: ' + err);
-          res.status(500).json({ error: 'Error fetching top users' });
-          return;
-        }
-        res.status(200).json({ top_users: result });
-      });
+  // Get top 10 users by highest streak route
+  app.get('/users/top-10', (req, res) => {
+    const sql = 'SELECT * FROM users ORDER BY streaks DESC LIMIT 10';
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching top users: ' + err);
+        res.status(500).json({ error: 'Error fetching top users' });
+        return;
+      }
+      res.status(200).json({ top_users: result });
     });
+  });
     
-  
   // Start the server
   app.listen(port, () => {
     console.log(`Server is running on port localhost:${port}`);
@@ -133,9 +132,8 @@ app.post('/signup', (req, res) => {
   
   // Handle Ctrl+C signal to gracefully close MySQL connection
   process.on('SIGINT', () => {
-      db.end((err) => {
-        console.log('MySQL connection closed');
-        process.exit(err ? 1 : 0);
-      });
+    db.end((err) => {
+      console.log('MySQL connection closed');
+      process.exit(err ? 1 : 0);
     });
-    
+  });

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static String baseURI = 'http://192.168.1.3:3000/';
+  static String baseURI = 'http://192.168.1.6:3000/';
 
   static Future<bool> createUser(
       String fullName, String userName, String email, String password) async {
