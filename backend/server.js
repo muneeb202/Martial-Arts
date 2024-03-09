@@ -31,8 +31,8 @@ app.post('/signup', (req, res) => {
         return;
       }
 
-      const sql = 'INSERT INTO users (fullname, username, password, email) VALUES (?, ?, ?, ?)';
-      db.query(sql, [fullname, username, hashedPassword, email], (err, result) => {
+      const sql = 'INSERT INTO users (fullname, username, password, salt, email) VALUES (?, ?, ?, ?, ?)';
+      db.query(sql, [fullname, username, hashedPassword, salt, email], (err, result) => {
         if (err) {
           console.error('Error signing up: ' + err);
           res.status(500).json({ error: 'Error signing up' });
@@ -49,21 +49,37 @@ app.post('/signup', (req, res) => {
   app.post('/login', (req, res) => {
     const { username, password } = req.body;
   
-    const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
-    db.query(sql, [username, password], (err, result) => {
+    const sql = 'SELECT * FROM users WHERE username = ?';
+    db.query(sql, [username], (err, result) => {
       if (err) {
         console.error('Error logging in: ' + err);
         res.status(500).json({ error: 'Error logging in' });
         return;
       }
-  
+      console.log(result)
       if (result.length === 0) {
         res.status(401).json({ error: 'Invalid username or password' });
         return;
       }
   
       // Assuming successful login, you might return user data or a token here
-      res.status(200).json({ message: 'Login successful', user: result[0] });
+      else {
+        bcrypt.hash(password, result[0].salt, (err, hashedPassword) => {
+          if (err) {
+            console.error('Error hashing password: ' + err);
+            res.status(500).json({ error: 'Error logging in' });
+            return;
+          }
+
+          if (hashedPassword === result[0].password) {
+            res.status(200).json({ message: 'Login successful', user: result[0] });
+          }
+
+          else {
+            res.status(401).json({ error: 'Incorrect password' });
+          }
+        })
+      }
     });
   });
   

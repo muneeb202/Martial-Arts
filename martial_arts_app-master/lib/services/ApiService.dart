@@ -25,4 +25,21 @@ class ApiService {
     }
     return true;
   }
+
+  static Future<bool> loginUser(String userName, String password) async {
+    final url = Uri.parse(baseURI + 'login');
+    final data = {
+      'username': userName,
+      'password': password,
+    };
+    final headers = {'Content-Type': 'application/json'};
+
+    final response =
+        await http.post(url, headers: headers, body: jsonEncode(data));
+    log(response.body);
+    if (response.statusCode == 500 || response.statusCode == 401) {
+      return false;
+    }
+    return true;
+  }
 }

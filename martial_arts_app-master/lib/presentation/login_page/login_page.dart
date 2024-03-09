@@ -9,6 +9,8 @@ import 'package:martial_art/core/utils/validation_functions.dart';
 import 'package:martial_art/widgets/custom_checkbox_button.dart';
 import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
+import 'package:martial_art/services/ApiService.dart';
+import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -61,7 +63,7 @@ class LoginPage extends StatelessWidget {
       controller: controller.userNameEditTextController,
       hintText: "lbl_user_name".tr,
       autofocus: false,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -91,7 +93,7 @@ class LoginPage extends StatelessWidget {
       autofocus: false,
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
-      hintStyle: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Poppins'),
+      hintStyle: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
       prefix: Container(
         margin: EdgeInsets.fromLTRB(24.h, 16.v, 12.h, 16.v),
         child: CustomImageView(
@@ -123,10 +125,21 @@ class LoginPage extends StatelessWidget {
         height: 13.0,
         width: 13.0,
       ),
-      onPressed: () {
-        Get.toNamed(AppRoutes.homeScreenContainerScreen);
+      onPressed: () async {
+        if (_formKey.currentState!.validate()) {
+          if (await ApiService.loginUser(
+              controller.userNameEditTextController.text,
+              controller.passwordEditTextController.text)) {
+            Get.toNamed(AppRoutes.homeScreenContainerScreen);
+          } else {
+            log('Could not sign up');
+          }
+        }
       },
-      buttonTextStyle: TextStyle(fontSize: 15.0, color: appTheme.whiteA70001,fontFamily: 'Montserrat'),
+      buttonTextStyle: TextStyle(
+          fontSize: 15.0,
+          color: appTheme.whiteA70001,
+          fontFamily: 'Montserrat'),
       buttonStyle: CustomButtonStyles.outlinePrimaryTL28,
     );
   }
@@ -137,10 +150,8 @@ class LoginPage extends StatelessWidget {
       child: CustomOutlinedButton(
         text: "lbl_google".tr,
         buttonTextStyle: TextStyle(
-            fontSize: 15.0,
-
+          fontSize: 15.0,
           fontWeight: FontWeight.w600,
-
           color: appTheme.gray50001,
           fontFamily: 'Montserrat',
         ),
@@ -163,7 +174,7 @@ class LoginPage extends StatelessWidget {
       child: CustomOutlinedButton(
         text: "lbl_apple".tr,
         buttonTextStyle: TextStyle(
-            fontSize: 15.0,
+          fontSize: 15.0,
           fontWeight: FontWeight.w600,
           color: appTheme.gray50001,
           fontFamily: 'Montserrat',
@@ -205,7 +216,6 @@ class LoginPage extends StatelessWidget {
                     textStyle: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w600,
                     ),
-
                     value: controller.rememberMe.value,
                     padding: EdgeInsets.symmetric(vertical: 2.v),
                     onChange: (value) {
@@ -235,7 +245,6 @@ class LoginPage extends StatelessWidget {
                 TextSpan(
                   text: "msg_are_you_a_new_user2".tr,
                   style: GoogleFonts.poppins(
-
                     color: Color(0XFF64748B),
                     fontWeight: FontWeight.w600,
                     fontSize: 11.fSize,
