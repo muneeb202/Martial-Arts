@@ -77,7 +77,7 @@ class LoginPage extends StatelessWidget {
         maxHeight: 52.v,
       ),
       validator: (value) {
-        if (!isText(value)) {
+        if (value == "") {
           return "err_msg_please_enter_valid_text".tr;
         }
         return null;

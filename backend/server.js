@@ -72,7 +72,7 @@ app.post('/signup', (req, res) => {
           }
 
           if (hashedPassword === result[0].password) {
-            res.status(200).json({ message: 'Login successful', user: result[0] });
+            res.status(200).json(result[0]);
           }
 
           else {
