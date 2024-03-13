@@ -1,6 +1,12 @@
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+String getCurrentDate() {
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('E, d MMMM y').format(now);
+  return formattedDate;
+}
+
 const String dateTimeFormatPattern = 'dd/MM/yyyy';
 
 extension DateTimeExtension on DateTime {

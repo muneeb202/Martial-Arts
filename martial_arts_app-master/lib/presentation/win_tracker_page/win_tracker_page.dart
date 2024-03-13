@@ -137,7 +137,7 @@ class WinTrackerPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "msg_sun_1_january_2024".tr,
+                    getCurrentDate(),
                     style: TextStyle(
                       color: appTheme.gray700,
                       fontSize: 13.fSize,
@@ -154,20 +154,20 @@ class WinTrackerPage extends StatelessWidget {
                           style: GoogleFonts.montserrat(
                             color: Color(0XFF6A6767),
                             fontSize: 23.fSize,
-                      // fontFamily: 'Nunito',
-                      // fontWeight: FontWeight.w700,
-                    ),
+                            // fontFamily: 'Nunito',
+                            // fontWeight: FontWeight.w700,
+                          ),
                         ),
                         TextSpan(
                           text: " ",
                         ),
                         TextSpan(
                           text: "lbl_wahab".tr,
-                          style:GoogleFonts.montserrat(
+                          style: GoogleFonts.montserrat(
                             color: Color(0XFF2E2E2E),
                             fontSize: 23.fSize,
                             fontWeight: FontWeight.w700,
-                  ),
+                          ),
                         ),
                         TextSpan(
                           text: "lbl".tr,
@@ -193,17 +193,18 @@ class WinTrackerPage extends StatelessWidget {
               width: 50,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: theme.colorScheme.primary, width: 3),
+                  border:
+                      Border.all(color: theme.colorScheme.primary, width: 3),
                   borderRadius: BorderRadius.circular(100),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
                       spreadRadius: .5,
                       blurRadius: 1,
-                      offset: Offset(3, 3), // This defines the shadow position, adjust as needed
+                      offset: Offset(3,
+                          3), // This defines the shadow position, adjust as needed
                     ),
-                  ]
-              ),
+                  ]),
               child: Center(
                 child: Icon(
                   Icons.person_outline,

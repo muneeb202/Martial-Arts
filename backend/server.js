@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const { dbConfig } = require('./config');
+const cron = require('node-cron')
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,38 @@ app.use(cors())
 
 const db = mysql.createPool(dbConfig);
 const bcrypt = require('bcrypt');
+
+cron.schedule('0 0 * * *', () => {
+  console.log('Updating streaks and truncating daily_activities table...');
+
+  // Update streaks for users with daily_activities count less than 12
+  const updateQuery = `
+      UPDATE users 
+      SET streaks = 0 
+      WHERE id IN (
+          SELECT user_id 
+          FROM daily_activities 
+          GROUP BY user_id 
+          HAVING COUNT(*) < 12
+      )
+  `;
+  db.query(updateQuery, (err, updateResult) => {
+      if (err) {
+          console.error('Error updating streaks:', err);
+          return;
+      }
+      console.log('Streaks updated successfully');
+
+      // Truncate daily_activities table
+      db.query('TRUNCATE TABLE daily_activities', (truncateErr, truncateResult) => {
+          if (truncateErr) {
+              console.error('Error truncating table:', truncateErr);
+              return;
+          }
+          console.log('Table truncated successfully');
+      });
+  });
+});
 
 app.post('/signup', (req, res) => {
   const { fullname, username, password, email } = req.body;
@@ -85,31 +118,65 @@ app.post('/signup', (req, res) => {
   
   // Add daily activity route
   app.post('/add-activity', (req, res) => {
-      const { user_id, activity } = req.body;
-    
-      const sql = 'INSERT INTO daily_activities (user_id, activity) VALUES (?, ?)';
-      db.query(sql, [user_id, activity], (err, result) => {
+    const { user_id, activity } = req.body;
+
+    const sql = 'INSERT INTO daily_activities (user_id, activity) VALUES (?, ?)';
+    db.query(sql, [user_id, activity], (err, result) => {
         if (err) {
-          console.error('Error adding activity: ' + err);
-          res.status(500).json({ error: 'Error adding activity' });
-          return;
+            console.error('Error adding activity: ' + err);
+            res.status(500).json({ error: 'Error adding activity' });
+            return;
         }
-        res.status(201).json({ message: 'Activity added successfully' });
-      });
+
+        const updatePointsSql = 'UPDATE users SET points = points + 5 WHERE id = ?';
+        db.query(updatePointsSql, [user_id], (updateErr, updateResult) => {
+            if (updateErr) {
+                console.error('Error updating points: ' + updateErr);
+                res.status(500).json({ error: 'Error updating points' });
+                return;
+            }
+        });
+
+        // Activity added successfully, now get all activities of the user
+        const getAllActivitiesSql = 'SELECT * FROM daily_activities WHERE user_id = ?';
+        db.query(getAllActivitiesSql, [user_id], (getErr, activities) => {
+            if (getErr) {
+                console.error('Error fetching activities: ' + getErr);
+                res.status(500).json({ error: 'Error fetching activities' });
+                return;
+            }
+
+            // Check if the length of activities is 12
+            if (activities.length === 12) {
+                // Increment user's streaks by 1
+                const updateStreaksSql = 'UPDATE users SET streaks = streaks + 1 WHERE id = ?';
+                db.query(updateStreaksSql, [user_id], (updateErr, updateResult) => {
+                    if (updateErr) {
+                        console.error('Error updating streaks: ' + updateErr);
+                        res.status(500).json({ error: 'Error updating streaks' });
+                        return;
+                    }
+                });
+            }
+
+            res.status(201).json({ message: 'Activity added successfully and streaks updated if applicable' });
+        });
     });
+});
+
     
     // Get all activities for a user route
     app.get('/activities/:user_id', (req, res) => {
       const user_id = req.params.user_id;
     
-      const sql = 'SELECT * FROM daily_activities WHERE user_id = ?';
+      const sql = 'SELECT activity FROM daily_activities WHERE user_id = ?';
       db.query(sql, [user_id], (err, result) => {
         if (err) {
           console.error('Error fetching activities: ' + err);
           res.status(500).json({ error: 'Error fetching activities' });
           return;
         }
-        res.status(200).json({ activities: result });
+        res.status(200).json(result);
       });
     });
   
