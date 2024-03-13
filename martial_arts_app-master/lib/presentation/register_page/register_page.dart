@@ -150,7 +150,7 @@ class RegisterPage extends StatelessWidget {
         maxHeight: 52.v,
       ),
       validator: (value) {
-        if (value == null) {
+        if (value == "") {
           return "err_msg_please_enter_valid_text".tr;
         }
         return null;

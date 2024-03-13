@@ -63,65 +63,140 @@ class HomeScreenPage extends StatelessWidget {
   }
 
   Widget secondWidget(BuildContext context) {
-    return Padding(
-      // padding: EdgeInsets.fromLTRB(24.h, 20.v, 20.h, 12.v),
-      padding: EdgeInsets.symmetric(horizontal: 25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          keepThisGoingWidget(context),
-          // SizedBox(width: 10,),
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height / 6.2,
-                  width: MediaQuery.of(context).size.width / 3,
-                  // width: double.infinity,
-                  decoration: BoxDecoration(
-                    // boxShadow: [
-                    //
-                    //   BoxShadow(
-                    //
-                    //     color: Colors.black.withOpacity(0.1),
-                    //     spreadRadius: 1,
-                    //     blurRadius: 3,
-                    //     offset: Offset(1, 1), // This defines the shadow position, adjust as needed
-                    //   ),
-                    // ],
+    return GetBuilder<HomeScreenController>(builder: (controller) {
+      return Padding(
+        // padding: EdgeInsets.fromLTRB(24.h, 20.v, 20.h, 12.v),
+        padding: EdgeInsets.symmetric(horizontal: 25),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            keepThisGoingWidget(context, controller),
+            // SizedBox(width: 10,),
+            Container(
+              height: MediaQuery.of(context).size.height / 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 6.2,
+                    width: MediaQuery.of(context).size.width / 3,
+                    // width: double.infinity,
+                    decoration: BoxDecoration(
+                      // boxShadow: [
+                      //
+                      //   BoxShadow(
+                      //
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     spreadRadius: 1,
+                      //     blurRadius: 3,
+                      //     offset: Offset(1, 1), // This defines the shadow position, adjust as needed
+                      //   ),
+                      // ],
 
-                    color: appTheme.deepOrange500,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: appTheme.deepOrange500,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 12.fSize, left: 2.fSize),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    ImageConstant.imgGroup8,
+                                    height: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Text(
+                                          "Streaks",
+                                          style: TextStyle(
+                                            fontSize: 18.fSize,
+                                            color: Colors.white,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Text(
+                                          controller.streaks.value,
+                                          style: TextStyle(
+                                              fontSize: 18.fSize,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Montserrat'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        // Image(image: AssetImage(AssetImage),),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Image.asset(ImageConstant.imgGroup5),
+                        ),
+                      ],
+                    ),
                   ),
+                  // Spacer(),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 6.2,
+                    width: MediaQuery.of(context).size.width / 3,
+                    // width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: appTheme.deepPurple500,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
 
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 12.fSize, left: 2.fSize),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  ImageConstant.imgGroup8,
-                                  height: 40,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        "Streaks",
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 12.fSize, left: 2.fSize),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    ImageConstant.imgFrame,
+                                    height: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Points",
                                         style: TextStyle(
                                           fontSize: 18.fSize,
                                           color: Colors.white,
@@ -129,111 +204,43 @@ class HomeScreenPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        "500",
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        controller.points.value,
                                         style: TextStyle(
                                             fontSize: 18.fSize,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Montserrat'),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      // Image(image: AssetImage(AssetImage),),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(ImageConstant.imgGroup5),
-                      ),
-                    ],
-                  ),
-                ),
-                // Spacer(),
-                Container(
-                  height: MediaQuery.of(context).size.height / 6.2,
-                  width: MediaQuery.of(context).size.width / 3,
-                  // width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: appTheme.deepPurple500,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 12.fSize, left: 2.fSize),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  ImageConstant.imgFrame,
-                                  height: 40,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Points",
-                                      style: TextStyle(
-                                        fontSize: 18.fSize,
-                                        color: Colors.white,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "100",
-                                      style: TextStyle(
-                                          fontSize: 18.fSize,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Montserrat'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
+                        // Image(image: AssetImage(AssetImage),),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Image.asset(ImageConstant.imgGroup7),
                         ),
-                      ),
-                      // Image(image: AssetImage(AssetImage),),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(ImageConstant.imgGroup7),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 
-  Widget keepThisGoingWidget(BuildContext context) {
+  Widget keepThisGoingWidget(
+      BuildContext context, HomeScreenController controller) {
     // final mq = mq;
     return Container(
       width: MediaQuery.of(context).size.width / 2,
@@ -306,7 +313,9 @@ class HomeScreenPage extends StatelessWidget {
                         width: 15,
                       ),
                       Text(
-                        '16/30',
+                        controller.month_streaks.value +
+                            '/' +
+                            controller.total_days.value,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Montserrat',
@@ -318,7 +327,8 @@ class HomeScreenPage extends StatelessWidget {
                       LinearProgressIndicator(
                         color: appTheme.whiteA700,
                         backgroundColor: appTheme.deepOrange200,
-                        value: 16 / 30,
+                        value: int.parse(controller.month_streaks.value) /
+                            int.parse(controller.total_days.value),
                       ),
                     ],
                   ),
@@ -423,93 +433,90 @@ class HomeScreenPage extends StatelessWidget {
   }
 
   Widget _buildProfile() {
-    return GetBuilder<HomeScreenController>(
-      builder: (controller) {
-        final username = controller.username.value;
-        return Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 1.v),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "msg_sun_1_january_2024".tr,
-                        style: GoogleFonts.poppins(
-                          fontSize: 11,
-                          color: appTheme.gray700,
-                          fontWeight: FontWeight.w700,
-                        ),
+    return GetBuilder<HomeScreenController>(builder: (controller) {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.v),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      getCurrentDate(),
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        color: appTheme.gray700,
+                        fontWeight: FontWeight.w700,
                       ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "lbl_hello".tr,
-                              style: GoogleFonts.poppins(
-                                color: Color(0XFF6A6767),
-                                fontSize: 23.fSize,
-                              ),
-                            ),
-                            TextSpan(
-                              text: " ",
-                            ),
-                            TextSpan(
-                              text: username,
-                              style: GoogleFonts.montserrat(
-                                color: Color(0XFF2E2E2E),
-                                fontSize: 23.fSize,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "lbl".tr,
-                              style: CustomTextStyles
-                                  .titleLargeNunitoff2e2e2eRegular,
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border:
-                        Border.all(color: theme.colorScheme.primary, width: 3),
-                    borderRadius: BorderRadius.circular(100),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: Offset(1, 1),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.person_outline,
-                      color: theme.colorScheme.primary,
-                      size: 42.adaptSize,
                     ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "lbl_hello".tr,
+                            style: GoogleFonts.poppins(
+                              color: Color(0XFF6A6767),
+                              fontSize: 23.fSize,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " ",
+                          ),
+                          TextSpan(
+                            text: controller.username.value,
+                            style: GoogleFonts.montserrat(
+                              color: Color(0XFF2E2E2E),
+                              fontSize: 23.fSize,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "lbl".tr,
+                            style: CustomTextStyles
+                                .titleLargeNunitoff2e2e2eRegular,
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border.all(color: theme.colorScheme.primary, width: 3),
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.person_outline,
+                    color: theme.colorScheme.primary,
+                    size: 42.adaptSize,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 
   Widget _buildMainView() {

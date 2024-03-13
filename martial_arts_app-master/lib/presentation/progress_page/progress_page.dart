@@ -20,10 +20,8 @@ class ProgressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-
         appBar: _buildAppBar(),
         body: Stack(
           children: [
@@ -38,10 +36,10 @@ class ProgressPage extends StatelessWidget {
                       effects: [FadeEffect(), ScaleEffect()],
                       child: _buildHeaderBg()),
                   Animate(
-                      // effects: [SlideEffect()],
-                      child: _buildStudentActivitiesTitle()).slideX(),
-                  Animate(
-                      child: _buildStudentActivitiesList()).slideX(),
+                          // effects: [SlideEffect()],
+                          child: _buildStudentActivitiesTitle())
+                      .slideX(),
+                  Animate(child: _buildStudentActivitiesList()).slideX(),
                 ],
               ),
             ),
@@ -80,7 +78,6 @@ class ProgressPage extends StatelessWidget {
       ),
       title: AppbarSubtitle(
         text: "msg_black_belt_tracker".tr,
-
         margin: EdgeInsets.only(left: 8.h),
       ),
       actions: [
@@ -140,7 +137,7 @@ class ProgressPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "msg_sun_1_january_2024".tr,
+                    getCurrentDate(),
                     style: TextStyle(
                       color: appTheme.gray700,
                       fontSize: 13.fSize,
@@ -166,17 +163,18 @@ class ProgressPage extends StatelessWidget {
               width: 50,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: theme.colorScheme.primary, width: 3),
+                  border:
+                      Border.all(color: theme.colorScheme.primary, width: 3),
                   borderRadius: BorderRadius.circular(100),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
                       spreadRadius: .5,
                       blurRadius: 1,
-                      offset: Offset(3, 3), // This defines the shadow position, adjust as needed
+                      offset: Offset(3,
+                          3), // This defines the shadow position, adjust as needed
                     ),
-                  ]
-              ),
+                  ]),
               child: Center(
                 child: Icon(
                   Icons.person_outline,
