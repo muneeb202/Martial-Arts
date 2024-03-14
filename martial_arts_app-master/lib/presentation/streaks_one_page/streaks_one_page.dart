@@ -27,7 +27,14 @@ class StreaksOnePage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 18.v),
-                _buildMaskColumn5(),
+                Obx(() {
+                  if (controller.topUsersByStreaks.isEmpty ||
+                      controller.topUsersByStreaks.isNull) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return _buildMaskColumn5();
+                  }
+                }),
               ],
             ),
           ),
@@ -180,7 +187,7 @@ class StreaksOnePage extends StatelessWidget {
                                   _buildMaskColumn(
                                     dynamicText1: "lbl_1".tr,
                                     dynamicText2:
-                                        controller.topUsersByStreaks.length > 1
+                                        controller.topUsersByStreaks.length > 0
                                             ? controller.topUsersByStreaks[0]
                                                         ['fullname']
                                                     .split(" ")
@@ -188,7 +195,7 @@ class StreaksOnePage extends StatelessWidget {
                                                 ""
                                             : "",
                                     dynamicText3:
-                                        controller.topUsersByStreaks.length > 1
+                                        controller.topUsersByStreaks.length > 0
                                             ? controller.topUsersByStreaks[0]
                                                     ['streaks'] ??
                                                 ""
@@ -209,13 +216,13 @@ class StreaksOnePage extends StatelessWidget {
                       ),
                       child: _buildMaskColumn2(
                         frameText: "lbl_3".tr,
-                        titleText: controller.topUsersByStreaks.length > 1
+                        titleText: controller.topUsersByStreaks.length > 2
                             ? controller.topUsersByStreaks[2]['fullname']
                                     .split(" ")
                                     .first ??
                                 ""
                             : "",
-                        spanText: controller.topUsersByStreaks.length > 1
+                        spanText: controller.topUsersByStreaks.length > 2
                             ? controller.topUsersByStreaks[2]['streaks'] ?? ""
                             : "",
                       ),
