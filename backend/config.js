@@ -1,7 +1,7 @@
 const dbConfig = {
     host: 'localhost',
     user: 'root',
-    password: 'password123',
+    password: '123456',
     database: 'martial_arts'
 };
 
