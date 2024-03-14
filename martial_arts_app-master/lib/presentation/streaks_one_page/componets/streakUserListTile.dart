@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -9,7 +6,7 @@ import 'package:martial_art/core/app_export.dart';
 
 import '../../../theme/theme_helper.dart';
 
-Widget streakUserListTile(){
+Widget streakUserListTile(RxList<Map<String, dynamic>> topUsersByStreaks) {
   return Animate(
     child: Padding(
       padding: const EdgeInsets.only(right: 35),
@@ -39,40 +36,24 @@ Widget streakUserListTile(){
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _buildLisTile("lbl_1".tr,
-                  "lbl_amelia_tovias".tr,
-                  "lbl_426_streaks".tr,
-                  ImageConstant.imgPlayWhiteA700,
-                ),
-                _buildLisTile(
-                  "lbl_2".tr,
-                  "msg_mirayk_cirrincione".tr,
-                  "lbl_426_streaks".tr,
-                  ImageConstant.imgPlayWhiteA700,
-                ),
-                _buildLisTile(
-                  "lbl_3".tr,
-                  "lbl_onur_o".tr,
-                  "lbl_412_streaks".tr,
-                  ImageConstant.imgPlayWhiteA700,
-                ),
-                _buildLisTile(
-                  "lbl_4".tr,
-                  "lbl_layla_schupbach".tr,
-                  "lbl_388_streaks".tr,
-                  ImageConstant.imgPlayWhiteA700
-                ),
-
+                for (var i = 0; i < topUsersByStreaks.length; i++)
+                  _buildLisTile(
+                    (i + 1).toString(),
+                    topUsersByStreaks[i]['fullname'],
+                    topUsersByStreaks[i]['streaks'].toString() + ' Streaks',
+                    ImageConstant.imgPlayWhiteA700,
+                  ),
               ],
             ),
           ),
         ),
-
       ),
     ),
   ).scaleX();
 }
-Widget _buildLisTile(String rank, String name, String streaks, String imagePath) {
+
+Widget _buildLisTile(
+    String rank, String name, String streaks, String imagePath) {
   return ListTile(
       title: Text(
         name,

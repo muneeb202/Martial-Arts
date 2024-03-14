@@ -314,6 +314,34 @@ app.post('/signup', (req, res) => {
       res.status(200).json({ top_users: result });
     });
   });
+
+  app.get('/users/top-10-streaks', (req, res) => {
+    const sqlTopStreaks = 'SELECT * FROM users ORDER BY streaks DESC';
+  
+    db.query(sqlTopStreaks, (streaksErr, streaksResult) => {
+      if (streaksErr) {
+        console.error('Error fetching top users by streaks: ' + streaksErr);
+        res.status(500).json({ error: 'Error fetching leaderboard data' });
+        return;
+      }  
+        res.status(200).json(streaksResult);
+    });
+  });
+  
+  app.get('/users/top-10-points', (req, res) => {
+    const sqlTopPoints = 'SELECT * FROM users ORDER BY points DESC';
+  
+    db.query(sqlTopPoints, (pointsErr, pointsResult) => {
+      if (pointsErr) {
+        console.error('Error fetching top users by points: ' + pointsErr);
+        res.status(500).json({ error: 'Error fetching leaderboard data' });
+        return;
+      }
+
+      console.log(pointsResult)
+      res.status(200).json(pointsResult);
+    });
+  });
     
   // Start the server
   app.listen(port, () => {
