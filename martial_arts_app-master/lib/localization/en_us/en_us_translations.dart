@@ -162,7 +162,7 @@ final Map<String, String> enUs = {
   // Validation Error String
   "err_msg_please_enter_valid_text": "Please enter valid text",
   "err_msg_please_enter_valid_password":
-      "Atleast an uppercase, lowercase, digit and a special character ",
+      "The password must be atleast 8 characters with an\n uppercase, lowercase, digit and a special character ",
   "err_msg_please_enter_valid_email": "Please enter valid email",
 
   // Detail Page Screen

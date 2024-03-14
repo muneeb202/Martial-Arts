@@ -1,15 +1,53 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:martial_art/presentation/home_screen_container_screen/controller/home_screen_container_controller.dart';
+import 'package:martial_art/presentation/home_screen_page/controller/home_screen_controller.dart';
+import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
+import 'package:martial_art/services/ApiService.dart';
 import '../../../core/app_export.dart';
 import '../models/studentactivitieslist_item_model.dart';
+
 class StudentactivitieslistItemWidget extends StatelessWidget {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   StudentactivitieslistItemWidget(this.studentactivitieslistItemModelObj,
       {Key? key})
       : super(key: key);
   final StudentactivitieslistItemModel studentactivitieslistItemModelObj;
   final HomeScreenContainerController controller =
       Get.find<HomeScreenContainerController>();
+  final WinTrackerController winTrackerController =
+      Get.find<WinTrackerController>();
+  final HomeScreenController homeScreenController =
+      Get.find<HomeScreenController>();
+
+  void updateBedText(String newText) {
+    studentactivitieslistItemModelObj.answer!.value = newText;
+  }
+
+  Future<void> addAnswer() async {
+    // Validate the form
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save(); // Save the form data
+
+      // Extract the answer from the TextFormField
+      String answer = studentactivitieslistItemModelObj.answer!.value;
+      log(answer);
+
+      // Call your API service to add the answer
+      if (await ApiService.check_activity(
+          studentactivitieslistItemModelObj.id!.value, answer)) {
+        studentactivitieslistItemModelObj.checkBoxVal!.value = true;
+        winTrackerController.updateModel();
+        homeScreenController.updatePoints();
+        Get.toNamed(AppRoutes.successScreen);
+      }
+
+      // Navigate to the success screen
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,18 +60,21 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: ExpansionTile(
-
           collapsedShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide.none,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15),),
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
             side: BorderSide.none,
           ),
           trailing: Obx(
-            () => _reusableCheckBox( studentactivitieslistItemModelObj.checkBoxVal!,(){
-              studentactivitieslistItemModelObj.checkBoxVal!.value = !studentactivitieslistItemModelObj.checkBoxVal!.value;
+            () => _reusableCheckBox(
+                studentactivitieslistItemModelObj.checkBoxVal!, () {
+              studentactivitieslistItemModelObj.checkBoxVal!.value =
+                  !studentactivitieslistItemModelObj.checkBoxVal!.value;
             }),
           ),
           tilePadding: EdgeInsets.zero,
@@ -61,8 +102,8 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                     children: [
                       Obx(
                         () => CustomImageView(
-                          imagePath:
-                              studentactivitieslistItemModelObj.bedImage1!.value,
+                          imagePath: studentactivitieslistItemModelObj
+                              .bedImage1!.value,
                           height: 40.v,
                           width: 43.h,
                           alignment: Alignment.centerLeft,
@@ -93,33 +134,50 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
             ),
           ),
           children: [
-            TextFormField(
-              maxLines: null,
-              decoration: InputDecoration(
-                hintText: 'Answer here',
-                hintStyle: GoogleFonts.poppins(
-                  color: appTheme.black900,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    maxLines: null,
+                    initialValue:
+                        studentactivitieslistItemModelObj.answer!.value,
+                    onChanged: updateBedText,
+                    decoration: InputDecoration(
+                      hintText: 'Answer here',
+                      hintStyle: GoogleFonts.poppins(
+                        color: appTheme.black900,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 12,
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 2,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your answer';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
-                  ),
-                ),
+                  // Other widgets...
+                ],
               ),
             ),
             SizedBox(height: 16),
@@ -138,13 +196,11 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Get.toNamed(AppRoutes.successScreen);
+                  addAnswer();
                 },
                 child: Text(
                   'Submit',
-                  style: GoogleFonts.poppins(
-                      color: appTheme.whiteA70001
-                  ),
+                  style: GoogleFonts.poppins(color: appTheme.whiteA70001),
                 ),
               ),
             ),
@@ -153,38 +209,39 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
       ),
     );
   }
-  Widget _reusableCheckBox(Rx<bool> val,VoidCallback changeFunc){
+
+  Widget _reusableCheckBox(Rx<bool> val, VoidCallback changeFunc) {
     print("------------------");
     print(val);
     return Obx(() => Padding(
-      padding: const EdgeInsets.only(right: 15),
-      child: InkWell(
-        onTap: changeFunc,
-        child: Container(
-          height: 30,
-          width: 30,
-          decoration: BoxDecoration(
-            color: Colors.orange.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(5),
-            border : Border.all(color: Colors.deepOrangeAccent.withOpacity(0.5),width: 1),
-          ),
-          child: val.value==true ? Padding(
-            padding:  EdgeInsets.all(2),
+          padding: const EdgeInsets.only(right: 15),
+          child: InkWell(
             child: Container(
-              height: 10,
-              width: 10,
+              height: 30,
+              width: 30,
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: Colors.orange.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(5),
-                // border : Border.all(color: Colors.grey.withOpacity(0.5),width: 1),
+                border: Border.all(
+                    color: Colors.deepOrangeAccent.withOpacity(0.5), width: 1),
               ),
+              child: val.value == true
+                  ? Padding(
+                      padding: EdgeInsets.all(2),
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrangeAccent,
+                          borderRadius: BorderRadius.circular(5),
+                          // border : Border.all(color: Colors.grey.withOpacity(0.5),width: 1),
+                        ),
+                      ),
+                    )
+                  : Container(),
             ),
-          ) : Container(
           ),
-        ),
-      ),
-    ));
-
+        ));
 
     // return Checkbox(
     //   activeColor: Colors.green,
