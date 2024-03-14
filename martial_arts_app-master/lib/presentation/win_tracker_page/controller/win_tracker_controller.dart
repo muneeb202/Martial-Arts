@@ -26,8 +26,8 @@ class WinTrackerController extends GetxController {
   }
 
   Future<void> getProfilePic() async {
-    String path = Directory.systemTemp.path;
-    profilepic = File('$path/profile_picture.jpg');
+    String path = Directory.systemTemp.path + '/profile_picture.jpg';
+    if (await File(path).exists()) profilepic = File(path);
   }
 
   Future<void> _getUsername() async {

@@ -35,6 +35,7 @@ class PointsOneController extends GetxController {
       final response = await ApiService.fetchTopUsersByPoints();
       topUsersByPoints.assignAll(response);
       filteredUsers.assignAll(topUsersByPoints);
+      update();
     } catch (e) {
       log('Error fetching top users by points: $e');
     }

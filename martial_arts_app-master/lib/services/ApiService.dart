@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static String baseURI = 'http://192.168.1.8:3000/';
+  static String baseURI = 'http://192.168.1.3:3000/';
 
   static Future<int> getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -81,7 +81,7 @@ class ApiService {
     Map<int, String> activityMap = {};
     for (var item in responseList) {
       int activity = item['activity'];
-      String answer = item['answer'];
+      String answer = item['answer'] ?? "";
       activityMap[activity] = answer;
     }
 

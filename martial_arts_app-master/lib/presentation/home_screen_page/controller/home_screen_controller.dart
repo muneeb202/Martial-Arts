@@ -60,7 +60,6 @@ class HomeScreenController extends GetxController {
 
   Future<void> _getProfilePic() async {
     profilepic = await ApiService.fetchProfilePicture();
-    dev.log(profilepic!.path);
     update();
   }
 
