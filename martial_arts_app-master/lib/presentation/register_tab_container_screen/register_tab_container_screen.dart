@@ -31,7 +31,9 @@ class _RegisterTabContainerScreenState
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     if (arguments != null && arguments.containsKey("initialTabIndex")) {
       final initialTabIndex = arguments["initialTabIndex"] as int;
-      controller.tabviewController.index = initialTabIndex; // Set initial tab
+      Future.delayed(Duration.zero, () {
+        controller.tabviewController.index = initialTabIndex; // Set initial tab
+      });
     }
   }
 
