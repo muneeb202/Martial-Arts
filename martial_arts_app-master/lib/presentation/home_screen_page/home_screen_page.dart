@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +15,7 @@ import '/core/app_export.dart';
 import '/widgets/app_bar/appbar_subtitle.dart';
 import '/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class HomeScreenPage extends StatelessWidget {
@@ -487,28 +491,53 @@ class HomeScreenPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border:
-                      Border.all(color: theme.colorScheme.primary, width: 3),
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(1, 1),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.person_outline,
-                    color: theme.colorScheme.primary,
-                    size: 42.adaptSize,
+              GestureDetector(
+                onTap: () async {
+                  final ImagePicker _picker = ImagePicker();
+                  final XFile? pickedImage = await _picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+
+                  if (pickedImage != null) {
+                    log('Image selected: ${pickedImage.path}');
+                    controller.setSelectedImage(pickedImage.path);
+                  } else {
+                    log('Image picker was closed or canceled');
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border:
+                        Border.all(color: theme.colorScheme.primary, width: 3),
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(1, 1),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    // Check if the selected image path is available
+                    child: controller.profilepic != null
+                        ? ClipOval(
+                            child: Image.file(
+                              controller.profilepic!,
+                              fit: BoxFit.cover,
+                              width: 42.adaptSize,
+                              height: 42.adaptSize,
+                            ),
+                          )
+                        : Icon(
+                            Icons.person_outline,
+                            color: theme.colorScheme.primary,
+                            size: 42.adaptSize,
+                          ),
                   ),
                 ),
               ),

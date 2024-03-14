@@ -23,7 +23,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
     if (studentactivitieslistItemModelObj.checkVal!.value) return;
 
     if (await ApiService.check_activity(
-        studentactivitieslistItemModelObj.id!.value)) {
+        studentactivitieslistItemModelObj.id!.value, '')) {
       studentactivitieslistItemModelObj.checkVal!.value = true;
       homeScreenController.updatePoints();
     }

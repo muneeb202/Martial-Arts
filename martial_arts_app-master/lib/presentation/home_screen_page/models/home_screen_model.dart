@@ -29,14 +29,15 @@ class HomeScreenModel {
     String encodedUser = user.getString('user') ?? "";
     Map userDict = jsonDecode(encodedUser);
 
-    Set completed = await ApiService.get_activities();
+    Map completed = await ApiService.get_activities();
     set_activities(completed);
 
     DateTime now = DateTime.now();
     int currentDayOfMonth = now.day;
     int minstreak = min<int>(currentDayOfMonth, userDict['streaks']);
-    streaks.value = minstreak.toString();
-    points.value = (minstreak * 60 + (completed.length * 5)).toString();
+    streaks.value = max(minstreak, int.parse(streaks.value)).toString();
+    int today = completed.length == 12 ? 0 : completed.length * 5;
+    points.value = (minstreak * 60 + today).toString();
 
     userprofileItemList.value = [
       UserprofileItemModel(
@@ -58,28 +59,28 @@ class HomeScreenModel {
     ];
   }
 
-  void set_activities(Set activities) {
+  void set_activities(Map activities) {
     studentactivitieslistItemList.value = [
       StudentactivitieslistItemModel(
         bedImage1: ImageConstant.pic1.obs,
         bedImage2: ImageConstant.pic1_1.obs,
         bedText: "Made Bed in the morning?".obs,
         id: "1".obs,
-        checkVal: activities.contains(1).obs,
+        checkVal: activities.containsKey(1).obs,
       ),
       StudentactivitieslistItemModel(
         bedImage1: ImageConstant.pic2.obs,
         bedImage2: ImageConstant.pic2_2.obs,
         bedText: "Did exercise today?".obs,
         id: "2".obs,
-        checkVal: activities.contains(2).obs,
+        checkVal: activities.containsKey(2).obs,
       ),
       StudentactivitieslistItemModel(
         bedImage1: ImageConstant.pic3.obs,
         bedImage2: ImageConstant.pic3_3.obs,
         bedText: "Did you practice?".obs,
         id: "3".obs,
-        checkVal: activities.contains(3).obs,
+        checkVal: activities.containsKey(3).obs,
       )
     ];
   }

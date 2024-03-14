@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../widgets/app_bar/appbar_subtitle.dart';
 import 'controller/win_tracker_controller.dart';
 import 'models/studentactivitieslist_item_model.dart';
@@ -19,6 +20,7 @@ class WinTrackerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.getProfilePic();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -124,225 +126,243 @@ class WinTrackerPage extends StatelessWidget {
   }
 
   Widget _buildProfile() {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(25.h, 20.v, 30.h, 12.v),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 1.v),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    getCurrentDate(),
-                    style: TextStyle(
-                      color: appTheme.gray700,
-                      fontSize: 13.fSize,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      overflow: TextOverflow.ellipsis,
+    return GetBuilder<WinTrackerController>(builder: (controller) {
+      return Align(
+        alignment: Alignment.topLeft,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(25.h, 20.v, 30.h, 12.v),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.v),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      getCurrentDate(),
+                      style: TextStyle(
+                        color: appTheme.gray700,
+                        fontSize: 13.fSize,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "lbl_hello".tr,
-                          style: GoogleFonts.montserrat(
-                            color: Color(0XFF6A6767),
-                            fontSize: 23.fSize,
-                            // fontFamily: 'Nunito',
-                            // fontWeight: FontWeight.w700,
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "lbl_hello".tr,
+                            style: GoogleFonts.montserrat(
+                              color: Color(0XFF6A6767),
+                              fontSize: 23.fSize,
+                              // fontFamily: 'Nunito',
+                              // fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: " ",
-                        ),
-                        TextSpan(
-                          text: "lbl_wahab".tr,
-                          style: GoogleFonts.montserrat(
-                            color: Color(0XFF2E2E2E),
-                            fontSize: 23.fSize,
-                            fontWeight: FontWeight.w700,
+                          TextSpan(
+                            text: " ",
                           ),
-                        ),
-                        TextSpan(
-                          text: "lbl".tr,
-                          style:
-                              CustomTextStyles.titleLargeNunitoff2e2e2eRegular,
-                        ),
-                      ],
+                          TextSpan(
+                            text: controller.username.value,
+                            style: GoogleFonts.montserrat(
+                              color: Color(0XFF2E2E2E),
+                              fontSize: 23.fSize,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "lbl".tr,
+                            style: CustomTextStyles
+                                .titleLargeNunitoff2e2e2eRegular,
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
-            ),
-            // CustomImageView(
-            //   imagePath: ImageConstant.imgContrast,
-            //   height: 42.adaptSize,
-            //   width: 42.adaptSize,
-            //   // margin: EdgeInsets.only(bottom: 25.v),
-            //   color: theme.colorScheme.primary,
-            // ),
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border:
-                      Border.all(color: theme.colorScheme.primary, width: 3),
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: .5,
-                      blurRadius: 1,
-                      offset: Offset(3,
-                          3), // This defines the shadow position, adjust as needed
-                    ),
-                  ]),
-              child: Center(
-                child: Icon(
-                  Icons.person_outline,
-                  color: theme.colorScheme.primary,
-                  size: 42.adaptSize,
+                  ],
                 ),
               ),
-            ),
-          ],
+              // CustomImageView(
+              //   imagePath: ImageConstant.imgContrast,
+              //   height: 42.adaptSize,
+              //   width: 42.adaptSize,
+              //   // margin: EdgeInsets.only(bottom: 25.v),
+              //   color: theme.colorScheme.primary,
+              // ),
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border:
+                        Border.all(color: theme.colorScheme.primary, width: 3),
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: .5,
+                        blurRadius: 1,
+                        offset: Offset(3,
+                            3), // This defines the shadow position, adjust as needed
+                      ),
+                    ]),
+                child: Center(
+                  // Check if the selected image path is available
+                  child: controller.profilepic != null
+                      ? ClipOval(
+                          child: Image.file(
+                            controller.profilepic!,
+                            fit: BoxFit.cover,
+                            width: 42.adaptSize,
+                            height: 42.adaptSize,
+                          ),
+                        )
+                      : Icon(
+                          Icons.person_outline,
+                          color: theme.colorScheme.primary,
+                          size: 42.adaptSize,
+                        ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   /// Section Widget
   Widget _buildHeaderBg() {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      shadowColor: Colors.orange, // Set shadow color
-      elevation: 5,
-      color: theme.colorScheme.primary,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusStyle.circleBorder16,
-      ),
-      child: Container(
-        height: 148.v,
-        width: 350.h,
-        decoration: AppDecoration.outlineBlack900.copyWith(
-          borderRadius: BorderRadiusStyle.circleBorder16,
-        ),
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            Opacity(
-              opacity: 0.5,
-              child: CustomImageView(
-                imagePath: ImageConstant.imgEllipse1,
-                height: 148.v,
-                width: 311.h,
-                alignment: Alignment.centerLeft,
-              ),
+    return GetBuilder<WinTrackerController>(builder: (controller) {
+      return Obx(() {
+        final completed = controller.winTrackerModelObj.value.completed.value;
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          shadowColor: Colors.orange, // Set shadow color
+          elevation: 5,
+          color: theme.colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusStyle.circleBorder16,
+          ),
+          child: Container(
+            height: 148.v,
+            width: 350.h,
+            decoration: AppDecoration.outlineBlack900.copyWith(
+              borderRadius: BorderRadiusStyle.circleBorder16,
             ),
-            Opacity(
-              opacity: 0.5,
-              child: CustomImageView(
-                imagePath: ImageConstant.imgEllipse2,
-                height: 148.v,
-                width: 231.h,
-                alignment: Alignment.centerLeft,
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 6.v,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 139.h,
-                          child: Text(
-                            "msg_my_plans_for_today".tr,
-                            maxLines: 2,
-                            style: GoogleFonts.montserrat(
-                              color: appTheme.whiteA700,
-                              fontSize: 22.fSize,
-                              // fontFamily: 'Inter',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 7.v),
-                        Text(
-                          "lbl_3_9_complete".tr,
-                          style: TextStyle(
-                            color: appTheme.whiteA700,
-                            fontSize: 12.fSize,
-                            fontFamily: 'poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Opacity(
+                  opacity: 0.5,
+                  child: CustomImageView(
+                    imagePath: ImageConstant.imgEllipse1,
+                    height: 148.v,
+                    width: 311.h,
+                    alignment: Alignment.centerLeft,
                   ),
-                  Container(
-                    height: 100.v,
-                    width: 102.h,
-                    margin: EdgeInsets.only(left: 37.h),
-                    child: Stack(
-                      alignment: Alignment.centerRight,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            height: 100.v,
-                            width: 102.h,
-                            child: CircularProgressIndicator(
-                              color: appTheme.whiteA700,
-                              backgroundColor: appTheme.deepOrange200,
-                              value: 30 / 100,
-                              strokeWidth: 15,
-                            ),
-                          ),
+                ),
+                Opacity(
+                  opacity: 0.5,
+                  child: CustomImageView(
+                    imagePath: ImageConstant.imgEllipse2,
+                    height: 148.v,
+                    width: 231.h,
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 6.v,
                         ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
-                            child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 139.h,
                               child: Text(
-                                "lbl_30".tr,
+                                "msg_my_plans_for_today".tr,
+                                maxLines: 2,
                                 style: GoogleFonts.montserrat(
-                                  color: Colors.deepOrange,
-                                  fontSize: 19.fSize,
-                                  // fontFamily: 'Nunito',
+                                  color: appTheme.whiteA700,
+                                  fontSize: 22.fSize,
+                                  // fontFamily: 'Inter',
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
-                          ),
+                            SizedBox(height: 7.v),
+                            Text(
+                              completed.toString() + ' / 9',
+                              style: TextStyle(
+                                color: appTheme.whiteA700,
+                                fontSize: 12.fSize,
+                                fontFamily: 'poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 100.v,
+                        width: 102.h,
+                        margin: EdgeInsets.only(left: 37.h),
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: 100.v,
+                                width: 102.h,
+                                child: CircularProgressIndicator(
+                                  color: appTheme.whiteA700,
+                                  backgroundColor: appTheme.deepOrange200,
+                                  value: (completed / 9),
+                                  strokeWidth: 15,
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.white,
+                                child: Center(
+                                  child: Text(
+                                    (completed * 100 / 9).round().toString() +
+                                        '%',
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.deepOrange,
+                                      fontSize: 19.fSize,
+                                      // fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      });
+    });
   }
 
   Widget _buildStudentActivitiesTitle() {

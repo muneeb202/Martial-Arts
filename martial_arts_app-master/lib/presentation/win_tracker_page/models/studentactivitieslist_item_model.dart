@@ -10,26 +10,26 @@ class StudentactivitieslistItemModel {
 
   Rx<String>? bedText;
 
+  Rx<String>? answer;
 
   Rx<String>? id;
 
   Rx<Color>? color;
   Rx<bool>? checkBoxVal;
-  StudentactivitieslistItemModel({
-    this.bedImage1,
-    this.bedImage2,
-    this.bedText,
-    this.id,
-    this.color,
-    this.checkBoxVal,
-  }) {
+  StudentactivitieslistItemModel(
+      {this.bedImage1,
+      this.bedImage2,
+      this.bedText,
+      this.id,
+      this.color,
+      this.checkBoxVal,
+      this.answer}) {
     bedImage1 = bedImage1 ?? Rx(ImageConstant.imgClose);
     bedImage2 = bedImage2 ?? Rx(ImageConstant.imgBedClock);
     bedText = bedText ?? Rx("Made Bed in the morning?");
     id = id ?? Rx("");
     color = color ?? Rx(theme.colorScheme.primary);
     checkBoxVal = checkBoxVal ?? Rx(false);
+    answer = answer ?? Rx('');
   }
-
-
 }
