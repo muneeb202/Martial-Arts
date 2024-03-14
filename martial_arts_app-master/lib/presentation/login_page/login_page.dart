@@ -132,6 +132,10 @@ class LoginPage extends StatelessWidget {
               controller.passwordEditTextController.text)) {
             Get.toNamed(AppRoutes.homeScreenContainerScreen);
           } else {
+            Get.snackbar('Error', 'Invalid username or password',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
             log('Could not sign up');
           }
         }
