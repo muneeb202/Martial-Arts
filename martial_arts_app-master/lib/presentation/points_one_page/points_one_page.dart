@@ -29,7 +29,14 @@ class PointsOnePage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 18.v),
-                _buildMaskColumn5(),
+                Obx(() {
+                  if (controller.topUsersByPoints.isEmpty ||
+                      controller.topUsersByPoints.isNull) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return _buildMaskColumn5();
+                  }
+                }),
               ],
             ),
           ),
@@ -184,7 +191,7 @@ class PointsOnePage extends StatelessWidget {
                                   _buildMaskColumn(
                                     dynamicText1: "lbl_1".tr,
                                     dynamicText2:
-                                        controller.topUsersByPoints.length > 1
+                                        controller.topUsersByPoints.length > 0
                                             ? controller.topUsersByPoints[0]
                                                         ['fullname']
                                                     .split(" ")
@@ -192,7 +199,7 @@ class PointsOnePage extends StatelessWidget {
                                                 ""
                                             : "",
                                     dynamicText3:
-                                        controller.topUsersByPoints.length > 1
+                                        controller.topUsersByPoints.length > 0
                                             ? controller.topUsersByPoints[0]
                                                     ['points'] ??
                                                 ""
@@ -213,13 +220,13 @@ class PointsOnePage extends StatelessWidget {
                       ),
                       child: _buildMaskColumn2(
                         frameText: "lbl_3".tr,
-                        titleText: controller.topUsersByPoints.length > 1
+                        titleText: controller.topUsersByPoints.length > 2
                             ? controller.topUsersByPoints[2]['fullname']
                                     .split(" ")
                                     .first ??
                                 ""
                             : "",
-                        spanText: controller.topUsersByPoints.length > 1
+                        spanText: controller.topUsersByPoints.length > 2
                             ? controller.topUsersByPoints[2]['points'] ?? ""
                             : "",
                       ),
