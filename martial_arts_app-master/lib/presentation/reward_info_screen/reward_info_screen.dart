@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class RewardInfoScreen extends GetWidget<RewardInfoController> {
   final String img;
-  const RewardInfoScreen( {Key? key , required this.img,}) : super(key: key);
+  final int streaks;
+  const RewardInfoScreen({Key? key, required this.img, required this.streaks})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,9 @@ class RewardInfoScreen extends GetWidget<RewardInfoController> {
               SizedBox(
                 width: 263.h,
                 child: Text(
-                  "msg_you_maintained_a".tr,
+                  "You maintained a " +
+                      streaks.toString() +
+                      " day Streak and earned this badge. Keep it up",
                   maxLines: 2,
                   // overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

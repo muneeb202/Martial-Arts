@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static String baseURI = 'http://192.168.1.3:3000/';
+  static String baseURI = 'http://192.168.1.8:3000/';
 
   static Future<int> getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -208,6 +208,18 @@ class ApiService {
       // Handle error
       print('Failed to load profile picture: ${response.statusCode}');
       return null;
+    }
+  }
+
+  static Future<List<dynamic>> fetchStreaks() async {
+    int id = await getUserID();
+    final response =
+        await http.get(Uri.parse(baseURI + 'users/streaks/' + id.toString()));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user streaks');
     }
   }
 

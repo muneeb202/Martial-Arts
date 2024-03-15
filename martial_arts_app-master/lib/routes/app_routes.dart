@@ -89,6 +89,7 @@ class AppRoutes {
       name: rewardInfoScreen,
       page: () => RewardInfoScreen(
         img: '',
+        streaks: -1,
       ),
       bindings: [
         RewardInfoBinding(),
