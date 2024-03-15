@@ -17,6 +17,7 @@ class PointsOnePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchTopUsersByPoints();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -71,19 +72,24 @@ class PointsOnePage extends StatelessWidget {
                           bottom: 2.v,
                         ),
                         child: _buildMaskColumn1(
-                          frameText: "lbl_2".tr,
-                          titleText: controller.topUsersByPoints.length > 1
-                              ? controller.topUsersByPoints[1]['fullname']
-                                      .split(" ")
-                                      .first ??
-                                  ""
-                              : "",
-                          spanText: controller.topUsersByPoints.length > 1
-                              ? controller.topUsersByPoints[1]['points'] ?? ""
-                              : "",
-                          // titleText: "lbl_mirayk".tr,
-                          // spanText: "lbl_426".tr,
-                        ),
+                            frameText: "lbl_2".tr,
+                            titleText: controller.topUsersByPoints.length > 1
+                                ? controller.topUsersByPoints[1]['fullname']
+                                        .split(" ")
+                                        .first ??
+                                    ""
+                                : "",
+                            spanText: controller.topUsersByPoints.length > 1
+                                ? controller.topUsersByPoints[1]['points'] ?? ""
+                                : "",
+                            imagePath: controller.topUsersByPoints.length > 1
+                                ? controller.topUsersByPoints[1]
+                                        ['profilepic'] ??
+                                    ""
+                                : ""
+                            // titleText: "lbl_mirayk".tr,
+                            // spanText: "lbl_426".tr,
+                            ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 18.h),
@@ -100,15 +106,31 @@ class PointsOnePage extends StatelessWidget {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    CustomImageView(
-                                      imagePath: ImageConstant.imgMask70x70,
-                                      height: 70.adaptSize,
-                                      width: 70.adaptSize,
-                                      radius: BorderRadius.circular(
-                                        35.h,
-                                      ),
-                                      alignment: Alignment.center,
-                                    ),
+                                    controller.topUsersByPoints.length > 1 &&
+                                            controller.topUsersByPoints[0]
+                                                    ['profilepic'] !=
+                                                null
+                                        ? CustomImageView(
+                                            imagePath: controller
+                                                        .topUsersByPoints
+                                                        .length >
+                                                    1
+                                                ? controller.topUsersByPoints[0]
+                                                        ['profilepic'] ??
+                                                    ""
+                                                : "",
+                                            height: 70.adaptSize,
+                                            width: 70.adaptSize,
+                                            radius: BorderRadius.circular(
+                                              35.h,
+                                            ),
+                                            alignment: Alignment.center,
+                                          )
+                                        : Icon(
+                                            Icons.person_outline,
+                                            color: theme.colorScheme.primary,
+                                            size: 52.adaptSize,
+                                          ),
                                     CustomImageView(
                                       imagePath: ImageConstant.imgVectorPrimary,
                                       height: 90.adaptSize,
@@ -231,8 +253,11 @@ class PointsOnePage extends StatelessWidget {
                             spanText: controller.topUsersByPoints.length > 2
                                 ? controller.topUsersByPoints[2]['points'] ?? ""
                                 : "",
-                            profilePic: controller.topUsersByPoints[2]
-                                ['profilepic']),
+                            imagePath: controller.topUsersByPoints.length > 1
+                                ? controller.topUsersByPoints[2]
+                                        ['profilepic'] ??
+                                    ""
+                                : ""),
                       ),
                     ],
                   ),
@@ -366,18 +391,18 @@ class PointsOnePage extends StatelessWidget {
   }
 
   /// Common widget
-  Widget _buildMaskColumn1({
-    required String frameText,
-    required String titleText,
-    required String spanText,
-  }) {
+  Widget _buildMaskColumn1(
+      {required String frameText,
+      required String titleText,
+      required String spanText,
+      required String imagePath}) {
     return Animate(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgMask1,
+            imagePath: imagePath.isEmpty ? ImageConstant.imgDefault : imagePath,
             height: 70.adaptSize,
             width: 70.adaptSize,
             radius: BorderRadius.circular(
@@ -426,7 +451,9 @@ class PointsOnePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10.v),
                 Text(
-                  titleText,
+                  titleText.length > 6
+                      ? titleText.substring(0, 4) + '...'
+                      : titleText,
                   style: TextStyle(
                     color: appTheme.gray900,
                     fontSize: 14.fSize,
@@ -461,19 +488,18 @@ class PointsOnePage extends StatelessWidget {
     ).scale();
   }
 
-  Widget _buildMaskColumn2({
-    required String frameText,
-    required String titleText,
-    required String spanText,
-    required String profilePic,
-  }) {
+  Widget _buildMaskColumn2(
+      {required String frameText,
+      required String titleText,
+      required String spanText,
+      required String imagePath}) {
     return Animate(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: profilePic,
+            imagePath: imagePath.isEmpty ? ImageConstant.imgDefault : imagePath,
             height: 70.adaptSize,
             width: 70.adaptSize,
             radius: BorderRadius.circular(
@@ -522,7 +548,9 @@ class PointsOnePage extends StatelessWidget {
                 ),
                 SizedBox(height: 7.v),
                 Text(
-                  titleText,
+                  titleText.length > 6
+                      ? titleText.substring(0, 4) + '...'
+                      : titleText,
                   style: TextStyle(
                     color: appTheme.gray900,
                     fontSize: 14.fSize,

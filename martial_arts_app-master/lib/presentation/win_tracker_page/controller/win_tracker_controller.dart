@@ -34,7 +34,7 @@ class WinTrackerController extends GetxController {
     SharedPreferences user = await SharedPreferences.getInstance();
     String encodedUser = user.getString('user') ?? "";
     Map userDict = jsonDecode(encodedUser);
-    username.value = userDict['username'];
+    username.value = userDict['fullname'].split(' ')[0];
     update();
   }
 

@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/app_export.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   await SystemChrome.setPreferredOrientations([
@@ -12,6 +13,7 @@ void main() async{
     runApp(MyApp());
   });
 }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

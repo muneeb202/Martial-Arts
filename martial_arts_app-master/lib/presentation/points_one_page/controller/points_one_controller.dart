@@ -32,6 +32,7 @@ class PointsOneController extends GetxController {
 
   void fetchTopUsersByPoints() async {
     try {
+      log('trying');
       final response = await ApiService.fetchTopUsersByPoints();
       topUsersByPoints.assignAll(response);
       filteredUsers.assignAll(topUsersByPoints);
