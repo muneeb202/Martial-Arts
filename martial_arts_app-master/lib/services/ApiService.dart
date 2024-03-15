@@ -90,7 +90,7 @@ class ApiService {
 
   static Future<Map<int, int>> get_all_activities() async {
     int id = await getUserID();
-    final url = Uri.parse(baseURI + 'activities/' + id.toString());
+    final url = Uri.parse(baseURI + 'all-activities/' + id.toString());
     final headers = {'Content-Type': 'application/json'};
     final response = await http.get(url, headers: headers);
     log(response.body);

@@ -289,7 +289,7 @@ app.post('/signup', (req, res) => {
     });
 
     // Get all activities for a user route
-    app.get('/allactivities/:user_id', (req, res) => {
+    app.get('/all-activities/:user_id', (req, res) => {
       const user_id = req.params.user_id;
       const getAllActivitiesSql = 'Select activity, Count(*) as count from daily_activities where user_id=? group by activity';
       db.query(getAllActivitiesSql, [user_id], (err, result) => {

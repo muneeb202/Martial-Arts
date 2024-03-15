@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:martial_art/presentation/progress_page/controller/progress_controller.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../core/app_export.dart';
 import '../models/studentactivitieslist_item_model.dart';
 import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
@@ -32,7 +33,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
             color: appTheme.whiteA700,
             borderRadius: BorderRadius.circular(15),
           ),
-          height:70,
+          // height: 150,
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
@@ -48,8 +49,10 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                       () => CustomImageView(
                         imagePath:
                             studentactivitieslistItemModelObj.bedImage1!.value,
-                        height: 40.v,
-                        width: 43.h,
+                        height: 50,
+                        width: 50,
+                        // height: 40.v,
+                        // width: 43.h,
                         alignment: Alignment.centerLeft,
                       ),
                     ),
@@ -91,20 +94,83 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                       )),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: SizedBox(
-                  height: 23,
-                  width: 23,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
+              SizedBox(
+                height: 60,
+                width: 60,
+                child: SFCircularDonutChart(
+                  data: [
+                    CircularChartModel(
+                        'completed',
+                        studentactivitieslistItemModelObj.completed!,
+                        theme.primaryColor),
+                    CircularChartModel(
+                        'left',
+                        100 - studentactivitieslistItemModelObj.completed!,
+                        Colors.transparent),
+
+                    // CircularChartModel('Category 3', 20, Colors.red),
+                  ],
                 ),
-              )
+                //   child: SfCircularChart(
+                //     tooltipBehavior: TooltipBehavior(enable: true),
+                //     series: <CircularSeries<_ChartData, String>>[
+                //       DoughnutSeries<_ChartData, String>(
+                //           dataSource: data,
+                //           xValueMapper: (_ChartData data, _) => data.x,
+                //           yValueMapper: (_ChartData data, _) => data.y,
+                //           name: 'Gold')
+                //     ],
+                //   ),
+                // ),
+                // child: CircularProgressIndicator(
+                //   strokeWidth: 2,
+                // ),
+              ),
+              // SizedBox(width: 10,),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class SFCircularDonutChart extends StatelessWidget {
+  final List<CircularChartModel> data;
+
+  const SFCircularDonutChart({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SfCircularChart(
+      // title: ChartTitle(text: 'Customized Donut Chart'),
+      // legend: Legend(isVisible: true),
+      series: <CircularSeries>[
+        DoughnutSeries<CircularChartModel, String>(
+          dataSource: data,
+          pointColorMapper: (CircularChartModel data, _) => data.color,
+          xValueMapper: (CircularChartModel data, _) => data.x,
+          yValueMapper: (CircularChartModel data, _) => data.y,
+          // dataLabelSettings: DataLabelSettings(isVisible: true),
+          radius: '80%',
+          innerRadius: '50%',
+          strokeColor: Colors.black12,
+          strokeWidth: 1,
+          // startAngle: 15,
+          // explode: true,
+          // explodeIndex: 0,
+
+          // enableSmartLabels: true,
+        ),
+      ],
+    );
+  }
+}
+
+class CircularChartModel {
+  final String x;
+  final double y;
+  final Color color;
+
+  CircularChartModel(this.x, this.y, this.color);
 }

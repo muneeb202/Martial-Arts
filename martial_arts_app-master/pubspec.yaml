@@ -36,6 +36,7 @@ dependencies:
   http: ^1.2.1
   jwt_decoder:
   image_picker:
+  syncfusion_flutter_charts:
 
 
 # --------------------- Dev Dependencies ----------------------------- #

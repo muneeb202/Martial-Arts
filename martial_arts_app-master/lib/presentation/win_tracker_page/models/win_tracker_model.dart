@@ -79,7 +79,7 @@ class WinTrackerModel {
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
           bedImage2: ImageConstant.pic1_1.obs,
-          bedText: "What did you do eat today?".obs,
+          bedText: "What did you eat today?".obs,
           id: "11".obs,
           checkBoxVal: activities.containsKey(11).obs,
           answer: RxString(activities[11] ?? '')),
