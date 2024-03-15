@@ -193,7 +193,7 @@ class PointsOnePage extends StatelessWidget {
                                     _buildMaskColumn(
                                       dynamicText1: "lbl_1".tr,
                                       dynamicText2:
-                                          controller.topUsersByPoints.length > 1
+                                          controller.topUsersByPoints.length > 0
                                               ? controller.topUsersByPoints[0]
                                                           ['fullname']
                                                       .split(" ")
@@ -201,54 +201,18 @@ class PointsOnePage extends StatelessWidget {
                                                   ""
                                               : "",
                                       dynamicText3:
-                                          controller.topUsersByPoints.length > 1
+                                          controller.topUsersByPoints.length > 0
                                               ? controller.topUsersByPoints[0]
                                                       ['points'] ??
                                                   ""
                                               : "",
                                     ),
-                                  ),
-                                  _buildMaskColumn(
-                                    dynamicText1: "lbl_1".tr,
-                                    dynamicText2:
-                                        controller.topUsersByPoints.length > 0
-                                            ? controller.topUsersByPoints[0]
-                                                        ['fullname']
-                                                    .split(" ")
-                                                    .first ??
-                                                ""
-                                            : "",
-                                    dynamicText3:
-                                        controller.topUsersByPoints.length > 0
-                                            ? controller.topUsersByPoints[0]
-                                                    ['points'] ??
-                                                ""
-                                            : "",
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ).flipH(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 18.h,
-                        top: 49.v,
-                        bottom: 2.v,
-                      ),
-                      child: _buildMaskColumn2(
-                        frameText: "lbl_3".tr,
-                        titleText: controller.topUsersByPoints.length > 2
-                            ? controller.topUsersByPoints[2]['fullname']
-                                    .split(" ")
-                                    .first ??
-                                ""
-                            : "",
-                        spanText: controller.topUsersByPoints.length > 2
-                            ? controller.topUsersByPoints[2]['points'] ?? ""
-                            : "",
+                            ],
+                          ),
+                        ).flipH(),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -257,17 +221,18 @@ class PointsOnePage extends StatelessWidget {
                           bottom: 2.v,
                         ),
                         child: _buildMaskColumn2(
-                          frameText: "lbl_3".tr,
-                          titleText: controller.topUsersByPoints.length > 1
-                              ? controller.topUsersByPoints[2]['fullname']
-                                      .split(" ")
-                                      .first ??
-                                  ""
-                              : "",
-                          spanText: controller.topUsersByPoints.length > 1
-                              ? controller.topUsersByPoints[2]['points'] ?? ""
-                              : "",
-                        ),
+                            frameText: "lbl_3".tr,
+                            titleText: controller.topUsersByPoints.length > 2
+                                ? controller.topUsersByPoints[2]['fullname']
+                                        .split(" ")
+                                        .first ??
+                                    ""
+                                : "",
+                            spanText: controller.topUsersByPoints.length > 2
+                                ? controller.topUsersByPoints[2]['points'] ?? ""
+                                : "",
+                            profilePic: controller.topUsersByPoints[2]
+                                ['profilepic']),
                       ),
                     ],
                   ),
@@ -500,6 +465,7 @@ class PointsOnePage extends StatelessWidget {
     required String frameText,
     required String titleText,
     required String spanText,
+    required String profilePic,
   }) {
     return Animate(
       child: Column(
@@ -507,7 +473,7 @@ class PointsOnePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgMask1,
+            imagePath: profilePic,
             height: 70.adaptSize,
             width: 70.adaptSize,
             radius: BorderRadius.circular(

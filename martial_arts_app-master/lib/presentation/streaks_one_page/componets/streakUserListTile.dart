@@ -41,7 +41,7 @@ Widget streakUserListTile(RxList<Map<String, dynamic>> topUsersByStreaks) {
                     (i + 1).toString(),
                     topUsersByStreaks[i]['fullname'],
                     topUsersByStreaks[i]['streaks'].toString() + ' Streaks',
-                    ImageConstant.imgPlayWhiteA700,
+                    topUsersByStreaks[i]['profilepic'],
                   ),
               ],
             ),

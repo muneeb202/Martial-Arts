@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static String baseURI = 'http://192.168.1.3:3000/';
+  static String baseURI = 'http://192.168.1.8:3000/';
 
   static Future<int> getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -152,6 +152,18 @@ class ApiService {
     }
   }
 
+  static Future<List<dynamic>> fetchStreaks() async {
+    int id = await getUserID();
+    final response =
+        await http.get(Uri.parse(baseURI + 'users/streaks/' + id.toString()));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user streaks');
+    }
+  }
+
   static Future<List<Map<String, dynamic>>> fetchTopUsersByStreaks() async {
     final headers = {'Content-Type': 'application/json'};
     final response = await http.get(Uri.parse(baseURI + 'users/top-10-streaks'),
@@ -162,7 +174,8 @@ class ApiService {
       return data
           .map((user) => {
                 'fullname': user['fullname'],
-                'streaks': user['streaks'].toString()
+                'streaks': user['streaks'].toString(),
+                'profilepic': baseURI + '/uploads' + user['profilepic'],
               })
           .toList();
     } else {
@@ -180,7 +193,8 @@ class ApiService {
       return data
           .map((user) => {
                 'fullname': user['fullname'],
-                'points': user['points'].toString()
+                'points': user['points'].toString(),
+                'profilepic': baseURI + '/uploads' + user['profilepic'],
               })
           .toList();
     } else {

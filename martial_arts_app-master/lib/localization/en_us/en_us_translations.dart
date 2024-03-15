@@ -184,7 +184,7 @@ final Map<String, String> enUs = {
   "msg_daily_reward_badges": "Daily Reward/Badges",
 
   // Reward info Screen
-  "lbl_congratulation": "Congratulation ",
+  "lbl_congratulation": "Congratulations",
   "msg_you_maintained_a":
       "You maintained a 15 days Streak and earned this badge. Keep it up",
 

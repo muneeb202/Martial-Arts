@@ -41,7 +41,7 @@ Widget userListTile(RxList<Map<String, dynamic>> topUsersByPoints) {
                     (i + 1).toString(),
                     topUsersByPoints[i]['fullname'],
                     topUsersByPoints[i]['points'].toString() + ' Points',
-                    ImageConstant.imgPlayWhiteA700,
+                    topUsersByPoints[i]['profilepic'],
                   ),
               ],
             ),

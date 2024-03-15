@@ -13,6 +13,8 @@ const port = 3000;
 app.use(express.json());
 app.use(cors())
 
+app.use('/uploads', express.static('uploads'));
+
 const db = mysql.createPool(dbConfig);
 const bcrypt = require('bcrypt');
 
@@ -340,6 +342,21 @@ app.post('/signup', (req, res) => {
 
       console.log(pointsResult)
       res.status(200).json(pointsResult);
+    });
+  });
+
+  app.get('/users/streaks/:id', (req, res) => {
+    const id = req.params.id
+    const sqlStreaks = `SELECT streaks FROM users WHERE id = ${id}`
+
+    db.query(sqlStreaks, (streaksErr, streaksResult) => {
+      if (streaksErr) {
+        console.error('Error fetching streaks by id: ' + streaksErr);
+        res.status(500).json({ error: 'Error fetching user streaks' });
+        return;
+      }
+
+      res.status(200).json(streaksResult);
     });
   });
     
