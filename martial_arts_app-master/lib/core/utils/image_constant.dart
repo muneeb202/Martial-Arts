@@ -241,6 +241,8 @@ class ImageConstant {
 
   static String imgMask = '$imagePath/img_mask.png';
 
+  static String imgDefault = '$imagePath/default_user.png';
+
   static String imgMask70x70 = '$imagePath/img_mask_70x70.png';
 
   static String imgVectorPrimary = '$imagePath/img_vector_primary.svg';

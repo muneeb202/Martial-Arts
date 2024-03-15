@@ -17,6 +17,7 @@ class StreaksOnePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchTopUsersByStreaks();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -68,17 +69,18 @@ class StreaksOnePage extends StatelessWidget {
                         bottom: 2.v,
                       ),
                       child: _buildMaskColumn1(
-                        frameText: "lbl_2".tr,
-                        titleText: controller.topUsersByStreaks.length > 1
-                            ? controller.topUsersByStreaks[1]['fullname']
-                                    .split(" ")
-                                    .first ??
-                                ""
-                            : "",
-                        spanText: controller.topUsersByStreaks.length > 1
-                            ? controller.topUsersByStreaks[1]['streaks'] ?? ""
-                            : "",
-                      ),
+                          frameText: "lbl_2".tr,
+                          titleText: controller.topUsersByStreaks.length > 1
+                              ? controller.topUsersByStreaks[1]['fullname'] ??
+                                  ""
+                              : "",
+                          spanText: controller.topUsersByStreaks.length > 1
+                              ? controller.topUsersByStreaks[1]['streaks'] ?? ""
+                              : "",
+                          imagePath: controller.topUsersByStreaks.length > 1
+                              ? controller.topUsersByStreaks[1]['profilepic'] ??
+                                  ""
+                              : ""),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 18.h),
@@ -96,7 +98,12 @@ class StreaksOnePage extends StatelessWidget {
                                 alignment: Alignment.center,
                                 children: [
                                   CustomImageView(
-                                    imagePath: ImageConstant.imgMask70x70,
+                                    imagePath:
+                                        controller.topUsersByStreaks.length > 1
+                                            ? controller.topUsersByStreaks[0]
+                                                    ['profilepic'] ??
+                                                ImageConstant.imgDefault
+                                            : ImageConstant.imgDefault,
                                     height: 70.adaptSize,
                                     width: 70.adaptSize,
                                     radius: BorderRadius.circular(
@@ -215,17 +222,20 @@ class StreaksOnePage extends StatelessWidget {
                         bottom: 2.v,
                       ),
                       child: _buildMaskColumn2(
-                        frameText: "lbl_3".tr,
-                        titleText: controller.topUsersByStreaks.length > 2
-                            ? controller.topUsersByStreaks[2]['fullname']
-                                    .split(" ")
-                                    .first ??
-                                ""
-                            : "",
-                        spanText: controller.topUsersByStreaks.length > 2
-                            ? controller.topUsersByStreaks[2]['streaks'] ?? ""
-                            : "",
-                      ),
+                          frameText: "lbl_3".tr,
+                          titleText: controller.topUsersByStreaks.length > 2
+                              ? controller.topUsersByStreaks[2]['fullname']
+                                      .split(" ")
+                                      .first ??
+                                  ""
+                              : "",
+                          spanText: controller.topUsersByStreaks.length > 2
+                              ? controller.topUsersByStreaks[2]['streaks'] ?? ""
+                              : "",
+                          imagePath: controller.topUsersByStreaks.length > 2
+                              ? controller.topUsersByStreaks[2]['profilepic'] ??
+                                  ""
+                              : ""),
                     ),
                   ],
                 ),
@@ -354,25 +364,27 @@ class StreaksOnePage extends StatelessWidget {
   }
 
   /// Common widget
-  Widget _buildMaskColumn1({
-    required String frameText,
-    required String titleText,
-    required String spanText,
-  }) {
+  Widget _buildMaskColumn1(
+      {required String frameText,
+      required String titleText,
+      required String spanText,
+      required String imagePath}) {
     return Animate(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgMask1,
+            imagePath: imagePath.isEmpty ? ImageConstant.imgDefault : imagePath,
             height: 70.adaptSize,
             width: 70.adaptSize,
             radius: BorderRadius.circular(
               35.h,
             ),
           ),
-          SizedBox(height: 11.v),
+          SizedBox(
+            height: 11.v,
+          ),
           Container(
             // height: selected.value ? 130 : 0,
             padding: EdgeInsets.symmetric(
@@ -414,7 +426,9 @@ class StreaksOnePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10.v),
                 Text(
-                  titleText,
+                  titleText.length > 6
+                      ? titleText.substring(0, 4) + '...'
+                      : titleText,
                   style: TextStyle(
                     color: appTheme.gray900,
                     fontSize: 14.fSize,
@@ -449,18 +463,18 @@ class StreaksOnePage extends StatelessWidget {
     ).scale();
   }
 
-  Widget _buildMaskColumn2({
-    required String frameText,
-    required String titleText,
-    required String spanText,
-  }) {
+  Widget _buildMaskColumn2(
+      {required String frameText,
+      required String titleText,
+      required String spanText,
+      required String imagePath}) {
     return Animate(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgMask1,
+            imagePath: imagePath.isEmpty ? ImageConstant.imgDefault : imagePath,
             height: 70.adaptSize,
             width: 70.adaptSize,
             radius: BorderRadius.circular(
@@ -509,7 +523,9 @@ class StreaksOnePage extends StatelessWidget {
                 ),
                 SizedBox(height: 7.v),
                 Text(
-                  titleText,
+                  titleText.length > 6
+                      ? titleText.substring(0, 4) + '...'
+                      : titleText,
                   style: TextStyle(
                     color: appTheme.gray900,
                     fontSize: 14.fSize,

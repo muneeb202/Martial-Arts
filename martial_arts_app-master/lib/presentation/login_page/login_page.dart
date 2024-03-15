@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:martial_art/services/GoogleSignInAPI.dart';
 import 'controller/login_controller.dart';
 import 'models/login_model.dart';
 import 'package:flutter/material.dart';
@@ -152,6 +153,7 @@ class LoginPage extends StatelessWidget {
   Widget _buildGoogleButton() {
     return Expanded(
       child: CustomOutlinedButton(
+        onPressed: controller.signIn,
         text: "lbl_google".tr,
         buttonTextStyle: TextStyle(
           fontSize: 15.0,

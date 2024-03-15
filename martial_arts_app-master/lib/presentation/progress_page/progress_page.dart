@@ -19,6 +19,8 @@ class ProgressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.progressModelObj.value.getCompletedActivities();
+    controller.getProfilePic();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -176,11 +178,20 @@ class ProgressPage extends StatelessWidget {
                     ),
                   ]),
               child: Center(
-                child: Icon(
-                  Icons.person_outline,
-                  color: theme.colorScheme.primary,
-                  size: 42.adaptSize,
-                ),
+                child: controller.profilepic != null
+                    ? ClipOval(
+                        child: Image.file(
+                          controller.profilepic!,
+                          fit: BoxFit.cover,
+                          width: 42.adaptSize,
+                          height: 42.adaptSize,
+                        ),
+                      )
+                    : Icon(
+                        Icons.person_outline,
+                        color: theme.colorScheme.primary,
+                        size: 42.adaptSize,
+                      ),
               ),
             ),
             // CustomImageView(
@@ -275,7 +286,7 @@ class ProgressPage extends StatelessWidget {
                                 bottom: 3.v,
                               ),
                               child: Text(
-                                "msg_30_progress_have".tr,
+                                '${controller.progressModelObj.value.percentage}% progress has been made',
                                 style: TextStyle(
                                   color: appTheme.whiteA700,
                                   fontSize: 11.fSize,
@@ -316,7 +327,7 @@ class ProgressPage extends StatelessWidget {
                             backgroundColor: Colors.white,
                             child: Center(
                               child: Text(
-                                "lbl_30".tr,
+                                '${controller.progressModelObj.value.percentage}%',
                                 style: GoogleFonts.montserrat(
                                   color: Colors.deepOrange,
                                   fontSize: 19.fSize,
