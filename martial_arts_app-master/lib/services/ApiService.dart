@@ -26,11 +26,11 @@ class ApiService {
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url, headers: headers, body: data);
     log(response.body);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', response.body);
     if (response.statusCode == 500) {
       return false;
     }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', response.body);
     return true;
   }
 
@@ -88,6 +88,63 @@ class ApiService {
     return activityMap;
   }
 
+  static Future<bool> GoogleSignIn(
+      String name, String email, String photoURL, String password) async {
+    final url = Uri.parse(baseURI + 'google-signup');
+    final data = jsonEncode({
+      'fullname': name,
+      'username': email,
+      'email': email,
+      'password': password,
+    });
+    final headers = {'Content-Type': 'application/json'};
+    final response = await http.post(url, headers: headers, body: data);
+    log(response.body);
+
+    if (response.statusCode == 500) {
+      return false;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', response.body);
+
+    if (photoURL.isEmpty) return true;
+
+    final photo = Uri.parse(photoURL);
+    http.Response response2 = await http.get(photo);
+    if (response2.statusCode == 200) {
+      // Create a file with a unique name for the downloaded image
+      String fileName = photoURL.split('/').last;
+      File imageFile = File('${Directory.systemTemp.path}/$fileName.png');
+
+      // Write the image data to the file
+      await imageFile.writeAsBytes(response2.bodyBytes);
+
+      // Prepare the multipart request to upload the image
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(baseURI + 'upload-image'),
+      );
+
+      // Add the image file to the request
+      request.files.add(
+        http.MultipartFile(
+          'image',
+          imageFile.readAsBytes().asStream(),
+          imageFile.lengthSync(),
+          filename: fileName + '.png',
+        ),
+      );
+
+      // Add user ID to the request
+      int id = await getUserID();
+      request.fields['user_id'] = id.toString();
+
+      // Send the request
+      request.send();
+    }
+    return true;
+  }
+
   static Future<Map<int, int>> get_all_activities() async {
     int id = await getUserID();
     final url = Uri.parse(baseURI + 'all-activities/' + id.toString());
@@ -98,6 +155,8 @@ class ApiService {
 
     // Extract the 'activity' values into a set
     Map<int, int> activityMap = {};
+    for (int i = 1; i <= 12; i++) activityMap[i] = 0;
+
     for (var item in responseList) {
       int activity = item['activity'];
       int answer = item['count'];

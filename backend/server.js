@@ -184,6 +184,61 @@ app.post('/signup', (req, res) => {
   });
 });
 
+app.post('/google-signup', (req, res) => {
+  const { fullname, username, password, email } = req.body;
+  console.log(req.body);
+
+  // Generate a salt
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      console.error('Error generating salt: ' + err);
+      return res.status(500).json({ error: 'Error signing up' });
+    }
+
+    // Hash the password using the salt
+    bcrypt.hash(password, salt, (err, hashedPassword) => {
+      if (err) {
+        console.error('Error hashing password: ' + err);
+        return res.status(500).json({ error: 'Error signing up' });
+      }
+
+      // Check if the user already exists
+      const checkUserQuery = 'SELECT * FROM users WHERE username = ?';
+      db.query(checkUserQuery, [username], (err, existingUser) => {
+        if (err) {
+          console.error('Error checking user: ' + err);
+          return res.status(500).json({ error: 'Error signing up' });
+        }
+
+        if (existingUser.length > 0) {
+          return res.status(200).json(existingUser[0]);
+        }
+
+        // Insert the new user into the database
+        const insertUserQuery = 'INSERT INTO users (fullname, username, password, salt, email) VALUES (?, ?, ?, ?, ?)';
+        db.query(insertUserQuery, [fullname, username, hashedPassword, salt, email], (err, result) => {
+          if (err) {
+            console.error('Error inserting user: ' + err);
+            return res.status(500).json({ error: 'Error signing up' });
+          }
+
+          // Retrieve the newly created user
+          const getUserQuery = 'SELECT * FROM users WHERE username = ?';
+          db.query(getUserQuery, [username], (err, newUser) => {
+            if (err) {
+              console.error('Error retrieving user: ' + err);
+              return res.status(500).json({ error: 'Error signing up' });
+            }
+            
+            res.status(201).json(newUser[0]);
+          });
+        });
+      });
+    });
+  });
+});
+
+
   
   // Login route
   app.post('/login', (req, res) => {
