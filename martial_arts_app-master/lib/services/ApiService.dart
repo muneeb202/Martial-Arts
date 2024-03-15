@@ -162,7 +162,10 @@ class ApiService {
       return data
           .map((user) => {
                 'fullname': user['fullname'],
-                'streaks': user['streaks'].toString()
+                'streaks': user['streaks'].toString(),
+                'profilepic': user['profilepic'] != null
+                    ? ApiService.baseURI + 'uploads/' + user['profilepic']
+                    : null
               })
           .toList();
     } else {
@@ -174,13 +177,17 @@ class ApiService {
     final headers = {'Content-Type': 'application/json'};
     final response = await http.get(Uri.parse(baseURI + 'users/top-10-points'),
         headers: headers);
-
+    log(response.body);
+    log('message');
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       return data
           .map((user) => {
                 'fullname': user['fullname'],
-                'points': user['points'].toString()
+                'points': user['points'].toString(),
+                'profilepic': user['profilepic'] != null
+                    ? ApiService.baseURI + 'uploads/' + user['profilepic']
+                    : null
               })
           .toList();
     } else {

@@ -12,6 +12,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use(cors())
+app.use('/uploads', express.static('uploads'));
 
 const db = mysql.createPool(dbConfig);
 const bcrypt = require('bcrypt');

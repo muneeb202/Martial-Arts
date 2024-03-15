@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -38,11 +40,10 @@ Widget userListTile(RxList<Map<String, dynamic>> topUsersByPoints) {
               children: [
                 for (var i = 0; i < topUsersByPoints.length; i++)
                   _buildLisTile(
-                    (i + 1).toString(),
-                    topUsersByPoints[i]['fullname'],
-                    topUsersByPoints[i]['points'].toString() + ' Points',
-                    ImageConstant.imgPlayWhiteA700,
-                  ),
+                      (i + 1).toString(),
+                      topUsersByPoints[i]['fullname'],
+                      topUsersByPoints[i]['points'].toString() + ' Points',
+                      topUsersByPoints[i]['profilepic'] ?? ""),
               ],
             ),
           ),
@@ -55,44 +56,46 @@ Widget userListTile(RxList<Map<String, dynamic>> topUsersByPoints) {
 Widget _buildLisTile(
     String rank, String name, String streaks, String imagePath) {
   return ListTile(
-      title: Text(
-        name,
-        style: GoogleFonts.montserrat(
-          color: theme.colorScheme.primary,
-          fontSize: 14.fSize,
-          // fontFamily: 'Poppins',
-          fontWeight: FontWeight.w500,
-          // overflow: TextOverflow.ellipsis,
-        ),
+    title: Text(
+      name,
+      style: GoogleFonts.montserrat(
+        color: theme.colorScheme.primary,
+        fontSize: 14.fSize,
+        // fontFamily: 'Poppins',
+        fontWeight: FontWeight.w500,
+        // overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(
-        streaks,
-        style: TextStyle(
-          color: appTheme.gray500,
-          fontSize: 12.fSize,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w600,
-          overflow: TextOverflow.ellipsis,
-        ),
+    ),
+    subtitle: Text(
+      streaks,
+      style: TextStyle(
+        color: appTheme.gray500,
+        fontSize: 12.fSize,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+        overflow: TextOverflow.ellipsis,
       ),
-      leading: Text(
-        rank,
-        style: GoogleFonts.montserrat(
-          color: theme.colorScheme.primary,
-          fontSize: 18.fSize,
-          // fontFamily: 'Poppins',
-          fontWeight: FontWeight.bold,
-          // overflow: TextOverflow.ellipsis,
-        ),
+    ),
+    leading: Text(
+      rank,
+      style: GoogleFonts.montserrat(
+        color: theme.colorScheme.primary,
+        fontSize: 18.fSize,
+        // fontFamily: 'Poppins',
+        fontWeight: FontWeight.bold,
+        // overflow: TextOverflow.ellipsis,
       ),
-      trailing: CustomImageView(
-        imagePath: imagePath,
-        height: 30.adaptSize,
-        width: 28.adaptSize,
-        margin: EdgeInsets.only(
-          left: 87.h,
-          top: 1.v,
-          bottom: 3.v,
-        ),
-      ));
+    ),
+    trailing: CustomImageView(
+      imagePath: imagePath.isEmpty ? ImageConstant.imgDefault : imagePath,
+      height: 30.adaptSize,
+      width: 28.adaptSize,
+      margin: EdgeInsets.only(
+        left: 87.h,
+        top: 1.v,
+        bottom: 3.v,
+      ),
+      radius: BorderRadius.circular(15.h),
+    ),
+  );
 }
