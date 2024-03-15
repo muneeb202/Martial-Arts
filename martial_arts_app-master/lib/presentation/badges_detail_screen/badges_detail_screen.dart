@@ -89,7 +89,7 @@ class BadgesDetailScreen extends GetWidget<BadgesDetailController> {
             CustomElevatedButton(
               height: 57.v,
               width: 209.h,
-              text: "lbl_see_all".tr,
+              text: "Back",
               buttonStyle: CustomButtonStyles.fillPrimary,
               buttonTextStyle: CustomTextStyles.titleLargeInterGray50,
               onPressed: () {
