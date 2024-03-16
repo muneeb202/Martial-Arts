@@ -14,7 +14,11 @@ import 'package:martial_art/services/ApiService.dart';
 import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key) {
+    controller.userNameEditTextController.addListener(() {
+      controller.passwordEditTextController.clear();
+    });
+  }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -129,7 +133,7 @@ class LoginPage extends StatelessWidget {
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           int response = await ApiService.loginUser(
-              controller.userNameEditTextController.text,
+              controller.userNameEditTextController.text.trim(),
               controller.passwordEditTextController.text);
           if (response == 200) {
             Get.toNamed(AppRoutes.homeScreenContainerScreen);

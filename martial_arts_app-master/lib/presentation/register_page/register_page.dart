@@ -18,7 +18,11 @@ import '../../routes/app_routes.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key) {
+    controller.userNameEditTextController.addListener(() {
+      controller.passwordEditTextController.clear();
+    });
+  }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -234,9 +238,9 @@ class RegisterPage extends StatelessWidget {
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           int response = await ApiService.createUser(
-              controller.fullNameEditTextController.text,
-              controller.userNameEditTextController.text,
-              controller.emailEditTextController.text,
+              controller.fullNameEditTextController.text.trim(),
+              controller.userNameEditTextController.text.trim(),
+              controller.emailEditTextController.text.trim(),
               controller.passwordEditTextController.text);
           if (response == 201) {
             Get.snackbar(
@@ -244,6 +248,11 @@ class RegisterPage extends StatelessWidget {
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
+
+            controller.fullNameEditTextController.clear();
+            controller.userNameEditTextController.clear();
+            controller.emailEditTextController.clear();
+            controller.passwordEditTextController.clear();
 
             // Switch to the login tab after successful registration
             final RegisterTabContainerController tabController = Get.find();
@@ -254,7 +263,7 @@ class RegisterPage extends StatelessWidget {
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           } else {
-            Get.snackbar('Error', 'An error occurred',
+            Get.snackbar('Error', 'An error occurred, please try again',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
