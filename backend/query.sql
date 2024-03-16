@@ -9,9 +9,10 @@ CREATE TABLE IF NOT EXISTS users (
 	password VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL UNIQUE,
+    verified BOOLEAN,
 	streaks INT DEFAULT 0,
 	points INT DEFAULT 0,
-    profilepic VARCHAR(255) 
+    profilepic VARCHAR(255)
 );
 
 

@@ -128,16 +128,21 @@ class LoginPage extends StatelessWidget {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          if (await ApiService.loginUser(
+          int response = await ApiService.loginUser(
               controller.userNameEditTextController.text,
-              controller.passwordEditTextController.text)) {
+              controller.passwordEditTextController.text);
+          if (response == 200) {
             Get.toNamed(AppRoutes.homeScreenContainerScreen);
-          } else {
+          } else if (response == 401 || response == 403) {
             Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
-            log('Could not sign up');
+          } else if (response == 402) {
+            Get.snackbar('Can\'t login', 'Email not verified',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
           }
         }
       },

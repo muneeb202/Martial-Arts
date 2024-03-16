@@ -22,6 +22,7 @@ import '../presentation/my_badges_screen/binding/my_badges_binding.dart';
 import '../presentation/my_badges_screen/my_badges_screen.dart';
 import '../presentation/reward_info_screen/binding/reward_info_binding.dart';
 import '../presentation/reward_info_screen/reward_info_screen.dart';
+import '../presentation/login_page/login_page.dart';
 
 class AppRoutes {
   static const String splashScreen = '/splash_screen';
@@ -157,6 +158,6 @@ class AppRoutes {
       bindings: [
         SplashBinding(),
       ],
-    )
+    ),
   ];
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:martial_art/presentation/login_page/login_page.dart';
 
 import 'controller/register_controller.dart';
 import 'models/register_model.dart';
@@ -12,6 +13,9 @@ import 'package:martial_art/core/utils/validation_functions.dart';
 import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
 import 'package:martial_art/services/ApiService.dart';
+import 'package:martial_art/presentation/register_tab_container_screen/controller/register_tab_container_controller.dart';
+import '../../routes/app_routes.dart';
+import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -229,18 +233,31 @@ class RegisterPage extends StatelessWidget {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          if (await ApiService.createUser(
+          int response = await ApiService.createUser(
               controller.fullNameEditTextController.text,
               controller.userNameEditTextController.text,
               controller.emailEditTextController.text,
-              controller.passwordEditTextController.text)) {
-            Get.toNamed(AppRoutes.homeScreenContainerScreen);
-          } else {
+              controller.passwordEditTextController.text);
+          if (response == 201) {
+            Get.snackbar(
+                'Verification', 'Verify your email address through email sent',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
+
+            // Switch to the login tab after successful registration
+            final RegisterTabContainerController tabController = Get.find();
+            tabController.tabviewController.animateTo(0);
+          } else if (response == 400) {
             Get.snackbar('Error', 'Username or email already exists',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
-            log('Could not sign up');
+          } else {
+            Get.snackbar('Error', 'An error occurred',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
           }
         }
       },

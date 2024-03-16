@@ -14,7 +14,7 @@ class ApiService {
     return userDict['id'];
   }
 
-  static Future<bool> createUser(
+  static Future<int> createUser(
       String fullName, String userName, String email, String password) async {
     final url = Uri.parse(baseURI + 'signup');
     final data = jsonEncode({
@@ -25,16 +25,18 @@ class ApiService {
     });
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url, headers: headers, body: data);
-    log(response.body);
-    if (response.statusCode == 500) {
-      return false;
-    }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', response.body);
-    return true;
+    return response.statusCode;
+
+    // log(response.body);
+    // if (response.statusCode == 500 || response.statusCode == 400) {
+    //   return response.statusCode;
+    // }
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString('user', response.body);
+    // return 201;
   }
 
-  static Future<bool> loginUser(String userName, String password) async {
+  static Future<int> loginUser(String userName, String password) async {
     final url = Uri.parse(baseURI + 'login');
     final data = {
       'username': userName,
@@ -47,10 +49,11 @@ class ApiService {
     log(response.body);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user', response.body);
-    if (response.statusCode == 500 || response.statusCode == 401) {
-      return false;
-    }
-    return true;
+    return response.statusCode;
+    // if (response.statusCode == 500 || response.statusCode == 401) {
+    //   return false;
+    // }
+    // return true;
   }
 
   static Future<bool> check_activity(String activity, String answer) async {
