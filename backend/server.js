@@ -42,8 +42,6 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-      user: 'app.martial.arts@gmail.com',
-      pass: 'ahkw dqac cimp txcz'
   }
 });
 
@@ -61,7 +59,7 @@ const generateToken = (userId) => {
 
 const constructVerificationLink = (userId) => {
   const token = generateToken(userId);
-  const link = `http://192.168.1.8:3000/verify?token=${token}`;
+  const link = `verify?token=${token}`;
   return link;
 };
 
