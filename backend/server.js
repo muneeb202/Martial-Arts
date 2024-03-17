@@ -6,6 +6,10 @@ const cron = require('node-cron')
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
+const jwt = require('jsonwebtoken');
+const moment = require('moment');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const port = 3000;
@@ -32,7 +36,80 @@ const storage = multer.diskStorage({
   }
 });
 
+// Create a Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  port: 465,
+  secure: true,
+  auth: {
+      user: 'app.martial.arts@gmail.com',
+      pass: 'ahkw dqac cimp txcz'
+  }
+});
+
 const upload = multer({ storage });
+
+secret_key = crypto.randomBytes(32).toString('hex');
+
+const generateToken = (userId) => {
+  const payload = {
+    userId,
+    exp: moment().add(10, 'minutes').unix(),
+  };
+  return jwt.sign(payload, secret_key);
+};
+
+const constructVerificationLink = (userId) => {
+  const token = generateToken(userId);
+  const link = `http://192.168.1.8:3000/verify?token=${token}`;
+  return link;
+};
+
+const sendVerificationEmail = (email, verificationLink) => {
+  const mailOptions = {
+      from: 'app.martial.arts@gmail.com',
+      to: email,
+      subject: 'Martial Arts Verification',
+      text: `Click on this link to verify your Martial Arts Account: ${verificationLink}`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) { 
+          console.error('Error sending email:', error);
+          res.status(500).send('Error sending verificationLink');
+      } else {
+          console.log('Email sent: ' + info.response);
+          res.status(200).json({'verificationLink': verificationLink});
+      }
+  });
+}
+
+app.get('/verify', (req, res) => {
+  const token = req.query.token;
+
+  jwt.verify(token, secret_key, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    const userId = decoded.userId.id;
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (decoded.exp < currentTime) {
+      return res.status(401).json({ error: 'Token has expired' });
+    }
+
+    const updateVerficationSql = 'UPDATE users SET verified = ? WHERE id = ?';
+    db.query(updateVerficationSql, [true, userId], (err, result) => {
+      if (err) {
+        console.error('Error updating user verification:', err);
+        return res.status(500).json({ error: 'Error updating user verification' });
+      }
+
+      res.status(200).json({ message: 'Verification successful' });
+    });
+  });
+});
 
 app.post('/upload-image', upload.single('image'), (req, res) => {
   // Handle the uploaded file here
@@ -153,37 +230,83 @@ cron.schedule('0 0 1 * *', () => {
 app.post('/signup', (req, res) => {
   const { fullname, username, password, email } = req.body;
 
-  // Generate a salt
-  bcrypt.genSalt(10, (err, salt) => {
+  // Check if username already exists
+  const usernameQuery = 'SELECT * FROM users WHERE username = ?';
+  db.query(usernameQuery, [username], (err, existingUser) => {
     if (err) {
-      console.error('Error generating salt: ' + err);
+      console.error('Error checking existing username: ' + err);
       res.status(500).json({ error: 'Error signing up' });
       return;
     }
 
-    // Hash the password using the salt
-    bcrypt.hash(password, salt, (err, hashedPassword) => {
+    if (existingUser.length > 0) {
+      // Username already exists, return error response
+      res.status(400).json({ error: 'Username already exists' });
+      return;
+    }
+
+    // Username is unique, proceed with sign up process
+
+    // Generate a salt
+    bcrypt.genSalt(10, (err, salt) => {
       if (err) {
-        console.error('Error hashing password: ' + err);
+        console.error('Error generating salt: ' + err);
         res.status(500).json({ error: 'Error signing up' });
         return;
       }
 
-      const sql = 'INSERT INTO users (fullname, username, password, salt, email) VALUES (?, ?, ?, ?, ?)';
-      db.query(sql, [fullname, username, hashedPassword, salt, email], (err, result) => {
+      // Hash the password using the salt
+      bcrypt.hash(password, salt, (err, hashedPassword) => {
         if (err) {
-          console.error('Error signing up: ' + err);
+          console.error('Error hashing password: ' + err);
           res.status(500).json({ error: 'Error signing up' });
           return;
         }
 
-        const sql = 'SELECT * FROM users WHERE username = ?';
-        db.query(sql, [username], (err, result) => {
-          res.status(201).json(result[0]);
-        })
+        const sql = 'INSERT INTO users (fullname, username, password, salt, email, verified, signup_time) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const signupTime = new Date();
+        db.query(sql, [fullname, username, hashedPassword, salt, email, false, signupTime], (err, result) => {
+          if (err) {
+            console.error('Error signing up: ' + err);
+            res.status(500).json({ error: 'Error signing up' });
+            return;
+          }
+
+          const sql = 'SELECT * FROM users WHERE username = ?';
+          db.query(sql, [username], (err, result) => {
+            const userId = result[0]
+            const verificationLink = constructVerificationLink(userId);
+            sendVerificationEmail(email, verificationLink);
+            res.status(201).json({ msg: 'Email Verification Pending' })
+          });
+        });
       });
     });
   });
+});
+
+cron.schedule('* * * * *', async () => {
+  try {
+    const sql = 'SELECT * FROM users WHERE verified = 0 AND signup_time <= NOW() - INTERVAL 10 MINUTE';
+    db.query(sql, (err, usersToDelete) => {
+      if (err) {
+        console.error('Error retrieving unverified users:', err);
+        return;
+      }
+      for (const user of usersToDelete) {
+        const deleteSql = 'DELETE FROM users WHERE id = ?';
+        db.query(deleteSql, [user.id], (err) => {
+          if (err) {
+            console.error(`Error deleting user ${user.username}:`, err);
+            return;
+          }
+          console.log(`User ${user.username} deleted due to unverified status and signup time exceeded 10 minutes.`);
+        });
+      }
+    });
+  } catch (error) {
+    console.error('Error executing cron job:', error);
+  }
 });
 
 app.post('/google-signup', (req, res) => {
@@ -217,8 +340,9 @@ app.post('/google-signup', (req, res) => {
         }
 
         // Insert the new user into the database
-        const insertUserQuery = 'INSERT INTO users (fullname, username, password, salt, email) VALUES (?, ?, ?, ?, ?)';
-        db.query(insertUserQuery, [fullname, username, hashedPassword, salt, email], (err, result) => {
+        const insertUserQuery = 'INSERT INTO users (fullname, username, password, salt, email, verified, signup_time) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const signupTime = new Date();
+        db.query(insertUserQuery, [fullname, username, hashedPassword, salt, email, true, signupTime], (err, result) => {
           if (err) {
             console.error('Error inserting user: ' + err);
             return res.status(500).json({ error: 'Error signing up' });
@@ -240,7 +364,6 @@ app.post('/google-signup', (req, res) => {
   });
 });
 
-
   
   // Login route
   app.post('/login', (req, res) => {
@@ -253,7 +376,7 @@ app.post('/google-signup', (req, res) => {
         res.status(500).json({ error: 'Error logging in' });
         return;
       }
-      console.log(result)
+
       if (result.length === 0) {
         res.status(401).json({ error: 'Invalid username or password' });
         return;
@@ -267,13 +390,12 @@ app.post('/google-signup', (req, res) => {
             res.status(500).json({ error: 'Error logging in' });
             return;
           }
-
-          if (hashedPassword === result[0].password) {
+          if (hashedPassword === result[0].password && result[0].verified == 1) {
             res.status(200).json(result[0]);
-          }
-
-          else {
-            res.status(401).json({ error: 'Incorrect password' });
+          } else if (hashedPassword === result[0].password && result[0].verified == 0) {
+            res.status(402).json({ msg: 'User not verified' });
+          } else {
+            res.status(403).json({ error: 'Invalid username or password' });
           }
         })
       }

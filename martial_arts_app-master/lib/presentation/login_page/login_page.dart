@@ -14,7 +14,11 @@ import 'package:martial_art/services/ApiService.dart';
 import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key) {
+    controller.userNameEditTextController.addListener(() {
+      controller.passwordEditTextController.clear();
+    });
+  }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -128,16 +132,21 @@ class LoginPage extends StatelessWidget {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          if (await ApiService.loginUser(
-              controller.userNameEditTextController.text,
-              controller.passwordEditTextController.text)) {
+          int response = await ApiService.loginUser(
+              controller.userNameEditTextController.text.trim(),
+              controller.passwordEditTextController.text);
+          if (response == 200) {
             Get.toNamed(AppRoutes.homeScreenContainerScreen);
-          } else {
+          } else if (response == 401 || response == 403) {
             Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
-            log('Could not sign up');
+          } else if (response == 402) {
+            Get.snackbar('Can\'t login', 'Email not verified',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
           }
         }
       },
