@@ -1,6 +1,8 @@
 import 'package:martial_art/core/app_export.dart';
 import 'package:martial_art/presentation/register_page/models/register_model.dart';
 import 'package:flutter/material.dart';
+import 'package:martial_art/services/ApiService.dart';
+import 'package:martial_art/services/GoogleSignInAPI.dart';
 
 /// A controller class for the RegisterPage.
 ///
@@ -26,5 +28,27 @@ class RegisterController extends GetxController {
     userNameEditTextController.dispose();
     emailEditTextController.dispose();
     passwordEditTextController.dispose();
+  }
+
+  Future signIn() async {
+    try {
+      final user = await GoogleSignInAPI.login();
+      if (user != null) {
+        String name = user.displayName ?? user.email;
+        String photo = user.photoUrl ?? "";
+        GoogleSignInAPI.logout();
+        bool success =
+            await ApiService.GoogleSignIn(name, user.email, photo, user.id);
+        if (success) {
+          Get.toNamed(AppRoutes.homeScreenContainerScreen);
+        } else {
+          Get.snackbar('Error',
+              'Email already exists! Try signing in with your username and password instead',
+              backgroundColor: Colors.white,
+              colorText: Colors.blueGrey.withOpacity(.8),
+              margin: EdgeInsets.only(top: 16.0));
+        }
+      }
+    } catch (e) {}
   }
 }

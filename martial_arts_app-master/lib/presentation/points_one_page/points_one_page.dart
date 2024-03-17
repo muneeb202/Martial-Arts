@@ -106,31 +106,20 @@ class PointsOnePage extends StatelessWidget {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    controller.topUsersByPoints.length > 1 &&
-                                            controller.topUsersByPoints[0]
-                                                    ['profilepic'] !=
-                                                null
-                                        ? CustomImageView(
-                                            imagePath: controller
-                                                        .topUsersByPoints
-                                                        .length >
-                                                    1
-                                                ? controller.topUsersByPoints[0]
-                                                        ['profilepic'] ??
-                                                    ""
-                                                : "",
-                                            height: 70.adaptSize,
-                                            width: 70.adaptSize,
-                                            radius: BorderRadius.circular(
-                                              35.h,
-                                            ),
-                                            alignment: Alignment.center,
-                                          )
-                                        : Icon(
-                                            Icons.person_outline,
-                                            color: theme.colorScheme.primary,
-                                            size: 52.adaptSize,
-                                          ),
+                                    CustomImageView(
+                                      imagePath:
+                                          controller.topUsersByPoints.length > 0
+                                              ? controller.topUsersByPoints[0]
+                                                      ['profilepic'] ??
+                                                  ""
+                                              : "",
+                                      height: 70.adaptSize,
+                                      width: 70.adaptSize,
+                                      radius: BorderRadius.circular(
+                                        35.h,
+                                      ),
+                                      alignment: Alignment.center,
+                                    ),
                                     CustomImageView(
                                       imagePath: ImageConstant.imgVectorPrimary,
                                       height: 90.adaptSize,
@@ -253,7 +242,7 @@ class PointsOnePage extends StatelessWidget {
                             spanText: controller.topUsersByPoints.length > 2
                                 ? controller.topUsersByPoints[2]['points'] ?? ""
                                 : "",
-                            imagePath: controller.topUsersByPoints.length > 1
+                            imagePath: controller.topUsersByPoints.length > 2
                                 ? controller.topUsersByPoints[2]
                                         ['profilepic'] ??
                                     ""

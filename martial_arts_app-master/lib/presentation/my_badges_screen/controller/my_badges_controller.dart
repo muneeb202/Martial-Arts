@@ -21,12 +21,9 @@ class MyBadgesController extends GetxController {
   }
 
   void fetchStreaks() async {
-    log('in the fetchstreaks');
     try {
       final fetchedStreaks = await ApiService.fetchStreaks();
       streaks.value = fetchedStreaks[0]["streaks"];
-    } catch (e) {
-      log('Error fetching streaks: $e');
-    }
+    } catch (e) {}
   }
 }

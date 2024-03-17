@@ -35,9 +35,7 @@ class StreaksOneController extends GetxController {
       final response = await ApiService.fetchTopUsersByStreaks();
       topUsersByStreaks.assignAll(response);
       filteredUsers.assignAll(topUsersByStreaks);
-    } catch (e) {
-      log('Error fetching top users by points: $e');
-    }
+    } catch (e) {}
   }
 
   void filterUsers() {

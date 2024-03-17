@@ -499,10 +499,7 @@ class HomeScreenPage extends StatelessWidget {
                   );
 
                   if (pickedImage != null) {
-                    log('Image selected: ${pickedImage.path}');
                     controller.setSelectedImage(pickedImage.path);
-                  } else {
-                    log('Image picker was closed or canceled');
                   }
                 },
                 child: Container(

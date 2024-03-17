@@ -33,7 +33,6 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
 
       // Extract the answer from the TextFormField
       String answer = studentactivitieslistItemModelObj.answer!.value;
-      log(answer);
 
       // Call your API service to add the answer
       if (await ApiService.check_activity(

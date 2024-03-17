@@ -25,7 +25,6 @@ class HomeScreenController extends GetxController {
 
   // Function to set the selected image path
   void setSelectedImage(String imagePath) {
-    dev.log(imagePath);
     profilepic = File(imagePath);
     ApiService.uploadImage(File(imagePath));
     final tempFile = File('${Directory.systemTemp.path}/profile_picture.jpg');

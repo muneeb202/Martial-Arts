@@ -38,6 +38,12 @@ class LoginController extends GetxController {
             await ApiService.GoogleSignIn(name, user.email, photo, user.id);
         if (success) {
           Get.toNamed(AppRoutes.homeScreenContainerScreen);
+        } else {
+          Get.snackbar('Error',
+              'Email already exists! Try signing in with your username and password instead',
+              backgroundColor: Colors.white,
+              colorText: Colors.blueGrey.withOpacity(.8),
+              margin: EdgeInsets.only(top: 16.0));
         }
       }
     } catch (e) {}
