@@ -27,6 +27,9 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
   }
 
   Future<void> addAnswer() async {
+    log(studentactivitieslistItemModelObj.updating!.value.toString());
+    if (studentactivitieslistItemModelObj.updating!.isTrue) return;
+    studentactivitieslistItemModelObj.updating!.value = true;
     // Validate the form
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // Save the form data
@@ -42,7 +45,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
         homeScreenController.updatePoints();
         Get.toNamed(AppRoutes.successScreen);
       }
-
+      studentactivitieslistItemModelObj.updating!.value = false;
       // Navigate to the success screen
     }
   }

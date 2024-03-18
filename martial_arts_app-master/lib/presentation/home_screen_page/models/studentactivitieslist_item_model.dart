@@ -14,22 +14,23 @@ class StudentactivitieslistItemModel {
 
   Rx<Color>? color;
 
+  Rx<bool>? updating;
+
   Rx<bool>? checkVal;
-  StudentactivitieslistItemModel({
-    this.bedImage1,
-    this.bedImage2,
-    this.bedText,
-    this.id,
-    this.color,
-    this.checkVal,
-  }) {
+  StudentactivitieslistItemModel(
+      {this.bedImage1,
+      this.bedImage2,
+      this.bedText,
+      this.id,
+      this.color,
+      this.checkVal,
+      this.updating}) {
     bedImage1 = bedImage1 ?? Rx(ImageConstant.pic1);
     bedImage2 = bedImage2 ?? Rx(ImageConstant.pic1_1);
     bedText = bedText ?? Rx("Made Bed in the morning?");
     id = id ?? Rx("");
     color = color ?? Rx(theme.colorScheme.primary);
     checkVal = checkVal ?? Rx(false);
+    updating = updating ?? Rx(false);
   }
-
-
 }

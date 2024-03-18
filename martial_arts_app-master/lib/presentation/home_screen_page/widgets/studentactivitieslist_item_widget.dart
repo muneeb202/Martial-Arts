@@ -21,12 +21,15 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
 
   Future<void> check_activity() async {
     if (studentactivitieslistItemModelObj.checkVal!.value) return;
+    if (studentactivitieslistItemModelObj.updating!.isTrue) return;
+    studentactivitieslistItemModelObj.updating!.value = true;
 
     if (await ApiService.check_activity(
         studentactivitieslistItemModelObj.id!.value, '')) {
       studentactivitieslistItemModelObj.checkVal!.value = true;
       homeScreenController.updatePoints();
     }
+    studentactivitieslistItemModelObj.updating!.value = false;
   }
 
   @override

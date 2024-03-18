@@ -99,7 +99,7 @@ class StreaksOnePage extends StatelessWidget {
                                 children: [
                                   CustomImageView(
                                     imagePath:
-                                        controller.topUsersByStreaks.length > 1
+                                        controller.topUsersByStreaks.length > 0
                                             ? controller.topUsersByStreaks[0]
                                                     ['profilepic'] ??
                                                 ImageConstant.imgDefault
