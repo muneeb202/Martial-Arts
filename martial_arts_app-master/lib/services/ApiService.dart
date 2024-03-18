@@ -26,14 +26,6 @@ class ApiService {
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url, headers: headers, body: data);
     return response.statusCode;
-
-    // log(response.body);
-    // if (response.statusCode == 500 || response.statusCode == 400) {
-    //   return response.statusCode;
-    // }
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setString('user', response.body);
-    // return 201;
   }
 
   static Future<int> loginUser(String userName, String password) async {
@@ -50,10 +42,17 @@ class ApiService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user', response.body);
     return response.statusCode;
-    // if (response.statusCode == 500 || response.statusCode == 401) {
-    //   return false;
-    // }
-    // return true;
+  }
+
+  static Future<bool> isUserLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedUser = prefs.getString('user');
+    return storedUser != null;
+  }
+
+  static Future<void> logoutUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
   }
 
   static Future<bool> check_activity(String activity, String answer) async {

@@ -24,7 +24,7 @@ class RegisterPage extends StatelessWidget {
     });
   }
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>(debugLabel: 'register_form_key');
 
   RegisterController controller =
       Get.put(RegisterController(RegisterModel().obs));
