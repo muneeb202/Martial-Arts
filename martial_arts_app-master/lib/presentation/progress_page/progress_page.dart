@@ -9,6 +9,7 @@ import 'models/progress_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/core/app_export.dart';
 import 'package:martial_art/widgets/app_bar/custom_app_bar.dart';
+import '../../services/ApiService.dart';
 
 // ignore: must_be_immutable
 class ProgressPage extends StatelessWidget {
@@ -83,25 +84,17 @@ class ProgressPage extends StatelessWidget {
         margin: EdgeInsets.only(left: 8.h),
       ),
       actions: [
-        Container(
-          height: 24.adaptSize,
-          width: 24.adaptSize,
-          margin: EdgeInsets.symmetric(
-            horizontal: 34.h,
-            vertical: 8.v,
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgIconButton,
-                height: 24.adaptSize,
-                width: 24.adaptSize,
-                alignment: Alignment.center,
-                color: appTheme.gray800,
-              ),
-            ],
-          ),
+        IconButton(
+          onPressed: () {
+            print("Exit button pressed");
+            ApiService.logoutUser();
+            Get.toNamed(
+              AppRoutes.initialRoute,
+            );
+          },
+          icon: Icon(Icons.exit_to_app),
+          iconSize: 24,
+          color: appTheme.gray800,
         ),
       ],
       styleType: Style.bgOutline,

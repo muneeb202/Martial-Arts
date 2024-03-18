@@ -20,7 +20,8 @@ class LoginPage extends StatelessWidget {
     });
   }
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey =
+      GlobalKey<FormState>(debugLabel: 'login_form_key');
 
   LoginController controller = Get.put(LoginController(LoginModel().obs));
 
