@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:martial_art/presentation/login_page/login_page.dart';
 
 import 'controller/register_controller.dart';
 import 'models/register_model.dart';
@@ -14,7 +12,6 @@ import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
 import 'package:martial_art/services/ApiService.dart';
 import 'package:martial_art/presentation/register_tab_container_screen/controller/register_tab_container_controller.dart';
-import '../../routes/app_routes.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {

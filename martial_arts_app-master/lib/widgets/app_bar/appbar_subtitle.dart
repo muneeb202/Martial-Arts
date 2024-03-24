@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:martial_art/core/app_export.dart';
-import '../../theme/custom_text_style.dart';
-import '../../theme/theme_helper.dart';
 
 // ignore: must_be_immutable
 class AppbarSubtitle extends StatelessWidget {

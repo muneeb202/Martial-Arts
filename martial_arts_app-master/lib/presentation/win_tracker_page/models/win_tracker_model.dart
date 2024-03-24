@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
 import 'package:martial_art/services/ApiService.dart';
 import '../../../core/app_export.dart';
 import 'studentactivitieslist_item_model.dart';
@@ -30,21 +28,21 @@ class WinTrackerModel {
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic1.obs,
           bedImage2: ImageConstant.pic1_1.obs,
-          bedText: "Made Bed in the morning?".obs,
+          bedText: "What made you smile today?".obs,
           id: "4".obs,
           checkBoxVal: activities.containsKey(4).obs,
           answer: RxString(activities[4] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic2.obs,
           bedImage2: ImageConstant.pic2_2.obs,
-          bedText: "Did exercise today?".obs,
+          bedText: "What did you do well today?".obs,
           id: "5".obs,
           checkBoxVal: activities.containsKey(5).obs,
           answer: RxString(activities[5] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic3.obs,
           bedImage2: ImageConstant.pic3_3.obs,
-          bedText: "Did you practice?".obs,
+          bedText: "what did you enjoy today?".obs,
           id: "6".obs,
           checkBoxVal: activities.containsKey(6).obs,
           answer: RxString(activities[6] ?? '')),
@@ -58,35 +56,35 @@ class WinTrackerModel {
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic5.obs,
           bedImage2: ImageConstant.pic2_2.obs,
-          bedText: "What did you enjoy today?".obs,
+          bedText: "What did you do for the 1st time today?".obs,
           id: "8".obs,
           checkBoxVal: activities.containsKey(8).obs,
           answer: RxString(activities[8] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
           bedImage2: ImageConstant.pic1_1.obs,
-          bedText: "What did you do well today?".obs,
+          bedText: "what did you help today?".obs,
           id: "9".obs,
           checkBoxVal: activities.containsKey(9).obs,
           answer: RxString(activities[9] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic7.obs,
           bedImage2: ImageConstant.pic2_2.obs,
-          bedText: "What made you smile today?".obs,
+          bedText: "What did you feel today?".obs,
           id: "10".obs,
           checkBoxVal: activities.containsKey(10).obs,
           answer: RxString(activities[10] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
           bedImage2: ImageConstant.pic1_1.obs,
-          bedText: "What did you eat today?".obs,
+          bedText: "What was hard today?".obs,
           id: "11".obs,
           checkBoxVal: activities.containsKey(11).obs,
           answer: RxString(activities[11] ?? '')),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic7.obs,
           bedImage2: ImageConstant.pic2_2.obs,
-          bedText: "What made you play today?".obs,
+          bedText: "What did you do about it?".obs,
           id: "12".obs,
           checkBoxVal: activities.containsKey(12).obs,
           answer: RxString(activities[12] ?? ''))

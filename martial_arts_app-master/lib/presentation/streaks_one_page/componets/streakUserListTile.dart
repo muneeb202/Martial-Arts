@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:martial_art/core/app_export.dart';
 
-import '../../../theme/theme_helper.dart';
 
 Widget streakUserListTile(RxList<Map<String, dynamic>> topUsersByStreaks) {
   return Animate(

@@ -83,8 +83,7 @@ class PointsTabContainerPage extends StatelessWidget {
             height: 39.v,
             leadingWidth: 64.h,
             leading: AppbarLeadingImage(
-              onTap: () {
-              },
+              onTap: () {},
               color: appTheme.whiteA700,
               imagePath: ImageConstant.imgArrowDown,
               margin: EdgeInsets.only(
@@ -97,7 +96,6 @@ class PointsTabContainerPage extends StatelessWidget {
             title: AppbarTitle(
               color: appTheme.whiteA700,
               text: "lbl_leaderboard".tr,
-
             ),
           ),
           SizedBox(height: 10.v),
@@ -111,6 +109,7 @@ class PointsTabContainerPage extends StatelessWidget {
               ),
             ),
             child: TabBar(
+              dividerColor: Colors.transparent,
               controller: controller.tabviewController,
               labelPadding: EdgeInsets.zero,
               labelColor: appTheme.orangeA200,
@@ -157,7 +156,6 @@ class PointsTabContainerPage extends StatelessWidget {
                       // fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
                     ),
-
                   ),
                 ),
                 Tab(
@@ -169,7 +167,6 @@ class PointsTabContainerPage extends StatelessWidget {
                       // fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
                     ),
-
                   ),
                 ),
               ],

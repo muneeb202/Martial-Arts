@@ -1,3 +1,4 @@
-import 'package:martial_art/core/app_export.dart';
+
+import 'package:get/get_connect/connect.dart';
 
 class ApiClient extends GetConnect {}

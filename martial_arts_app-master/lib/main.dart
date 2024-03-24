@@ -17,6 +17,8 @@ void main() async {
   bool isUserLoggedIn =
       await ApiService.isUserLoggedIn(); // await the result here
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   runApp(MyApp(
       isUserLoggedIn: isUserLoggedIn)); // pass the result to MyApp constructor
 }
@@ -35,8 +37,9 @@ class MyApp extends StatelessWidget {
         translations: AppLocalization(),
         locale: Get.deviceLocale,
         fallbackLocale: Locale('en', 'US'),
-        title: 'martial_art',
+        title: 'Black Belt Tracker',
         initialBinding: InitialBindings(),
+        // home: HomeScreenPage(),
         initialRoute: isUserLoggedIn
             ? AppRoutes.homeScreenContainerScreen
             : AppRoutes.initialRoute,

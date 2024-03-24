@@ -1,7 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/home_screen_controller.dart';
-import '../models/userprofile_item_model.dart';
 import '../../../core/app_export.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +52,7 @@ class UserprofileItemWidget extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(width: 2,),
                   Container(
                     height: 52.v,
                     width: 48.h,
@@ -91,7 +91,7 @@ class UserprofileItemWidget extends StatelessWidget {
                             userprofileItemModelObj.streaksText!.value,
                             style: GoogleFonts.montserrat(
                               color: appTheme.whiteA700,
-                              fontSize: 18.fSize,
+                              fontSize: 17.fSize,
                               fontWeight: FontWeight.bold,
                             ),),
                         ),
@@ -100,7 +100,7 @@ class UserprofileItemWidget extends StatelessWidget {
                             userprofileItemModelObj.fiveHundredText!.value,
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 23.fSize,
+                              fontSize: 21.fSize,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

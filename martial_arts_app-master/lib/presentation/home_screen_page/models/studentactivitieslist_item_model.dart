@@ -16,7 +16,11 @@ class StudentactivitieslistItemModel {
 
   Rx<bool>? updating;
 
+
+
   Rx<bool>? checkVal;
+  Rx<bool>? isLoading;
+
   StudentactivitieslistItemModel(
       {this.bedImage1,
       this.bedImage2,
@@ -24,7 +28,9 @@ class StudentactivitieslistItemModel {
       this.id,
       this.color,
       this.checkVal,
-      this.updating}) {
+      this.updating,
+        this.isLoading,
+      }) {
     bedImage1 = bedImage1 ?? Rx(ImageConstant.pic1);
     bedImage2 = bedImage2 ?? Rx(ImageConstant.pic1_1);
     bedText = bedText ?? Rx("Made Bed in the morning?");
@@ -32,5 +38,6 @@ class StudentactivitieslistItemModel {
     color = color ?? Rx(theme.colorScheme.primary);
     checkVal = checkVal ?? Rx(false);
     updating = updating ?? Rx(false);
+    isLoading = isLoading ?? Rx(false);
   }
 }

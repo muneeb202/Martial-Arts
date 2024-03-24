@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="martial_art"
+        android:label="Black Belt Tracker"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -1,17 +1,14 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:martial_art/services/GoogleSignInAPI.dart';
 import 'controller/login_controller.dart';
 import 'models/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/core/app_export.dart';
 import 'package:martial_art/core/utils/validation_functions.dart';
-import 'package:martial_art/widgets/custom_checkbox_button.dart';
 import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
 import 'package:martial_art/services/ApiService.dart';
-import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key) {
@@ -21,7 +18,9 @@ class LoginPage extends StatelessWidget {
   }
 
   GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(debugLabel: 'login_form_key');
+      GlobalKey<FormState>(
+          debugLabel: 'login_form_key'
+      );
 
   LoginController controller = Get.put(LoginController(LoginModel().obs));
 
@@ -139,7 +138,8 @@ class LoginPage extends StatelessWidget {
           if (response == 200) {
             controller.userNameEditTextController.clear();
             controller.passwordEditTextController.clear();
-            Get.toNamed(AppRoutes.homeScreenContainerScreen);
+
+            Get.offAllNamed(AppRoutes.homeScreenContainerScreen);
           } else if (response == 401 || response == 403) {
             Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
@@ -147,6 +147,11 @@ class LoginPage extends StatelessWidget {
                 margin: EdgeInsets.only(top: 16.0));
           } else if (response == 402) {
             Get.snackbar('Can\'t login', 'Email not verified',
+                backgroundColor: Colors.white,
+                colorText: Colors.blueGrey.withOpacity(.8),
+                margin: EdgeInsets.only(top: 16.0));
+          }else {
+            Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));

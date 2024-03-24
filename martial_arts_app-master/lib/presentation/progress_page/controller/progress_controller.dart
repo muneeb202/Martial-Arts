@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:martial_art/core/app_export.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:martial_art/presentation/progress_page/models/progress_model.dart';
 
 /// A controller class for the ProgressPage.
