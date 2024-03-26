@@ -3,7 +3,6 @@ import 'package:martial_art/presentation/login_page/models/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/services/ApiService.dart';
 import 'package:martial_art/services/GoogleSignInAPI.dart';
-import 'dart:developer';
 
 /// A controller class for the LoginPage.
 ///
@@ -38,6 +37,12 @@ class LoginController extends GetxController {
             await ApiService.GoogleSignIn(name, user.email, photo, user.id);
         if (success) {
           Get.toNamed(AppRoutes.homeScreenContainerScreen);
+        } else {
+          Get.snackbar('Error',
+              'Email already exists! Try signing in with your username and password instead',
+              backgroundColor: Colors.white,
+              colorText: Colors.blueGrey.withOpacity(.8),
+              margin: EdgeInsets.only(top: 16.0));
         }
       }
     } catch (e) {}

@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
-import 'package:martial_art/presentation/home_screen_page/models/userprofile_item_model.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:martial_art/services/ApiService.dart';
 
 import '../models/home_screen_model.dart';
-import 'package:martial_art/core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A controller class for the HomeScreenPage.
@@ -25,7 +25,6 @@ class HomeScreenController extends GetxController {
 
   // Function to set the selected image path
   void setSelectedImage(String imagePath) {
-    dev.log(imagePath);
     profilepic = File(imagePath);
     ApiService.uploadImage(File(imagePath));
     final tempFile = File('${Directory.systemTemp.path}/profile_picture.jpg');
@@ -48,13 +47,20 @@ class HomeScreenController extends GetxController {
     });
   }
 
-  void updatePoints() {
+  void updatePoints() async {
     completed.value++;
     if (completed.value == 12) {
       streaks.value = (int.parse(streaks.value) + 1).toString();
       month_streaks.value = (int.parse(month_streaks.value) + 1).toString();
       homeScreenModelObj.value.streaks.value = streaks.value;
     }
+    homeScreenModelObj.value.points.value =
+        (int.parse(homeScreenModelObj.value.points.value) + 5).toString();
+    SharedPreferences user = await SharedPreferences.getInstance();
+    String encodedUser = user.getString('user') ?? "";
+    Map userDict = jsonDecode(encodedUser);
+    userDict['monthly'] += 5;
+    user.setString('user', jsonEncode(userDict));
     points.value = (int.parse(points.value) + 5).toString();
   }
 

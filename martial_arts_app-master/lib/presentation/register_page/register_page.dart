@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:martial_art/presentation/login_page/login_page.dart';
 
 import 'controller/register_controller.dart';
 import 'models/register_model.dart';
@@ -14,7 +12,6 @@ import 'package:martial_art/widgets/custom_outlined_button.dart';
 import 'package:martial_art/widgets/custom_text_form_field.dart';
 import 'package:martial_art/services/ApiService.dart';
 import 'package:martial_art/presentation/register_tab_container_screen/controller/register_tab_container_controller.dart';
-import '../../routes/app_routes.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -67,29 +64,29 @@ class RegisterPage extends StatelessWidget {
                           SizedBox(height: 16.v),
                           _buildPasswordEditText(),
                           SizedBox(height: 21.v),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "lbl_already_user".tr,
-                                  style: GoogleFonts.poppins(
-                                    color: Color(0XFF64748B),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 11.fSize,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "lbl_sign_in".tr,
-                                  style: GoogleFonts.montserrat(
-                                    color: Color(0XFFFF5B00),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11.fSize,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
+                          // RichText(
+                          //   text: TextSpan(
+                          //     children: [
+                          //       TextSpan(
+                          //         text: "lbl_already_user".tr,
+                          //         style: GoogleFonts.poppins(
+                          //           color: Color(0XFF64748B),
+                          //           fontWeight: FontWeight.w600,
+                          //           fontSize: 11.fSize,
+                          //         ),
+                          //       ),
+                          //       TextSpan(
+                          //         text: "lbl_sign_in".tr,
+                          //         style: GoogleFonts.montserrat(
+                          //           color: Color(0XFFFF5B00),
+                          //           fontWeight: FontWeight.w700,
+                          //           fontSize: 11.fSize,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   textAlign: TextAlign.left,
+                          // ),
                           SizedBox(height: 19.v),
                           _buildRegisterButton(),
                           SizedBox(height: 20.v),
@@ -338,6 +335,7 @@ class RegisterPage extends StatelessWidget {
   Widget _buildGoogleButton() {
     return Expanded(
       child: CustomOutlinedButton(
+        onPressed: controller.signIn,
         text: "lbl_google".tr,
         buttonTextStyle: TextStyle(
             fontWeight: FontWeight.w600,
@@ -386,7 +384,7 @@ class RegisterPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildGoogleButton(),
-        _buildAppleButton(),
+        // _buildAppleButton(),
       ],
     );
   }

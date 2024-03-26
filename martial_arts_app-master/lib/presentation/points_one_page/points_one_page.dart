@@ -6,8 +6,6 @@ import 'controller/points_one_controller.dart';
 import 'models/points_one_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/core/app_export.dart';
-import 'package:martial_art/widgets/custom_search_view.dart';
-import 'dart:developer';
 
 class PointsOnePage extends StatelessWidget {
   PointsOnePage({Key? key}) : super(key: key);
@@ -28,6 +26,7 @@ class PointsOnePage extends StatelessWidget {
           width: SizeUtils.width,
           child: SingleChildScrollView(
             child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,center
               children: [
                 SizedBox(height: 18.v),
                 Obx(() {
@@ -50,228 +49,217 @@ class PointsOnePage extends StatelessWidget {
   Widget _buildMaskColumn5() {
     return GetBuilder<PointsOneController>(builder: (controller) {
       return Align(
-        alignment: Alignment.bottomRight,
+        alignment: Alignment.bottomCenter,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: 27.h),
+          // padding: EdgeInsets.only(left: 27.h),
           child: IntrinsicWidth(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 9.h,
-                    right: 30.h,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 59.v,
-                          bottom: 2.v,
-                        ),
-                        child: _buildMaskColumn1(
-                            frameText: "lbl_2".tr,
-                            titleText: controller.topUsersByPoints.length > 1
-                                ? controller.topUsersByPoints[1]['fullname']
-                                        .split(" ")
-                                        .first ??
-                                    ""
-                                : "",
-                            spanText: controller.topUsersByPoints.length > 1
-                                ? controller.topUsersByPoints[1]['points'] ?? ""
-                                : "",
-                            imagePath: controller.topUsersByPoints.length > 1
-                                ? controller.topUsersByPoints[1]
-                                        ['profilepic'] ??
-                                    ""
-                                : ""
-                            // titleText: "lbl_mirayk".tr,
-                            // spanText: "lbl_426".tr,
-                            ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        right: 4,
+                        top: 59.v,
+                        bottom: 2.v,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 18.h),
-                        child: Animate(
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 90.adaptSize,
-                                width: 90.adaptSize,
-                                margin: EdgeInsets.only(left: 2.h),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    controller.topUsersByPoints.length > 1 &&
-                                            controller.topUsersByPoints[0]
-                                                    ['profilepic'] !=
-                                                null
-                                        ? CustomImageView(
-                                            imagePath: controller
-                                                        .topUsersByPoints
-                                                        .length >
-                                                    1
-                                                ? controller.topUsersByPoints[0]
-                                                        ['profilepic'] ??
-                                                    ""
-                                                : "",
-                                            height: 70.adaptSize,
-                                            width: 70.adaptSize,
-                                            radius: BorderRadius.circular(
-                                              35.h,
-                                            ),
-                                            alignment: Alignment.center,
-                                          )
-                                        : Icon(
-                                            Icons.person_outline,
-                                            color: theme.colorScheme.primary,
-                                            size: 52.adaptSize,
-                                          ),
-                                    CustomImageView(
-                                      imagePath: ImageConstant.imgVectorPrimary,
-                                      height: 90.adaptSize,
-                                      width: 90.adaptSize,
-                                      alignment: Alignment.center,
+                      child: _buildMaskColumn1(
+                          frameText: "lbl_2".tr,
+                          titleText: controller.topUsersByPoints.length > 1
+                              ? controller.topUsersByPoints[1]['fullname']
+                                      .split(" ")
+                                      .first ??
+                                  ""
+                              : "",
+                          spanText: controller.topUsersByPoints.length > 1
+                              ? controller.topUsersByPoints[1]['points'] ?? ""
+                              : "",
+                          imagePath: controller.topUsersByPoints.length > 1
+                              ? controller.topUsersByPoints[1]
+                                      ['profilepic'] ??
+                                  ""
+                              : ""
+                          // titleText: "lbl_mirayk".tr,
+                          // spanText: "lbl_426".tr,
+                          ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 22.h),
+                      child: Animate(
+                        child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 90.adaptSize,
+                              width: 90.adaptSize,
+                              margin: EdgeInsets.only(left: 2.h),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomImageView(
+                                    imagePath:
+                                        controller.topUsersByPoints.length > 0
+                                            ? controller.topUsersByPoints[0]
+                                                    ['profilepic'] ??
+                                                ""
+                                            : "",
+                                    height: 70.adaptSize,
+                                    width: 70.adaptSize,
+                                    radius: BorderRadius.circular(
+                                      35.h,
                                     ),
-                                  ],
-                                ),
+                                    alignment: Alignment.center,
+                                  ),
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgVectorPrimary,
+                                    height: 90.adaptSize,
+                                    width: 90.adaptSize,
+                                    alignment: Alignment.center,
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4.v),
-                              SizedBox(
-                                height: 164.v,
-                                width: 97.h,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 21.h,
-                                        top: 24.v,
-                                        right: 21.h,
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 15.h),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 7.h,
-                                              vertical: 1.v,
-                                            ),
-                                            decoration: AppDecoration
-                                                .outlinePrimary2
-                                                .copyWith(
-                                              borderRadius: BorderRadiusStyle
-                                                  .circleBorder10,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "lbl_1".tr,
-                                                style: TextStyle(
-                                                  color:
-                                                      theme.colorScheme.primary,
-                                                  fontSize: 16.fSize,
-                                                  fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w600,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
+                            ),
+                            SizedBox(height: 4.v),
+                            SizedBox(
+                              height: 164.v,
+                              width: 97.h,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 21.h,
+                                      top: 24.v,
+                                      right: 21.h,
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 15.h),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 7.h,
+                                            vertical: 1.v,
+                                          ),
+                                          decoration: AppDecoration
+                                              .outlinePrimary2
+                                              .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .circleBorder10,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "lbl_1".tr,
+                                              style: TextStyle(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                fontSize: 16.fSize,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w600,
+                                                overflow:
+                                                    TextOverflow.ellipsis,
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 14.v),
-                                          Text(
-                                            "lbl_amelia".tr,
-                                            style: TextStyle(
-                                              color: appTheme.gray900,
-                                              fontSize: 15.fSize,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w700,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                        ),
+                                        SizedBox(height: 14.v),
+                                        Text(
+                                          "lbl_amelia".tr,
+                                          style: TextStyle(
+                                            color: appTheme.gray900,
+                                            fontSize: 15.fSize,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                            "lbl_720".tr,
-                                            style: TextStyle(
-                                              color: appTheme.whiteA700,
-                                              fontSize: 20.fSize,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w700,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                        ),
+                                        Text(
+                                          "lbl_720".tr,
+                                          style: TextStyle(
+                                            color: appTheme.whiteA700,
+                                            fontSize: 20.fSize,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    _buildMaskColumn(
-                                      dynamicText1: "lbl_1".tr,
-                                      dynamicText2:
-                                          controller.topUsersByPoints.length > 0
-                                              ? controller.topUsersByPoints[0]
-                                                          ['fullname']
-                                                      .split(" ")
-                                                      .first ??
-                                                  ""
-                                              : "",
-                                      dynamicText3:
-                                          controller.topUsersByPoints.length > 0
-                                              ? controller.topUsersByPoints[0]
-                                                      ['points'] ??
-                                                  ""
-                                              : "",
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  _buildMaskColumn(
+                                    dynamicText1: "lbl_1".tr,
+                                    dynamicText2:
+                                        controller.topUsersByPoints.length > 0
+                                            ? controller.topUsersByPoints[0]
+                                                        ['fullname']
+                                                    .split(" ")
+                                                    .first ??
+                                                ""
+                                            : "",
+                                    dynamicText3:
+                                        controller.topUsersByPoints.length > 0
+                                            ? controller.topUsersByPoints[0]
+                                                    ['points'] ??
+                                                ""
+                                            : "",
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ).flipH(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 18.h,
-                          top: 49.v,
-                          bottom: 2.v,
+                            ),
+                          ],
                         ),
-                        child: _buildMaskColumn2(
-                            frameText: "lbl_3".tr,
-                            titleText: controller.topUsersByPoints.length > 2
-                                ? controller.topUsersByPoints[2]['fullname']
-                                        .split(" ")
-                                        .first ??
-                                    ""
-                                : "",
-                            spanText: controller.topUsersByPoints.length > 2
-                                ? controller.topUsersByPoints[2]['points'] ?? ""
-                                : "",
-                            imagePath: controller.topUsersByPoints.length > 1
-                                ? controller.topUsersByPoints[2]
-                                        ['profilepic'] ??
-                                    ""
-                                : ""),
+                      ).flipH(),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 22.h,
+                        top: 49.v,
+                        bottom: 2.v,
                       ),
-                    ],
-                  ),
+                      child: _buildMaskColumn2(
+                          frameText: "lbl_3".tr,
+                          titleText: controller.topUsersByPoints.length > 2
+                              ? controller.topUsersByPoints[2]['fullname']
+                                      .split(" ")
+                                      .first ??
+                                  ""
+                              : "",
+                          spanText: controller.topUsersByPoints.length > 2
+                              ? controller.topUsersByPoints[2]['points'] ?? ""
+                              : "",
+                          imagePath: controller.topUsersByPoints.length > 2
+                              ? controller.topUsersByPoints[2]
+                                      ['profilepic'] ??
+                                  ""
+                              : ""),
+                    ),
+                  ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 35.h, top: 30),
+                  padding: EdgeInsets.only(right: 6.h,left: 4.h, top: 15),
                   child: Card(
                     elevation: 1,
                     color: appTheme.whiteA700,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Container(
                       height: 50,
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
                       child: TextFormField(
                         controller: controller.searchController,
                         onChanged: (value) {

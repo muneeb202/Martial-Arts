@@ -16,6 +16,7 @@ class StudentactivitieslistItemModel {
 
   Rx<Color>? color;
   Rx<bool>? checkBoxVal;
+  Rx<bool>? updating;
   StudentactivitieslistItemModel(
       {this.bedImage1,
       this.bedImage2,
@@ -23,6 +24,7 @@ class StudentactivitieslistItemModel {
       this.id,
       this.color,
       this.checkBoxVal,
+      this.updating,
       this.answer}) {
     bedImage1 = bedImage1 ?? Rx(ImageConstant.imgClose);
     bedImage2 = bedImage2 ?? Rx(ImageConstant.imgBedClock);
@@ -30,6 +32,7 @@ class StudentactivitieslistItemModel {
     id = id ?? Rx("");
     color = color ?? Rx(theme.colorScheme.primary);
     checkBoxVal = checkBoxVal ?? Rx(false);
+    updating = updating ?? Rx(false);
     answer = answer ?? Rx('');
   }
 }

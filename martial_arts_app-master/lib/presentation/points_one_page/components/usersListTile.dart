@@ -1,17 +1,14 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:martial_art/core/app_export.dart';
-import '../../../theme/theme_helper.dart';
-import '../controller/points_one_controller.dart';
 
 Widget userListTile(RxList<Map<String, dynamic>> topUsersByPoints) {
   return Animate(
     child: Padding(
-      padding: const EdgeInsets.only(right: 35),
+      padding: const EdgeInsets.only(right: 0),
       child: Container(
         // height: 433.v,
         width: 346.h,

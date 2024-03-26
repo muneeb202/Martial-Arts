@@ -1,8 +1,8 @@
-import 'package:martial_art/core/app_export.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:martial_art/presentation/streaks_one_page/models/streaks_one_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/services/ApiService.dart';
-import 'dart:developer';
 
 /// A controller class for the StreaksOnePage.
 ///
@@ -35,9 +35,7 @@ class StreaksOneController extends GetxController {
       final response = await ApiService.fetchTopUsersByStreaks();
       topUsersByStreaks.assignAll(response);
       filteredUsers.assignAll(topUsersByStreaks);
-    } catch (e) {
-      log('Error fetching top users by points: $e');
-    }
+    } catch (e) {}
   }
 
   void filterUsers() {

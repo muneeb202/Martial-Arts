@@ -1,8 +1,8 @@
-import 'package:martial_art/core/app_export.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:martial_art/presentation/points_one_page/models/points_one_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/services/ApiService.dart';
-import 'dart:developer';
 
 /// A controller class for the PointsOnePage.
 ///
@@ -32,14 +32,11 @@ class PointsOneController extends GetxController {
 
   void fetchTopUsersByPoints() async {
     try {
-      log('trying');
       final response = await ApiService.fetchTopUsersByPoints();
       topUsersByPoints.assignAll(response);
       filteredUsers.assignAll(topUsersByPoints);
       update();
-    } catch (e) {
-      log('Error fetching top users by points: $e');
-    }
+    } catch (e) {}
   }
 
   void filterUsers() {

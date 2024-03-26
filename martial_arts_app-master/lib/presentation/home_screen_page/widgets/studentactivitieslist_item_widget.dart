@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:martial_art/presentation/home_screen_page/controller/home_screen_controller.dart';
 import 'package:martial_art/presentation/progress_page/controller/progress_controller.dart';
 import 'package:martial_art/services/ApiService.dart';
 import '../../../core/app_export.dart';
 import '../models/studentactivitieslist_item_model.dart';
-import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
 
 class StudentactivitieslistItemWidget extends StatelessWidget {
   StudentactivitieslistItemWidget(
@@ -20,18 +20,27 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
       Get.find<HomeScreenController>();
 
   Future<void> check_activity() async {
+
+
     if (studentactivitieslistItemModelObj.checkVal!.value) return;
 
+    if (studentactivitieslistItemModelObj.updating!.isTrue) return;
+    studentactivitieslistItemModelObj.isLoading!.value = true;
+    studentactivitieslistItemModelObj.updating!.value = true;
+
     if (await ApiService.check_activity(
-        studentactivitieslistItemModelObj.id!.value, '')) {
+        studentactivitieslistItemModelObj.id!.value, '',false)) {
       studentactivitieslistItemModelObj.checkVal!.value = true;
       homeScreenController.updatePoints();
     }
+    studentactivitieslistItemModelObj.updating!.value = false;
+    studentactivitieslistItemModelObj.isLoading!.value = true;
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Obx(() =>  Card(
       color: appTheme.whiteA700,
       elevation: 3.0,
       shadowColor: Colors.grey,
@@ -40,7 +49,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.only(right: 4),
-        child: Container(
+        child: studentactivitieslistItemModelObj.isLoading!.value==false ? Container(
           decoration: BoxDecoration(
             color: appTheme.whiteA700,
             borderRadius: BorderRadius.circular(15),
@@ -56,7 +65,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: CustomImageView(
                     imagePath:
-                        studentactivitieslistItemModelObj.bedImage1!.value,
+                    studentactivitieslistItemModelObj.bedImage1!.value,
                     height: 40.v,
                     width: 40.h,
                     alignment: Alignment.centerLeft,
@@ -96,12 +105,11 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
               //     ),
               //   ),
               // ),
+
+
+
               _reusableCheckBox(
-                  studentactivitieslistItemModelObj.checkVal!, check_activity
-                  //   () {
-                  // studentactivitieslistItemModelObj.checkVal!.value =
-                  //     !studentactivitieslistItemModelObj.checkVal!.value;
-                  ),
+                  studentactivitieslistItemModelObj.checkVal!, check_activity),
               // Obx(
               //       () => CustomImageView(
               //     imagePath:
@@ -117,9 +125,9 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
               // )
             ],
           ),
-        ),
+        ) :  Lottie.asset('assets/lottie/loading.json',height: 50,width: 150),
       ),
-    );
+    ));
   }
 
   Widget _reusableCheckBox(Rx<bool> val, VoidCallback changeFunc) {
@@ -139,18 +147,14 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                     color: Colors.deepOrangeAccent.withOpacity(0.5), width: 1),
               ),
               child: val.value == true
-                  ? Padding(
-                      padding: EdgeInsets.all(2),
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrangeAccent,
-                          borderRadius: BorderRadius.circular(5),
-                          // border : Border.all(color: Colors.grey.withOpacity(0.5),width: 1),
-                        ),
+                  ? Center(
+                    child: Container(
+                      child: Icon(Icons.done,
+                      color: Colors.deepOrange,
+                        size: 30,
                       ),
-                    )
+                    ),
+                  )
                   : Container(),
             ),
           ),

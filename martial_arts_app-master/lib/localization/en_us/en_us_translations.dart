@@ -33,7 +33,7 @@ final Map<String, String> enUs = {
   "lbl_see_all": "See All",
   "lbl_month_title": "1 month streak ",
   "msg_for_month":
-      "Congratulations! You were diligent and tracked your habits every day for a whole month! Be proud of yourself :)",
+      "you will be qualified for the monthly certificate for having more than 27 days of streak and higher chances will be for the person who maintain whole month steak and best candidate will be awarded the certificates",
 
   // Activity answer Screen
   "lbl_name": "Name", "lbl_submit": "SUBMIT",

@@ -16,34 +16,40 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
       : super(key: key);
   final StudentactivitieslistItemModel studentactivitieslistItemModelObj;
   final HomeScreenContainerController controller =
-      Get.find<HomeScreenContainerController>();
+  Get.find<HomeScreenContainerController>();
   final WinTrackerController winTrackerController =
-      Get.find<WinTrackerController>();
+  Get.find<WinTrackerController>();
   final HomeScreenController homeScreenController =
-      Get.find<HomeScreenController>();
+  Get.find<HomeScreenController>();
 
   void updateBedText(String newText) {
     studentactivitieslistItemModelObj.answer!.value = newText;
   }
 
   Future<void> addAnswer() async {
+    log(studentactivitieslistItemModelObj.updating!.value.toString());
+    if (studentactivitieslistItemModelObj.updating!.isTrue) return;
+    studentactivitieslistItemModelObj.updating!.value = true;
     // Validate the form
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // Save the form data
 
       // Extract the answer from the TextFormField
       String answer = studentactivitieslistItemModelObj.answer!.value;
-      log(answer);
 
       // Call your API service to add the answer
       if (await ApiService.check_activity(
-          studentactivitieslistItemModelObj.id!.value, answer)) {
-        studentactivitieslistItemModelObj.checkBoxVal!.value = true;
+          studentactivitieslistItemModelObj.id!.value,
+          answer,
+          studentactivitieslistItemModelObj.checkBoxVal!.value)) {
         winTrackerController.updateModel();
-        homeScreenController.updatePoints();
+        if (!studentactivitieslistItemModelObj.checkBoxVal!.value) {
+          homeScreenController.updatePoints();
+        }
+        studentactivitieslistItemModelObj.checkBoxVal!.value = true;
         Get.toNamed(AppRoutes.successScreen);
       }
-
+      studentactivitieslistItemModelObj.updating!.value = false;
       // Navigate to the success screen
     }
   }
@@ -71,10 +77,10 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
             side: BorderSide.none,
           ),
           trailing: Obx(
-            () => _reusableCheckBox(
+                () => _reusableCheckBox(
                 studentactivitieslistItemModelObj.checkBoxVal!, () {
               studentactivitieslistItemModelObj.checkBoxVal!.value =
-                  !studentactivitieslistItemModelObj.checkBoxVal!.value;
+              !studentactivitieslistItemModelObj.checkBoxVal!.value;
             }),
           ),
           tilePadding: EdgeInsets.zero,
@@ -101,7 +107,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     children: [
                       Obx(
-                        () => CustomImageView(
+                            () => CustomImageView(
                           imagePath: studentactivitieslistItemModelObj
                               .bedImage1!.value,
                           height: 40.v,
@@ -116,7 +122,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 8, top: 2, bottom: 5),
                     child: Obx(
-                      () => Text(
+                          () => Text(
                         studentactivitieslistItemModelObj.bedText!.value,
                         textAlign: TextAlign.left,
                         maxLines: null,
@@ -141,7 +147,7 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
                   TextFormField(
                     maxLines: null,
                     initialValue:
-                        studentactivitieslistItemModelObj.answer!.value,
+                    studentactivitieslistItemModelObj.answer!.value,
                     onChanged: updateBedText,
                     decoration: InputDecoration(
                       hintText: 'Answer here',
@@ -214,34 +220,30 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
     print("------------------");
     print(val);
     return Obx(() => Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: InkWell(
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                    color: Colors.deepOrangeAccent.withOpacity(0.5), width: 1),
-              ),
-              child: val.value == true
-                  ? Padding(
-                      padding: EdgeInsets.all(2),
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrangeAccent,
-                          borderRadius: BorderRadius.circular(5),
-                          // border : Border.all(color: Colors.grey.withOpacity(0.5),width: 1),
-                        ),
-                      ),
-                    )
-                  : Container(),
-            ),
+      padding: const EdgeInsets.only(right: 15),
+      child: InkWell(
+        child: Container(
+          height: 30,
+          width: 30,
+          decoration: BoxDecoration(
+            color: Colors.orange.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                color: Colors.deepOrangeAccent.withOpacity(0.5), width: 1),
           ),
-        ));
+          child: val.value == true
+              ? Center(
+            child: Container(
+              child: Icon(Icons.done,
+                color: Colors.deepOrange,
+                size: 30,
+              ),
+            ),
+          )
+              : Container(),
+        ),
+      ),
+    ));
 
     // return Checkbox(
     //   activeColor: Colors.green,

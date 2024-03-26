@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -42,6 +43,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
   }
 });
 
@@ -59,7 +62,7 @@ const generateToken = (userId) => {
 
 const constructVerificationLink = (userId) => {
   const token = generateToken(userId);
-  const link = `verify?token=${token}`;
+  const link = `${process.env.SERVER}verify?token=${token}`;
   return link;
 };
 
@@ -315,14 +318,14 @@ app.post('/google-signup', (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       console.error('Error generating salt: ' + err);
-      return res.status(500).json({ error: 'Error signing up' });
+      return res.status(500).json({ error: 'Error signing up ' + err });
     }
 
     // Hash the password using the salt
     bcrypt.hash(password, salt, (err, hashedPassword) => {
       if (err) {
         console.error('Error hashing password: ' + err);
-        return res.status(500).json({ error: 'Error signing up' });
+        return res.status(500).json({ error: 'Error signing up ' + err });
       }
 
       // Check if the user already exists
@@ -330,7 +333,7 @@ app.post('/google-signup', (req, res) => {
       db.query(checkUserQuery, [username], (err, existingUser) => {
         if (err) {
           console.error('Error checking user: ' + err);
-          return res.status(500).json({ error: 'Error signing up' });
+          return res.status(500).json({ error: 'Error signing up ' + err });
         }
 
         if (existingUser.length > 0) {
@@ -343,7 +346,7 @@ app.post('/google-signup', (req, res) => {
         db.query(insertUserQuery, [fullname, username, hashedPassword, salt, email, true, signupTime], (err, result) => {
           if (err) {
             console.error('Error inserting user: ' + err);
-            return res.status(500).json({ error: 'Error signing up' });
+            return res.status(500).json({ error: 'Error signing up ' + err });
           }
 
           // Retrieve the newly created user
@@ -351,7 +354,7 @@ app.post('/google-signup', (req, res) => {
           db.query(getUserQuery, [username], (err, newUser) => {
             if (err) {
               console.error('Error retrieving user: ' + err);
-              return res.status(500).json({ error: 'Error signing up' });
+              return res.status(500).json({ error: 'Error signing up ' + err});
             }
             
             res.status(201).json(newUser[0]);
@@ -371,7 +374,7 @@ app.post('/google-signup', (req, res) => {
     db.query(sql, [username], (err, result) => {
       if (err) {
         console.error('Error logging in: ' + err);
-        res.status(500).json({ error: 'Error logging in' });
+        res.status(500).json({ error: 'Error logging in ' + err });
         return;
       }
 
@@ -385,7 +388,7 @@ app.post('/google-signup', (req, res) => {
         bcrypt.hash(password, result[0].salt, (err, hashedPassword) => {
           if (err) {
             console.error('Error hashing password: ' + err);
-            res.status(500).json({ error: 'Error logging in' });
+            res.status(500).json({ error: 'Error logging in ' + err });
             return;
           }
           if (hashedPassword === result[0].password && result[0].verified == 1) {
@@ -410,7 +413,7 @@ app.post('/google-signup', (req, res) => {
     db.query(sql, [user_id, activity, currentDate, answer], (err, result) => {
         if (err) {
             console.error('Error adding activity: ' + err);
-            res.status(500).json({ error: 'Error adding activity' });
+            res.status(500).json({ error: 'Error adding activity ' + err });
             return;
         }
 
@@ -418,7 +421,7 @@ app.post('/google-signup', (req, res) => {
         db.query(updatePointsSql, [user_id], (updateErr, updateResult) => {
             if (updateErr) {
                 console.error('Error updating points: ' + updateErr);
-                res.status(500).json({ error: 'Error updating points' });
+                res.status(500).json({ error: 'Error updating points ' + updateErr });
                 return;
             }
         });
@@ -428,7 +431,7 @@ app.post('/google-signup', (req, res) => {
             db.query(getAllActivitiesSql, [user_id, currentDate], (getErr, activities) => {
                 if (getErr) {
                     console.error('Error fetching activities: ' + getErr);
-                    res.status(500).json({ error: 'Error fetching activities' });
+                    res.status(500).json({ error: 'Error fetching activities ' + getErr });
                     return;
                 }
 
@@ -439,7 +442,7 @@ app.post('/google-signup', (req, res) => {
                 db.query(updateStreaksSql, [user_id], (updateErr, updateResult) => {
                     if (updateErr) {
                         console.error('Error updating streaks: ' + updateErr);
-                        res.status(500).json({ error: 'Error updating streaks' });
+                        res.status(500).json({ error: 'Error updating streaks ' + updateErr });
                         return;
                     }
                 });
@@ -458,7 +461,7 @@ app.post('/google-signup', (req, res) => {
       db.query(getAllActivitiesSql, [user_id, currentDate], (err, result) => {
         if (err) {
           console.error('Error fetching activities: ' + err);
-          res.status(500).json({ error: 'Error fetching activities' });
+          res.status(500).json({ error: 'Error fetching activities ' + err });
           return;
         }
         res.status(200).json(result);
@@ -472,34 +475,20 @@ app.post('/google-signup', (req, res) => {
       db.query(getAllActivitiesSql, [user_id], (err, result) => {
         if (err) {
           console.error('Error fetching activities: ' + err);
-          res.status(500).json({ error: 'Error fetching activities' });
+          res.status(500).json({ error: 'Error fetching activities ' + err });
           return;
         }
         res.status(200).json(result);
       });
     });
 
-    
-  // Get top 10 users by highest streak route
-  app.get('/users/top-10', (req, res) => {
-    const sql = 'SELECT * FROM users ORDER BY streaks DESC LIMIT 10';
-    db.query(sql, (err, result) => {
-      if (err) {
-        console.error('Error fetching top users: ' + err);
-        res.status(500).json({ error: 'Error fetching top users' });
-        return;
-      }
-      res.status(200).json({ top_users: result });
-    });
-  });
-
   app.get('/users/top-10-streaks', (req, res) => {
-    const sqlTopStreaks = 'SELECT * FROM users ORDER BY streaks DESC';
+    const sqlTopStreaks = 'SELECT * FROM users WHERE verified=1 ORDER BY streaks DESC';
   
     db.query(sqlTopStreaks, (streaksErr, streaksResult) => {
       if (streaksErr) {
         console.error('Error fetching top users by streaks: ' + streaksErr);
-        res.status(500).json({ error: 'Error fetching leaderboard data' });
+        res.status(500).json({ error: 'Error fetching leaderboard data ' + streaksErr });
         return;
       }  
         res.status(200).json(streaksResult);
@@ -507,12 +496,12 @@ app.post('/google-signup', (req, res) => {
   });
   
   app.get('/users/top-10-points', (req, res) => {
-    const sqlTopPoints = 'SELECT * FROM users ORDER BY points DESC';
+    const sqlTopPoints = 'SELECT * FROM users WHERE verified=1 ORDER BY points DESC';
   
     db.query(sqlTopPoints, (pointsErr, pointsResult) => {
       if (pointsErr) {
         console.error('Error fetching top users by points: ' + pointsErr);
-        res.status(500).json({ error: 'Error fetching leaderboard data' });
+        res.status(500).json({ error: 'Error fetching leaderboard data ' + pointsErr });
         return;
       }
 
@@ -528,7 +517,7 @@ app.post('/google-signup', (req, res) => {
     db.query(sqlStreaks, (streaksErr, streaksResult) => {
       if (streaksErr) {
         console.error('Error fetching streaks by id: ' + streaksErr);
-        res.status(500).json({ error: 'Error fetching user streaks' });
+        res.status(500).json({ error: 'Error fetching user streaks ' + streaksErr });
         return;
       }
 

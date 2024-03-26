@@ -1,15 +1,10 @@
 import 'controller/activity_answer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/core/app_export.dart';
-import 'package:martial_art/presentation/home_screen_page/home_screen_page.dart';
-import 'package:martial_art/presentation/points_tab_container_page/points_tab_container_page.dart';
-import 'package:martial_art/presentation/progress_page/progress_page.dart';
-import 'package:martial_art/presentation/win_tracker_page/win_tracker_page.dart';
 import 'package:martial_art/widgets/app_bar/appbar_leading_circleimage.dart';
 import 'package:martial_art/widgets/app_bar/appbar_title.dart';
 import 'package:martial_art/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:martial_art/widgets/app_bar/custom_app_bar.dart';
-import 'package:martial_art/widgets/custom_bottom_bar.dart';
 import 'package:martial_art/widgets/custom_elevated_button.dart';
 
 // ignore_for_file: must_be_immutable

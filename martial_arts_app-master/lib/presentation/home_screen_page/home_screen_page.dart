@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +9,7 @@ import 'models/studentactivitieslist_item_model.dart';
 import 'models/userprofile_item_model.dart';
 import 'models/userprofilelist_item_model.dart';
 import '/core/app_export.dart';
+import 'package:intl/intl.dart';
 import '/widgets/app_bar/appbar_subtitle.dart';
 import '/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +69,7 @@ class HomeScreenPage extends StatelessWidget {
     return GetBuilder<HomeScreenController>(builder: (controller) {
       return Padding(
         // padding: EdgeInsets.fromLTRB(24.h, 20.v, 20.h, 12.v),
-        padding: EdgeInsets.symmetric(horizontal: 25),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -85,7 +83,7 @@ class HomeScreenPage extends StatelessWidget {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height / 6.2,
-                    width: MediaQuery.of(context).size.width / 3,
+                    width: (MediaQuery.of(context).size.width / 3) + 10,
                     // width: double.infinity,
                     decoration: BoxDecoration(
                       // boxShadow: [
@@ -114,6 +112,9 @@ class HomeScreenPage extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
+                                  SizedBox(
+                                    width: 2,
+                                  ),
                                   SvgPicture.asset(
                                     ImageConstant.imgGroup8,
                                     height: 40,
@@ -146,7 +147,7 @@ class HomeScreenPage extends StatelessWidget {
                                         child: Text(
                                           controller.streaks.value,
                                           style: TextStyle(
-                                              fontSize: 18.fSize,
+                                              fontSize: 21.fSize,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'Montserrat'),
@@ -170,7 +171,7 @@ class HomeScreenPage extends StatelessWidget {
                   // Spacer(),
                   Container(
                     height: MediaQuery.of(context).size.height / 6.2,
-                    width: MediaQuery.of(context).size.width / 3,
+                    width: (MediaQuery.of(context).size.width / 3) + 10,
                     // width: double.infinity,
                     decoration: BoxDecoration(
                       color: appTheme.deepPurple500,
@@ -188,6 +189,9 @@ class HomeScreenPage extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
+                                  SizedBox(
+                                    width: 2,
+                                  ),
                                   SvgPicture.asset(
                                     ImageConstant.imgFrame,
                                     height: 40,
@@ -215,7 +219,7 @@ class HomeScreenPage extends StatelessWidget {
                                       Text(
                                         controller.points.value,
                                         style: TextStyle(
-                                            fontSize: 18.fSize,
+                                            fontSize: 21.fSize,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Montserrat'),
@@ -248,7 +252,7 @@ class HomeScreenPage extends StatelessWidget {
       BuildContext context, HomeScreenController controller) {
     // final mq = mq;
     return Container(
-      width: MediaQuery.of(context).size.width / 2,
+      width: (MediaQuery.of(context).size.width / 2) + 5,
       height: MediaQuery.of(context).size.height / 3,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -310,7 +314,7 @@ class HomeScreenPage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Montserrat',
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
@@ -324,7 +328,7 @@ class HomeScreenPage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Montserrat',
-                          fontSize: 16,
+                          fontSize: 14,
                           letterSpacing: 1,
                           color: Colors.white,
                         ),
@@ -361,29 +365,29 @@ class HomeScreenPage extends StatelessWidget {
     return CustomAppBar(
       // leadingWidth: 49.h,
       height: 60.0,
-      leading: Container(
-        height: 28.v,
-        width: 29.h,
-        margin: EdgeInsets.only(
-          left: 20.h,
-          top: 6.v,
-          bottom: 6.v,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            CustomImageView(
-              imagePath: ImageConstant.imgImage14,
-              height: 28.v,
-              width: 29.h,
-              radius: BorderRadius.circular(
-                14.h,
-              ),
-              alignment: Alignment.center,
-            ),
-          ],
-        ),
-      ),
+      // leading: Container(
+      //   height: 28.v,
+      //   width: 29.h,
+      //   margin: EdgeInsets.only(
+      //     left: 20.h,
+      //     top: 6.v,
+      //     bottom: 6.v,
+      //   ),
+      //   child: Stack(
+      //     alignment: Alignment.center,
+      //     children: [
+      //       CustomImageView(
+      //         imagePath: ImageConstant.imgImage14,
+      //         height: 28.v,
+      //         width: 29.h,
+      //         radius: BorderRadius.circular(
+      //           14.h,
+      //         ),
+      //         alignment: Alignment.center,
+      //       ),
+      //     ],
+      //   ),
+      // ),
       title: AppbarSubtitle(
         text: "msg_black_belt_tracker".tr,
         margin: EdgeInsets.only(left: 8.h),
@@ -393,7 +397,7 @@ class HomeScreenPage extends StatelessWidget {
           onPressed: () {
             print("Exit button pressed");
             ApiService.logoutUser();
-            Get.toNamed(
+            Get.offAllNamed(
               AppRoutes.initialRoute,
             );
           },
@@ -492,10 +496,7 @@ class HomeScreenPage extends StatelessWidget {
                   );
 
                   if (pickedImage != null) {
-                    log('Image selected: ${pickedImage.path}');
                     controller.setSelectedImage(pickedImage.path);
-                  } else {
-                    log('Image picker was closed or canceled');
                   }
                 },
                 child: Container(
@@ -760,7 +761,7 @@ class HomeScreenPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 14.h),
               child: Text(
-                "msg_this_month_june".tr,
+                "This Month - " + DateFormat.MMMM().format(DateTime.now()),
                 style: GoogleFonts.montserrat(
                   color: appTheme.blueGray700,
                   fontSize: 21.fSize,

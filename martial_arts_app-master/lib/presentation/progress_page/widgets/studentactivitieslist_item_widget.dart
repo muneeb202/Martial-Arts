@@ -4,7 +4,6 @@ import 'package:martial_art/presentation/progress_page/controller/progress_contr
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../core/app_export.dart';
 import '../models/studentactivitieslist_item_model.dart';
-import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
 
 class StudentactivitieslistItemWidget extends StatelessWidget {
   StudentactivitieslistItemWidget(

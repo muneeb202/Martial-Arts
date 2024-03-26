@@ -1,4 +1,6 @@
-import '/core/app_export.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
 import '/presentation/badges_detail_screen/models/badges_detail_model.dart';
 
 /// A controller class for the RewardDesignoneScreen.

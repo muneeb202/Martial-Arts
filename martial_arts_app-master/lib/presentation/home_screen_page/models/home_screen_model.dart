@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:developer' as dev;
 
 import 'package:martial_art/services/ApiService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +35,7 @@ class HomeScreenModel {
     int currentDayOfMonth = now.day;
     int minstreak = min<int>(currentDayOfMonth, userDict['streaks']);
     streaks.value = max(minstreak, int.parse(streaks.value)).toString();
-    int today = completed.length == 12 ? 0 : completed.length * 5;
-    points.value = (minstreak * 60 + today).toString();
+    points.value = userDict['monthly'].toString();
 
     userprofileItemList.value = [
       UserprofileItemModel(

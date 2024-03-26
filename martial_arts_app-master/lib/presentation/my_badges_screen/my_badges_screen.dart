@@ -7,7 +7,6 @@ import '/widgets/app_bar/appbar_leading_image.dart';
 import '/widgets/app_bar/appbar_title.dart';
 import '/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 // ignore_for_file: must_be_immutable
 class MyBadgesScreen extends GetWidget<MyBadgesController> {
@@ -61,13 +60,52 @@ class MyBadgesScreen extends GetWidget<MyBadgesController> {
           body: SingleChildScrollView(
             child: Obx(() {
               if (controller.streaks == -1) {
-                return CircularProgressIndicator(); // Show loading indicator
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.height/2)-150,
+                      ),
+                      CircularProgressIndicator(
+                        strokeWidth: 5,
+
+                      ),
+                    ],
+                  ),
+                ); // Show loading indicator
               } else {
                 return Column(
                   children: [
                     SizedBox(
                       height: 20,
                     ),
+                    Visibility(
+                      visible: controller.streaks.value >-1 &&  controller.streaks.value <3,
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         SizedBox(
+                           height: (MediaQuery.of(context).size.height/2)-200,
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.all(20.0),
+                           child: Text(
+                             "Every journey begins with a single step. Start yours today and watch your achievements grow!",
+                             textAlign: TextAlign.center,
+                             style: TextStyle(
+                               fontSize: 20.0,
+                               fontStyle: FontStyle.italic,
+                               fontWeight: FontWeight.w500,
+                               color: Colors.deepOrange.withOpacity(0.5),
+                             ),
+                           ),
+                         ),
+                       ],
+                     ),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

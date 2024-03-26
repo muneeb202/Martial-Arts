@@ -1,3 +1,4 @@
+
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,20 +23,6 @@ class _RegisterTabContainerScreenState
     extends State<RegisterTabContainerScreen> {
   final controller =
       Get.put<RegisterTabContainerController>(RegisterTabContainerController());
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    if (arguments != null && arguments.containsKey("initialTabIndex")) {
-      final initialTabIndex = arguments["initialTabIndex"] as int;
-      Future.delayed(Duration.zero, () {
-        controller.tabviewController.index = initialTabIndex; // Set initial tab
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

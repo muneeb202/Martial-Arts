@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:martial_art/services/ApiService.dart';
 
