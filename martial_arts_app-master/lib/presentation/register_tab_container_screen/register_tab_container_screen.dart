@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,7 +25,7 @@ class _RegisterTabContainerScreenState
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return SafeArea(
       child: Scaffold(
         //backgroundColor: appTheme.whiteA700,

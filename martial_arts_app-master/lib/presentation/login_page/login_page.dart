@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'controller/login_controller.dart';
 import 'models/login_model.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +19,16 @@ class LoginPage extends StatelessWidget {
   }
 
   GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(
-          debugLabel: 'login_form_key'
-      );
+      GlobalKey<FormState>(debugLabel: 'login_form_key');
 
   LoginController controller = Get.put(LoginController(LoginModel().obs));
+  //new line
+  RxBool loading = false.obs;
+  //end of new line
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -131,32 +133,43 @@ class LoginPage extends StatelessWidget {
         width: 13.0,
       ),
       onPressed: () async {
+        //new line
+        loading.value = true;
         if (_formKey.currentState!.validate()) {
-          int response = await ApiService.loginUser(
+          int? response = await ApiService.loginUser(
               controller.userNameEditTextController.text.trim(),
               controller.passwordEditTextController.text);
           if (response == 200) {
             controller.userNameEditTextController.clear();
             controller.passwordEditTextController.clear();
+            loading.value = false;
 
             Get.offAllNamed(AppRoutes.homeScreenContainerScreen);
           } else if (response == 401 || response == 403) {
+            loading.value = false;
             Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           } else if (response == 402) {
+            loading.value = false;
             Get.snackbar('Can\'t login', 'Email not verified',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
-          }else {
+          } else if (controller.userNameEditTextController.text.isEmpty &&
+              controller.passwordEditTextController.text.isEmpty) {
+            loading.value = false;
             Get.snackbar('Error', 'Invalid username or password',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           }
+        } else {
+          loading.value = false;
         }
+
+        //end of new line
       },
       buttonTextStyle: TextStyle(
           fontSize: 15.0,
@@ -286,7 +299,15 @@ class LoginPage extends StatelessWidget {
           //   textAlign: TextAlign.left,
           // ),
           SizedBox(height: 23.v),
-          _buildLoginButton(),
+          //new line
+          Obx(() {
+            return loading.value == true
+                ? Lottie.asset('assets/lottie/loading.json',
+                    width: 200, height: 80)
+                : _buildLoginButton();
+          }),
+          //end of new line
+
           SizedBox(height: 24.v),
           Container(
             padding: EdgeInsets.symmetric(

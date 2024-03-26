@@ -66,11 +66,10 @@ class MyBadgesScreen extends GetWidget<MyBadgesController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: (MediaQuery.of(context).size.height/2)-150,
+                        height: (MediaQuery.of(context).size.height / 2) - 150,
                       ),
                       CircularProgressIndicator(
                         strokeWidth: 5,
-
                       ),
                     ],
                   ),
@@ -82,30 +81,108 @@ class MyBadgesScreen extends GetWidget<MyBadgesController> {
                       height: 20,
                     ),
                     Visibility(
-                      visible: controller.streaks.value >-1 &&  controller.streaks.value <3,
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: [
-                         SizedBox(
-                           height: (MediaQuery.of(context).size.height/2)-200,
-                         ),
-                         Padding(
-                           padding: const EdgeInsets.all(20.0),
-                           child: Text(
-                             "Every journey begins with a single step. Start yours today and watch your achievements grow!",
-                             textAlign: TextAlign.center,
-                             style: TextStyle(
-                               fontSize: 20.0,
-                               fontStyle: FontStyle.italic,
-                               fontWeight: FontWeight.w500,
-                               color: Colors.deepOrange.withOpacity(0.5),
-                             ),
-                           ),
-                         ),
-                       ],
-                     ),
+                      visible: controller.streaks.value > -1 &&
+                          controller.streaks.value < 3,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Streaks!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.0),
+                                  Text(
+                                    "Every journey begins with a single step. Start yours today and watch your achievements grow!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.0),
+                                  Text(
+                                    "Keep up the streak to earn badges:",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    "First Badge awarded after 3 days streaks",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Second Badge awarded after 6 days streaks",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  Text(
+                                    ".",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.deepOrange.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  Text(
+                                    ".",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  Text(
+                                    ".",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.deepOrange,
+                                    ),
+                                  ),
+                                  Text(
+                                    "After 1 month streak 10 badges and\nqualified for monthly reward",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

@@ -1,7 +1,7 @@
-
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 import 'controller/register_controller.dart';
 import 'models/register_model.dart';
@@ -21,14 +21,19 @@ class RegisterPage extends StatelessWidget {
     });
   }
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>(debugLabel: 'register_form_key');
+  GlobalKey<FormState> _formKey =
+      GlobalKey<FormState>(debugLabel: 'register_form_key');
 
   RegisterController controller =
       Get.put(RegisterController(RegisterModel().obs));
 
+  //new line
+  RxBool loading = false.obs;
+// end of new line
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -88,7 +93,14 @@ class RegisterPage extends StatelessWidget {
                           //   textAlign: TextAlign.left,
                           // ),
                           SizedBox(height: 19.v),
-                          _buildRegisterButton(),
+                          //new line
+                          Obx(() {
+                            return loading.value == true
+                                ? Lottie.asset('assets/lottie/loading.json',
+                                    width: 200, height: 80)
+                                : _buildRegisterButton();
+                          }),
+                          //end of new line
                           SizedBox(height: 20.v),
                           _buildInputRow(),
                           SizedBox(height: 20.v),
@@ -233,6 +245,8 @@ class RegisterPage extends StatelessWidget {
         width: 13.0,
       ),
       onPressed: () async {
+        //new line
+        loading.value = true;
         if (_formKey.currentState!.validate()) {
           int response = await ApiService.createUser(
               controller.fullNameEditTextController.text.trim(),
@@ -240,6 +254,7 @@ class RegisterPage extends StatelessWidget {
               controller.emailEditTextController.text.trim(),
               controller.passwordEditTextController.text);
           if (response == 201) {
+            loading.value = false;
             Get.snackbar(
                 'Verification', 'Verify your email address through email sent',
                 backgroundColor: Colors.white,
@@ -255,17 +270,24 @@ class RegisterPage extends StatelessWidget {
             final RegisterTabContainerController tabController = Get.find();
             tabController.tabviewController.animateTo(0);
           } else if (response == 400) {
+            loading.value = false;
+
             Get.snackbar('Error', 'Username or email already exists',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           } else {
-            Get.snackbar('Error', 'An error occurred, please try again',
+            loading.value = false;
+
+            Get.snackbar('Error', 'Username or email already exists',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           }
+        } else {
+          loading.value = false;
         }
+        //end of new line
       },
       buttonTextStyle: TextStyle(
         color: appTheme.whiteA70001,
