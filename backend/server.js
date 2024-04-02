@@ -9,6 +9,7 @@ const fs = require('fs')
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const crypto = require('crypto');
+const uuid = require('uuid');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
@@ -52,21 +53,30 @@ const upload = multer({ storage });
 
 secret_key = crypto.randomBytes(32).toString('hex');
 
+const tokenStore = {};
+
+const generateUniqueId = () => {
+  return uuid.v4();
+};
+
 const generateToken = (userId) => {
   const payload = {
     userId,
     exp: moment().add(10, 'minutes').unix(),
   };
-  return jwt.sign(payload, secret_key);
+  const token = jwt.sign(payload, secret_key);
+  const tokenId = generateUniqueId();
+  tokenStore[tokenId] = token;
+  return tokenId;
 };
 
 const constructVerificationLink = (userId) => {
-  const token = generateToken(userId);
-  const link = `${process.env.SERVER}verify?token=${token}`;
+  const tokenId = generateToken(userId);
+  const link = `${process.env.SERVER}verify?tokenId=${tokenId}`;
   return link;
 };
 
-const sendVerificationEmail = (email, verificationLink) => {
+const sendVerificationEmail = (email, verificationLink, res) => {
   const mailOptions = {
       from: 'app.martial.arts@gmail.com',
       to: email,
@@ -86,7 +96,13 @@ const sendVerificationEmail = (email, verificationLink) => {
 }
 
 app.get('/verify', (req, res) => {
-  const token = req.query.token;
+  const tokenId = req.query.tokenId;
+
+  const token = tokenStore[tokenId];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Invalid or expired verification link' });
+  }
 
   jwt.verify(token, secret_key, (err, decoded) => {
     if (err) {
@@ -100,12 +116,14 @@ app.get('/verify', (req, res) => {
       return res.status(401).json({ error: 'Token has expired' });
     }
 
-    const updateVerficationSql = 'UPDATE users SET verified = ? WHERE id = ?';
-    db.query(updateVerficationSql, [true, userId], (err, result) => {
+    const updateVerificationSql = 'UPDATE users SET verified = ? WHERE id = ?';
+    db.query(updateVerificationSql, [true, userId], (err, result) => {
       if (err) {
         console.error('Error updating user verification:', err);
         return res.status(500).json({ error: 'Error updating user verification' });
       }
+
+      delete tokenStore[tokenId];
 
       res.status(200).json({ message: 'Verification successful' });
     });
@@ -277,7 +295,7 @@ app.post('/signup', (req, res) => {
           db.query(sql, [username], (err, result) => {
             const userId = result[0]
             const verificationLink = constructVerificationLink(userId);
-            sendVerificationEmail(email, verificationLink);
+            sendVerificationEmail(email, verificationLink, res);
             res.status(201).json({ msg: 'Email Verification Pending' })
           });
         });
