@@ -11,19 +11,17 @@ class DailyRewardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: SizedBox(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Animate(child: _buildRewardSection()).fadeIn(),
-                SizedBox(height: 32.v),
-                Animate(child: _buildViewHierarchySection()).flipH(),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      body: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Animate(child: _buildRewardSection()).fadeIn(),
+              SizedBox(height: 32.v),
+              Animate(child: _buildViewHierarchySection()).flipH(),
+            ],
           ),
         ),
       ),

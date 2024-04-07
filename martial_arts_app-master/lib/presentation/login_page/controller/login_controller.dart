@@ -2,7 +2,6 @@ import 'package:martial_art/core/app_export.dart';
 import 'package:martial_art/presentation/login_page/models/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/services/ApiService.dart';
-import 'dart:developer';
 import 'package:martial_art/services/GoogleSignInAPI.dart';
 
 /// A controller class for the LoginPage.
@@ -46,8 +45,6 @@ class LoginController extends GetxController {
               margin: EdgeInsets.only(top: 16.0));
         }
       }
-    } catch (e) {
-      log(e.toString());
-    }
+    } catch (e) {}
   }
 }

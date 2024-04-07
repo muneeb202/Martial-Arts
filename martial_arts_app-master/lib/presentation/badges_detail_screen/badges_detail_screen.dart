@@ -15,53 +15,54 @@ class BadgesDetailScreen extends GetWidget<BadgesDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: Column(
-          children: [
-            Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(vertical: 11.v),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 34.h),
-                    child: CustomIconButton(
-                      height: 60.adaptSize,
-                      width: 60.adaptSize,
-                      padding: EdgeInsets.all(18.h),
-                      decoration: IconButtonStyleHelper.fillPrimary,
-                      alignment: Alignment.centerRight,
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgSend,
-                        color: appTheme.whiteA700,
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: Column(
+        children: [
+          Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 11.v),
+            child: Column(
+              children: [
+                // Padding(
+                //   padding: EdgeInsets.only(right: 34.h),
+                //   child: CustomIconButton(
+                //     height: 60.adaptSize,
+                //     width: 60.adaptSize,
+                //     padding: EdgeInsets.all(18.h),
+                //     decoration: IconButtonStyleHelper.fillPrimary,
+                //     alignment: Alignment.centerRight,
+                //     child: CustomImageView(
+                //       imagePath: ImageConstant.imgSend,
+                //       color: appTheme.whiteA700,
+                //     ),
+                //   ),
+                // ),
+                CustomImageView(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.detailPageScreen);
+                  },
+                  imagePath: ImageConstant.imgCoinSpecial,
+                  // height: 255.v,
+                  width: 280.h,
+                ),
+                Container(
+                  // height: 220,
+                  // width: 300,
+                  decoration: BoxDecoration(
+                    color: appTheme.whiteA700,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
                       ),
-                    ),
+                    ],
                   ),
-                  CustomImageView(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.detailPageScreen);
-                    },
-                    imagePath: ImageConstant.imgCoinSpecial,
-                    height: 255.v,
-                    width: 280.h,
-                  ),
-                  Container(
-                    height: 220,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      color: appTheme.whiteA700,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -82,23 +83,23 @@ class BadgesDetailScreen extends GetWidget<BadgesDetailController> {
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(height: 25.v),
-            CustomElevatedButton(
-              height: 57.v,
-              width: 209.h,
-              text: "Back",
-              buttonStyle: CustomButtonStyles.fillPrimary,
-              buttonTextStyle: CustomTextStyles.titleLargeInterGray50,
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            SizedBox(height: 5.v),
-          ],
-        ),
+          ),
+          SizedBox(height: 25.v),
+          CustomElevatedButton(
+            height: 57.v,
+            width: 209.h,
+            text: "Back",
+            buttonStyle: CustomButtonStyles.fillPrimary,
+            buttonTextStyle: CustomTextStyles.titleLargeInterGray50,
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          SizedBox(height: 5.v),
+        ],
       ),
     );
   }
@@ -108,7 +109,7 @@ class BadgesDetailScreen extends GetWidget<BadgesDetailController> {
     return CustomAppBar(
       backgroundColor: theme.colorScheme.primary,
       height: 90.v,
-      leadingWidth: 64.h,
+      // leadingWidth: 64.h,
       leading: AppbarLeadingImage(
         onTap: () {
           Get.back();
@@ -116,7 +117,7 @@ class BadgesDetailScreen extends GetWidget<BadgesDetailController> {
         color: appTheme.whiteA700,
         imagePath: ImageConstant.imgArrowDownWhiteA700,
         margin: EdgeInsets.only(
-          left: 28.h,
+          left: 5,
           top: 40.v,
           bottom: 36.v,
         ),

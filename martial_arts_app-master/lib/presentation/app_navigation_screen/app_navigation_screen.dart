@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'controller/app_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:martial_art/core/app_export.dart';
@@ -11,60 +13,56 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0XFFFFFFFF),
-        body: SizedBox(
-          width: 375.h,
-          child: Column(
-            children: [
-              _buildAppNavigation(),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0XFFFFFFFF),
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    return Scaffold(
+      backgroundColor: Color(0XFFFFFFFF),
+      body: Column(
+        children: [
+          _buildAppNavigation(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0XFFFFFFFF),
+                ),
+                child: Column(
+                  children: [
+                    _buildScreenTitle(
+                      screenTitle: "Splash screen".tr,
+                      onTapScreenTitle: () =>
+                          onTapScreenTitle(AppRoutes.splashScreen),
                     ),
-                    child: Column(
-                      children: [
-                        _buildScreenTitle(
-                          screenTitle: "Splash screen".tr,
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.splashScreen),
-                        ),
-                        _buildScreenTitle(
-                          screenTitle: "Home Screen - Container".tr,
-                          onTapScreenTitle: () => onTapScreenTitle(
-                              AppRoutes.homeScreenContainerScreen),
-                        ),
-                        _buildScreenTitle(
-                          screenTitle: "Activity answer".tr,
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.activityAnswerScreen),
-                        ),
-                        _buildScreenTitle(
-                          screenTitle: "success".tr,
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.successScreen),
-                        ),
-                        _buildScreenTitle(
-                          screenTitle: "Register - Tab Container".tr,
-                          onTapScreenTitle: () => onTapScreenTitle(
-                              AppRoutes.registerTabContainerScreen),
-                        ),
-                        _buildScreenTitle(
-                          screenTitle: "Detail Page".tr,
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.detailPageScreen),
-                        ),
-                      ],
+                    _buildScreenTitle(
+                      screenTitle: "Home Screen - Container".tr,
+                      onTapScreenTitle: () => onTapScreenTitle(
+                          AppRoutes.homeScreenContainerScreen),
                     ),
-                  ),
+                    _buildScreenTitle(
+                      screenTitle: "Activity answer".tr,
+                      onTapScreenTitle: () =>
+                          onTapScreenTitle(AppRoutes.activityAnswerScreen),
+                    ),
+                    _buildScreenTitle(
+                      screenTitle: "success".tr,
+                      onTapScreenTitle: () =>
+                          onTapScreenTitle(AppRoutes.successScreen),
+                    ),
+                    _buildScreenTitle(
+                      screenTitle: "Register - Tab Container".tr,
+                      onTapScreenTitle: () => onTapScreenTitle(
+                          AppRoutes.registerTabContainerScreen),
+                    ),
+                    _buildScreenTitle(
+                      screenTitle: "Detail Page".tr,
+                      onTapScreenTitle: () =>
+                          onTapScreenTitle(AppRoutes.detailPageScreen),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -19,7 +19,7 @@ class UserprofileItemWidget extends StatelessWidget {
       width: 168.h,
       child: Card(
 
-        color: userprofileItemModelObj.color!.value,
+        color: Colors.deepOrange,
         // clipBehavior: Clip.antiAlias,
         elevation: 2,
         shadowColor: Colors.grey,

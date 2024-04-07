@@ -22,7 +22,7 @@ class MyBadgesController extends GetxController {
   void fetchStreaks() async {
     try {
       final fetchedStreaks = await ApiService.fetchStreaks();
-      streaks.value = fetchedStreaks[0]["streaks"];
+      streaks.value = fetchedStreaks[0]["monthlyStreak"];
     } catch (e) {}
   }
 }

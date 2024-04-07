@@ -1,11 +1,11 @@
 final Map<String, String> enUs = {
   // Splash screen Screen
-  "lbl_martial_art": "Martial Art",
-  "msg_create_your_healthy": "Create Your Healthy Routine here",
+  "lbl_martial_art": "Black Belt Tracker App",
+  "msg_create_your_healthy": "Create Your Healthy Routine with BBT",
   "msg_join_the_app_to":
-      "Join the app to set Martial Art routine with daily activities.",
-  "msg_join_the_app_to2": "Join the app to set ",
-  "msg_routine_with_daily": " routine with daily activities.",
+      "Join the Black Belt Tracker to keep up activities and win rewards.",
+  "msg_join_the_app_to2": "Join the ",
+  "msg_routine_with_daily": " to keep up activities and win rewards.",
 
   // Login Screen
   "lbl_or_sign_in_with": "Or sign in with",
@@ -55,9 +55,9 @@ final Map<String, String> enUs = {
 
   // Register - Tab Container Screen
   "lbl_register2": "Register ",
-  "msg_create_your_account": "Go ahead and set up your account",
-  "msg_create_account": "Create your account",
-  "msg_sign_in_up_to_enjoy": "Sign in-up to enjoy the best managing experience",
+  "msg_create_your_account": "Welcome Back Sign in",
+  "msg_create_account": "Create your Black Belt Tracker account",
+  "msg_sign_in_up_to_enjoy": "Enjoy the best routine setup and rewards",
 
   // Points - Tab Container Screen
   "lbl_leaderboard": "Leaderboard",

@@ -16,69 +16,67 @@ class RewardInfoScreen extends GetWidget<RewardInfoController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        appBar: _buildAppBar(),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(vertical: 11.v),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 34.h),
-                child: CustomIconButton(
-                  height: 60.adaptSize,
-                  width: 60.adaptSize,
-                  padding: EdgeInsets.all(18.h),
-                  decoration: IconButtonStyleHelper.fillPrimary,
-                  alignment: Alignment.centerRight,
-                  child: CustomImageView(
-                    imagePath: ImageConstant.imgSend,
-                    color: appTheme.whiteA700,
-                  ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      appBar: _buildAppBar(),
+      body: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(vertical: 11.v),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 34.h),
+              child: CustomIconButton(
+                height: 60.adaptSize,
+                width: 60.adaptSize,
+                padding: EdgeInsets.all(18.h),
+                decoration: IconButtonStyleHelper.fillPrimary,
+                alignment: Alignment.centerRight,
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgSend,
+                  color: appTheme.whiteA700,
                 ),
               ),
-              CustomImageView(
-                imagePath: img == '' ? 'assets/badges/1.jpeg' : img,
-                height: 215.v,
-                width: 220.h,
+            ),
+            CustomImageView(
+              imagePath: img == '' ? 'assets/badges/1.jpeg' : img,
+              height: 215.v,
+              width: 220.h,
+            ),
+            Text(
+              "lbl_congratulation".tr,
+              style: CustomTextStyles.titleLargeInterBlack900,
+            ),
+            SizedBox(height: 17.v),
+            Divider(
+              color: appTheme.black900.withOpacity(0.08),
+            ),
+            SizedBox(height: 54.v),
+            SizedBox(
+              width: 263.h,
+              child: Text(
+                "You maintained a " +
+                    streaks.toString() +
+                    " day Streak and earned this badge. Keep it up",
+                maxLines: 2,
+                // overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.titleSmallBlack900,
               ),
-              Text(
-                "lbl_congratulation".tr,
-                style: CustomTextStyles.titleLargeInterBlack900,
-              ),
-              SizedBox(height: 17.v),
-              Divider(
-                color: appTheme.black900.withOpacity(0.08),
-              ),
-              SizedBox(height: 54.v),
-              SizedBox(
-                width: 263.h,
-                child: Text(
-                  "You maintained a " +
-                      streaks.toString() +
-                      " day Streak and earned this badge. Keep it up",
-                  maxLines: 2,
-                  // overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: CustomTextStyles.titleSmallBlack900,
-                ),
-              ),
-              SizedBox(height: 63.v),
-              CustomElevatedButton(
-                height: 57.v,
-                width: 209.h,
-                text: "lbl_see_all".tr,
-                buttonStyle: CustomButtonStyles.fillPrimary,
-                buttonTextStyle: CustomTextStyles.titleLargeInterGray50,
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-              SizedBox(height: 5.v),
-            ],
-          ),
+            ),
+            SizedBox(height: 63.v),
+            CustomElevatedButton(
+              height: 57.v,
+              width: 209.h,
+              text: "lbl_see_all".tr,
+              buttonStyle: CustomButtonStyles.fillPrimary,
+              buttonTextStyle: CustomTextStyles.titleLargeInterGray50,
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            SizedBox(height: 5.v),
+          ],
         ),
       ),
     );

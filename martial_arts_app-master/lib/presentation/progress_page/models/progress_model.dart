@@ -1,4 +1,3 @@
-
 import 'package:martial_art/services/ApiService.dart';
 
 import '../../../core/app_export.dart';
@@ -50,19 +49,19 @@ class ProgressModel {
               '${((completed[3]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic1.obs,
-          bedText: "Made Bed in the morning?".obs,
+          bedText: "What made you smile today?".obs,
           miniText:
               '${((completed[4]! / totalDays) * 100).round()}% Complete'.obs,
           completed: completed[4]! * 100 / totalDays),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic2.obs,
-          bedText: "Did exercise today?".obs,
+          bedText: "What did you do well today?".obs,
           completed: completed[5]! * 100 / totalDays,
           miniText:
               '${((completed[5]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic3.obs,
-          bedText: "Did you practice?".obs,
+          bedText: "what did you enjoy today?".obs,
           completed: completed[6]! * 100 / totalDays,
           miniText:
               '${((completed[6]! / totalDays) * 100).round()}% Complete'.obs),
@@ -74,31 +73,31 @@ class ProgressModel {
               '${((completed[7]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic5.obs,
-          bedText: "What did you enjoy today?".obs,
+          bedText: "What did you do for the 1st time today?".obs,
           completed: completed[8]! * 100 / totalDays,
           miniText:
               '${((completed[8]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
-          bedText: "What did you do well today?".obs,
+          bedText: "Who did you help today?".obs,
           completed: completed[9]! * 100 / totalDays,
           miniText:
               '${((completed[9]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic7.obs,
-          bedText: "What made you smile today?".obs,
+          bedText: "What did you feel today?".obs,
           completed: completed[10]! * 100 / totalDays,
           miniText:
               '${((completed[10]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
-          bedText: "What did you eat today?".obs,
+          bedText: "What was hard today?".obs,
           completed: completed[11]! * 100 / totalDays,
           miniText:
               '${((completed[11]! / totalDays) * 100).round()}% Complete'.obs),
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic7.obs,
-          bedText: "What made you play today?".obs,
+          bedText: "What did you do about it?".obs,
           completed: completed[12]! * 100 / totalDays,
           miniText:
               '${((completed[12]! / totalDays) * 100).round()}% Complete'.obs),

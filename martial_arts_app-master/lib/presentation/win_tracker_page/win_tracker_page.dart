@@ -21,32 +21,94 @@ class WinTrackerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.getProfilePic();
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
 
-        // backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        appBar: _buildAppBar(),
-        body: Stack(
-          children: [
-            _buildBackgroundImages(),
-            SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Animate(
-                      effects: [FadeEffect(), ScaleEffect()],
-                      child: _buildProfile()),
-                  Animate(
-                      effects: [FadeEffect(), ScaleEffect()],
-                      child: _buildHeaderBg()),
-                  Animate(child: _buildStudentActivitiesTitle()).slideX(),
-                  Animate(child: _buildStudentActivitiesList()).slideX(),
-                ],
-              ),
-            ),
-          ],
+      // backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      appBar: CustomAppBar(
+        // leadingWidth: 49.h,
+        height: 60.0,
+
+        // leading: Container(
+        //   height: 28.v,
+        //   width: 29.h,
+        //   margin: EdgeInsets.only(
+        //     left: 20.h,
+        //     top: 6.v,
+        //     bottom: 6.v,
+        //   ),
+        //   child: Stack(
+        //     alignment: Alignment.center,
+        //     children: [
+        //       CustomImageView(
+        //         imagePath: ImageConstant.imgImage14,
+        //         height: 28.v,
+        //         width: 29.h,
+        //         radius: BorderRadius.circular(
+        //           14.h,
+        //         ),
+        //         alignment: Alignment.center,
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        title: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+              colors: [Colors.black, Colors.orange],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ).createShader(bounds);
+          },
+          child: AppbarSubtitle(
+            text: "msg_black_belt_tracker".tr,
+            margin: EdgeInsets.only(left: 8.h),
+          ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              print("Exit button pressed");
+              ApiService.logoutUser();
+              Get.offAllNamed(
+                AppRoutes.initialRoute,
+              );
+            },
+            icon: Icon(Icons.exit_to_app),
+            iconSize: 24,
+            color: appTheme.gray800,
+          ),
+          IconButton(
+            onPressed: () {
+              deleteAlertBox(context);
+            },
+            icon: Icon(Icons.delete),
+            iconSize: 24,
+            color: Colors.red,
+          ),
+        ],
+        styleType: Style.bgOutline,
+
+      ),
+      body: Stack(
+        children: [
+          _buildBackgroundImages(),
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Animate(
+                    effects: [FadeEffect(), ScaleEffect()],
+                    child: _buildProfile()),
+                Animate(
+                    effects: [FadeEffect(), ScaleEffect()],
+                    child: _buildHeaderBg()),
+                Animate(child: _buildStudentActivitiesTitle()).slideX(),
+                Animate(child: _buildStudentActivitiesList()).slideX(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -431,5 +493,48 @@ class WinTrackerPage extends StatelessWidget {
         ),
       ),
     );
+  }
+  deleteAlertBox(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(
+              'Delete Account',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Text('Do you want to delete your account?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Get.back(result: false);
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  if(await ApiService.deleteUser()){
+                    ApiService.logoutUser();
+                    Get.offAllNamed(
+                      AppRoutes.initialRoute,
+                    );
+                  }else{
+                    ApiService.logoutUser();
+                    Get.offAllNamed(
+                      AppRoutes.initialRoute,
+                    );
+                  }
+                },
+                child: Text(
+                  'Delete',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

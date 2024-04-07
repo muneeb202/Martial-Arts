@@ -16,35 +16,33 @@ class ActivityAnswerScreen extends GetWidget<ActivityAnswerController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(horizontal: 19.h),
-          child: Column(
-            children: [
-              SizedBox(height: 16.v),
-              _buildWinTrackerRow(),
-              SizedBox(height: 28.v),
-              _buildHeaderBg(),
-              SizedBox(height: 32.v),
-              _buildFrame(),
-              SizedBox(height: 32.v),
-              _buildSubmitStack(),
-              SizedBox(height: 9.v),
-              _buildWhatDidYouEnjoyRow(),
-              SizedBox(height: 9.v),
-              _buildWhatDidYouDoRow(),
-              SizedBox(height: 9.v),
-              _buildWhatMadeYouSmileRow(),
-              SizedBox(height: 9.v),
-              _buildWhatDidYouFindRow(),
-            ],
-          ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(horizontal: 19.h),
+        child: Column(
+          children: [
+            SizedBox(height: 16.v),
+            _buildWinTrackerRow(),
+            SizedBox(height: 28.v),
+            _buildHeaderBg(),
+            SizedBox(height: 32.v),
+            _buildFrame(),
+            SizedBox(height: 32.v),
+            _buildSubmitStack(),
+            SizedBox(height: 9.v),
+            _buildWhatDidYouEnjoyRow(),
+            SizedBox(height: 9.v),
+            _buildWhatDidYouDoRow(),
+            SizedBox(height: 9.v),
+            _buildWhatMadeYouSmileRow(),
+            SizedBox(height: 9.v),
+            _buildWhatDidYouFindRow(),
+          ],
         ),
-        // bottomNavigationBar: _buildBottomBar(),
       ),
+      // bottomNavigationBar: _buildBottomBar(),
     );
   }
 

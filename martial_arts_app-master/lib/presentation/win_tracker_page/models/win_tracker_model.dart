@@ -1,4 +1,3 @@
-
 import 'package:martial_art/services/ApiService.dart';
 import '../../../core/app_export.dart';
 import 'studentactivitieslist_item_model.dart';
@@ -63,7 +62,7 @@ class WinTrackerModel {
       StudentactivitieslistItemModel(
           bedImage1: ImageConstant.pic6.obs,
           bedImage2: ImageConstant.pic1_1.obs,
-          bedText: "what did you help today?".obs,
+          bedText: "Who did you help today?".obs,
           id: "9".obs,
           checkBoxVal: activities.containsKey(9).obs,
           answer: RxString(activities[9] ?? '')),

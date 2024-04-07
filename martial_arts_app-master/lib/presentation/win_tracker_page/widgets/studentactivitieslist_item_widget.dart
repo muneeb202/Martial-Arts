@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:martial_art/presentation/home_screen_container_screen/controller/home_screen_container_controller.dart';
 import 'package:martial_art/presentation/home_screen_page/controller/home_screen_controller.dart';
 import 'package:martial_art/presentation/win_tracker_page/controller/win_tracker_controller.dart';
@@ -187,29 +188,44 @@ class StudentactivitieslistItemWidget extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(Size(250, 35)),
-                  backgroundColor: MaterialStateProperty.all(
-                    theme.colorScheme.primary,
-                  ),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(75),
+            Obx((){
+              return studentactivitieslistItemModelObj.loading!.value==true? Container(
+                height: 80,
+                width: 150,
+                child: Lottie.asset('assets/lottie/loading.json'),
+              ) : Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all(Size(250, 35)),
+                    backgroundColor: MaterialStateProperty.all(
+                      theme.colorScheme.primary,
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(75),
+                      ),
                     ),
                   ),
+                  onPressed: () async{
+                    studentactivitieslistItemModelObj.loading!.value=true;
+                    try{
+                      await addAnswer().then((value){
+                        studentactivitieslistItemModelObj.loading!.value=false;
+                      }).onError((error, stackTrace){
+                        studentactivitieslistItemModelObj.loading!.value=false;
+                      });
+                    }catch(e){
+                      log(e.toString());
+                    }
+                  },
+                  child: Text(
+                    'Submit',
+                    style: GoogleFonts.poppins(color: appTheme.whiteA70001),
+                  ),
                 ),
-                onPressed: () {
-                  addAnswer();
-                },
-                child: Text(
-                  'Submit',
-                  style: GoogleFonts.poppins(color: appTheme.whiteA70001),
-                ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

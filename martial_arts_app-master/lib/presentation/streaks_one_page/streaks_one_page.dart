@@ -17,26 +17,24 @@ class StreaksOnePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.fetchTopUsersByStreaks();
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.transparent,
-        body: SizedBox(
-          width: SizeUtils.width,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 18.v),
-                Obx(() {
-                  if (controller.topUsersByStreaks.isEmpty ||
-                      controller.topUsersByStreaks.isNull) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return _buildMaskColumn5();
-                  }
-                }),
-              ],
-            ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
+      body: SizedBox(
+        width: SizeUtils.width,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 18.v),
+              Obx(() {
+                if (controller.topUsersByStreaks.isEmpty ||
+                    controller.topUsersByStreaks.isNull) {
+                  return CircularProgressIndicator();
+                } else {
+                  return _buildMaskColumn5();
+                }
+              }),
+            ],
           ),
         ),
       ),

@@ -18,91 +18,90 @@ class SplashScreen extends GetWidget<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-            body: SizedBox(
-                width: double.maxFinite,
-                child: Column(children: [
-                  _buildSlider(),
-                  SizedBox(height: 20.v),
-                  SizedBox(
-                      width: 254.h,
-                      child: Text("msg_create_your_healthy".tr,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: appTheme.blueGray900,
-                              fontSize: 22.fSize,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w700))),
-                  SizedBox(height: 30.v),
-                  Container(
-                      width: 292.h,
-                      margin: EdgeInsets.only(left: 52.h, right: 49.h),
-                      child: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: "msg_join_the_app_to2".tr,
-                                style: GoogleFonts.poppins(
-                                  color:
-                                      appTheme.deepOrange50001.withOpacity(0.7),
-                                )),
-                            TextSpan(
-                                text: "lbl_martial_art".tr,
-                                style: GoogleFonts.montserrat(
-                                    color: Colors.deepOrange,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16)),
-                            TextSpan(
-                                text: "msg_routine_with_daily".tr,
-                                style: GoogleFonts.poppins(
-                                  color:
-                                      appTheme.deepOrange50001.withOpacity(0.7),
-                                ))
-                          ]),
-                          textAlign: TextAlign.center)),
-                  SizedBox(height: 85.v),
-                  CustomElevatedButton(
-                    width: Get.width / 1.3,
-                    text: "lbl_register".tr,
-                    // text: "lbl_login".tr,
-                    onPressed: () {
-                      Get.toNamed(
-                        AppRoutes.registerTabContainerScreen,
-                        arguments: {"initialTabIndex": 1},
-                      );
-                    },
-                    buttonTextStyle: GoogleFonts.montserrat(
-                        color: Colors.white, fontSize: 15),
-                    buttonStyle: CustomButtonStyles.outlinePrimary,
-                  ),
-                  SizedBox(height: 24.v),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     // Divider(color: Colors.black,height: 10,),
-                  //     // Text("OR"),
-                  //     Divider(color: Colors.black,height: 10,),
-                  //   ],
-                  // ),
-                  // SizedBox(height: 12.v),
+    return Scaffold(
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+        body: SizedBox(
+            width: double.maxFinite,
+            child: Column(children: [
+              _buildSlider(),
+              SizedBox(height: 20.v),
+              SizedBox(
+                  width: 254.h,
+                  child: Text("msg_create_your_healthy".tr,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: appTheme.blueGray900,
+                          fontSize: 22.fSize,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w700))),
+              SizedBox(height: 30.v),
+              Container(
+                  width: 292.h,
+                  margin: EdgeInsets.only(left: 52.h, right: 49.h),
+                  child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "msg_join_the_app_to2".tr,
+                            style: GoogleFonts.poppins(
+                              color:
+                                  appTheme.deepOrange50001.withOpacity(0.7),
+                            )),
+                        TextSpan(
+                            text: "lbl_martial_art".tr,
+                            style: GoogleFonts.montserrat(
+                                color: Colors.deepOrange,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16)),
+                        TextSpan(
+                            text: "msg_routine_with_daily".tr,
+                            style: GoogleFonts.poppins(
+                              color:
+                                  appTheme.deepOrange50001.withOpacity(0.7),
+                            ))
+                      ]),
+                      textAlign: TextAlign.center)),
+              SizedBox(height: 85.v),
+              CustomElevatedButton(
+                width: Get.width / 1.3,
+                text: "lbl_register".tr,
+                // text: "lbl_login".tr,
+                onPressed: () {
+                  Get.toNamed(
+                    AppRoutes.registerTabContainerScreen,
+                    arguments: {"initialTabIndex": 1},
+                  );
+                },
+                buttonTextStyle: GoogleFonts.montserrat(
+                    color: Colors.white, fontSize: 15),
+                buttonStyle: CustomButtonStyles.outlinePrimary,
+              ),
+              SizedBox(height: 24.v),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     // Divider(color: Colors.black,height: 10,),
+              //     // Text("OR"),
+              //     Divider(color: Colors.black,height: 10,),
+              //   ],
+              // ),
+              // SizedBox(height: 12.v),
 
-                  CustomElevatedButton(
-                      width: Get.width / 1.3,
-                      text: "lbl_login".tr,
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.registerTabContainerScreen,
-                        );
-                      },
-                      buttonTextStyle: GoogleFonts.montserrat(fontSize: 15.0),
-                      buttonStyle: CustomButtonStyles.none,
-                      decoration:
-                          CustomButtonStyles.gradientWhiteAToWhiteADecoration),
-                  SizedBox(height: 5.v)
-                ]))));
+              CustomElevatedButton(
+                  width: Get.width / 1.3,
+                  text: "lbl_login".tr,
+                  onPressed: () {
+                    Get.toNamed(
+                      AppRoutes.registerTabContainerScreen,
+                    );
+                  },
+                  buttonTextStyle: GoogleFonts.montserrat(fontSize: 15.0),
+                  buttonStyle: CustomButtonStyles.none,
+                  decoration:
+                      CustomButtonStyles.gradientWhiteAToWhiteADecoration),
+              SizedBox(height: 5.v)
+            ])));
   }
 
   /// Section Widget

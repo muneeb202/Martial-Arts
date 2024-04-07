@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:martial_art/core/app_export.dart';
 
 // ignore: must_be_immutable
@@ -39,13 +40,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: height ?? 50.v,
       automaticallyImplyLeading: false,
       backgroundColor: backgroundColor ?? Colors.transparent,
-      flexibleSpace: _getStyle(),
+      // flexibleSpace: _getStyle(),
       //leadingWidth: leadingWidth ?? 0,
       leading: leading,
       title: title,
       titleSpacing: 0,
       centerTitle: centerTitle ?? false,
       actions: actions,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+
     );
   }
 

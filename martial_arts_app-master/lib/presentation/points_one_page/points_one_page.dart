@@ -16,29 +16,27 @@ class PointsOnePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.fetchTopUsersByPoints();
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.transparent,
-        // backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
+      // backgroundColor: Color.fromRGBO(255, 255, 255, 1),
 
-        body: SizedBox(
-          width: SizeUtils.width,
-          child: SingleChildScrollView(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.center,center
-              children: [
-                SizedBox(height: 18.v),
-                Obx(() {
-                  if (controller.topUsersByPoints.isEmpty ||
-                      controller.topUsersByPoints.isNull) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return _buildMaskColumn5();
-                  }
-                }),
-              ],
-            ),
+      body: SizedBox(
+        width: SizeUtils.width,
+        child: SingleChildScrollView(
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,center
+            children: [
+              SizedBox(height: 18.v),
+              Obx(() {
+                if (controller.topUsersByPoints.isEmpty ||
+                    controller.topUsersByPoints.isNull) {
+                  return CircularProgressIndicator();
+                } else {
+                  return _buildMaskColumn5();
+                }
+              }),
+            ],
           ),
         ),
       ),

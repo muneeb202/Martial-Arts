@@ -1,3 +1,4 @@
+
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,29 +27,30 @@ class _RegisterTabContainerScreenState
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    return SafeArea(
-      child: Scaffold(
-        //backgroundColor: appTheme.whiteA700,
-        backgroundColor: Colors.black,
-        extendBodyBehindAppBar: true,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        //   automaticallyImplyLeading: false,
-        //   leading: IconButton(
-        //       style: ButtonStyle(
-        //         side: MaterialStatePropertyAll(
-        //             BorderSide(color: appTheme.redA200)),
-        //       ),
-        //       onPressed: () {
-        //         Get.back();
-        //       },
-        //       icon: Icon(
-        //         Icons.arrow_back,
-        //         color: Colors.white,
-        //       )),
-        // ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      //backgroundColor: appTheme.whiteA700,
+      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   leading: IconButton(
+      //       style: ButtonStyle(
+      //         side: MaterialStatePropertyAll(
+      //             BorderSide(color: appTheme.redA200)),
+      //       ),
+      //       onPressed: () {
+      //         Get.back();
+      //       },
+      //       icon: Icon(
+      //         Icons.arrow_back,
+      //         color: Colors.white,
+      //       )),
+      // ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 5),
           child: SizedBox(
             height: 844.v,
             width: double.infinity,
@@ -57,7 +59,7 @@ class _RegisterTabContainerScreenState
               children: [
                 _buildHeaderBackground(),
                 Positioned(
-                  // top: 170.0,
+                  // top: 170.0,0
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -79,10 +81,10 @@ class _RegisterTabContainerScreenState
                           ),
                           _buildTabview(),
                           SizedBox(
-                            height: 15,
+                            // height: 15,
                           ),
                           SizedBox(
-                            height: 552.v,
+                            height: 572.v,
                             child: TabBarView(
                               controller: controller.tabviewController,
                               children: [
@@ -170,6 +172,7 @@ class _RegisterTabContainerScreenState
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 40),
                       Text(
                         ctrl.tabviewController.index == 0
                             ? "msg_create_your_account".tr
@@ -181,7 +184,7 @@ class _RegisterTabContainerScreenState
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(height: 7.v),
+                      // SizedBox(height: 7.v),
                       Text(
                         "msg_sign_in_up_to_enjoy".tr,
                         style: TextStyle(

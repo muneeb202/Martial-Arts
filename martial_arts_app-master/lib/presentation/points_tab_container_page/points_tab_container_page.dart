@@ -20,54 +20,52 @@ class PointsTabContainerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: SizedBox(
-                height: Get.height,
-                width: Get.width,
-                child: Column(
-                  children: [
-                    Container(
-                      height: Get.width / 0.9,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/1.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: Get.height / 3.1,
-                      width: Get.width,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
+    return Scaffold(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: SizedBox(
+              height: Get.height,
+              width: Get.width,
               child: Column(
                 children: [
-                  SizedBox(height: 26.v),
-                  _buildPointsSection(),
-                  Expanded(
-                    child: TabBarView(
-                      controller: controller.tabviewController,
-                      children: [
-                        PointsOnePage(),
-                        StreaksOnePage(),
-                      ],
+                  Container(
+                    height: Get.width / 0.9,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/1.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                  ),
+                  Container(
+                    height: Get.height / 3.1,
+                    width: Get.width,
+                    color: Colors.white,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                SizedBox(height: 26.v),
+                _buildPointsSection(),
+                Expanded(
+                  child: TabBarView(
+                    controller: controller.tabviewController,
+                    children: [
+                      PointsOnePage(),
+                      StreaksOnePage(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -83,7 +81,8 @@ class PointsTabContainerPage extends StatelessWidget {
             height: 39.v,
             leadingWidth: 64.h,
             leading: AppbarLeadingImage(
-              onTap: () {},
+              onTap: () {
+              },
               color: appTheme.whiteA700,
               imagePath: ImageConstant.imgArrowDown,
               margin: EdgeInsets.only(
@@ -96,6 +95,7 @@ class PointsTabContainerPage extends StatelessWidget {
             title: AppbarTitle(
               color: appTheme.whiteA700,
               text: "lbl_leaderboard".tr,
+
             ),
           ),
           SizedBox(height: 10.v),
@@ -127,6 +127,7 @@ class PointsTabContainerPage extends StatelessWidget {
               indicatorPadding: EdgeInsets.all(
                 4.0.h,
               ),
+
               indicatorSize: TabBarIndicatorSize.tab,
               indicator: BoxDecoration(
                 color: appTheme.whiteA700,
@@ -156,6 +157,7 @@ class PointsTabContainerPage extends StatelessWidget {
                       // fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
                     ),
+
                   ),
                 ),
                 Tab(
@@ -167,6 +169,7 @@ class PointsTabContainerPage extends StatelessWidget {
                       // fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
                     ),
+
                   ),
                 ),
               ],

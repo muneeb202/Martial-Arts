@@ -16,7 +16,7 @@ class HomeScreenModel {
   final RxString points = RxString('0');
   Rx<List<UserprofileItemModel>> userprofileItemList = Rx([]);
   Rx<List<StudentactivitieslistItemModel>> studentactivitieslistItemList =
-      Rx([]);
+  Rx([]);
 
   HomeScreenModel() {
     // ... existing code (if any)
@@ -31,10 +31,10 @@ class HomeScreenModel {
     Map completed = await ApiService.get_activities();
     set_activities(completed);
 
-    DateTime now = DateTime.now();
-    int currentDayOfMonth = now.day;
-    int minstreak = min<int>(currentDayOfMonth, userDict['streaks']);
-    streaks.value = max(minstreak, int.parse(streaks.value)).toString();
+    // DateTime now = DateTime.now();
+    // int currentDayOfMonth = now.day;
+    // int minstreak = min<int>(currentDayOfMonth, userDict['streaks']);
+    streaks.value = userDict['monthlyStreak'].toString();
     points.value = userDict['monthly'].toString();
 
     userprofileItemList.value = [

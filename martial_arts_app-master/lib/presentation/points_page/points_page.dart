@@ -13,39 +13,37 @@ class PointsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        resizeToAvoidBottomInset: false,
-        body: SizedBox(
-          width: SizeUtils.width,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 17.v),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 27.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildPlaylist(),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20.h),
-                          child: CustomSearchView(
-                            controller: controller.searchController,
-                            hintText: "lbl_search_user".tr,
-                          ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        width: SizeUtils.width,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 17.v),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 27.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildPlaylist(),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.h),
+                        child: CustomSearchView(
+                          controller: controller.searchController,
+                          hintText: "lbl_search_user".tr,
                         ),
-                        SizedBox(height: 26.v),
-                        _buildUserProfile(),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 26.v),
+                      _buildUserProfile(),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -13,51 +13,67 @@ class DetailPageScreen extends GetWidget<DetailPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.gray100,
-        body: SizedBox(
-          height: 781.v,
-          width: double.maxFinite,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 172.v),
-                  decoration: AppDecoration.gradientPrimaryToDeeporange200,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 56.v),
-                      Padding(
-                        padding: EdgeInsets.only(left: 74.h),
-                        child: Text(
-                          "lbl_free_trip2".tr,
-                          style: TextStyle(
-                            color: appTheme.whiteA700,
-                            fontSize: 28.fSize,
-                            fontFamily: 'Noto Sans',
-                            fontWeight: FontWeight.w700,
-                          ),
+    return Scaffold(
+      backgroundColor: appTheme.gray100,
+      body: SizedBox(
+        height: 781.v,
+        width: double.maxFinite,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 172.v),
+                decoration: AppDecoration.gradientPrimaryToDeeporange200,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 56.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 74.h),
+                      child: Text(
+                        "lbl_free_trip2".tr,
+                        style: TextStyle(
+                          color: appTheme.whiteA700,
+                          fontSize: 28.fSize,
+                          fontFamily: 'Noto Sans',
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Spacer(),
-                      _buildStackOne(),
-                    ],
+                    ),
+                    Spacer(),
+                    _buildStackOne(),
+                  ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Opacity(
+                opacity: 0.55,
+                child: Text(
+                  "lbl_jakarta_200im".tr,
+                  style: TextStyle(
+                    color: appTheme.whiteA700.withOpacity(0.55),
+                    fontSize: 128.fSize,
+                    fontFamily: 'Space Grotesk',
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Opacity(
-                  opacity: 0.55,
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Opacity(
+                opacity: 0.25,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 69.v),
                   child: Text(
                     "lbl_jakarta_200im".tr,
                     style: TextStyle(
-                      color: appTheme.whiteA700.withOpacity(0.55),
+                      color: appTheme.whiteA700.withOpacity(0.44),
                       fontSize: 128.fSize,
                       fontFamily: 'Space Grotesk',
                       fontWeight: FontWeight.w700,
@@ -65,41 +81,23 @@ class DetailPageScreen extends GetWidget<DetailPageController> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Opacity(
-                  opacity: 0.25,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 69.v),
-                    child: Text(
-                      "lbl_jakarta_200im".tr,
-                      style: TextStyle(
-                        color: appTheme.whiteA700.withOpacity(0.44),
-                        fontSize: 128.fSize,
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+            _buildColumnOne(),
+            _buildColumnTwo(),
+            CustomImageView(
+              imagePath: ImageConstant.imgArrowDownRed100,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(
+                left: 30.h,
+                top: 63.v,
               ),
-              _buildColumnOne(),
-              _buildColumnTwo(),
-              CustomImageView(
-                imagePath: ImageConstant.imgArrowDownRed100,
-                height: 24.adaptSize,
-                width: 24.adaptSize,
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(
-                  left: 30.h,
-                  top: 63.v,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        // bottomNavigationBar: _buildBottomBar(),
       ),
+      // bottomNavigationBar: _buildBottomBar(),
     );
   }
 

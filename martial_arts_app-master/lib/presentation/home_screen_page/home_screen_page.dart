@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../home_screen_container_screen/home_screen_container_screen.dart';
 import '../home_screen_page/widgets/studentactivitieslist_item_widget.dart';
 import '../home_screen_page/widgets/userprofile_item_widget.dart';
 import 'controller/home_screen_controller.dart';
@@ -25,11 +27,13 @@ class HomeScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        appBar: _buildAppBar(),
-        body: Stack(
+    controller.updateInfo();
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      appBar: _buildAppBar(context),
+      body: SafeArea(
+        // top: t,
+        child: Stack(
           children: [
             _buildBackgroundImages(),
             Animate(
@@ -130,7 +134,7 @@ class HomeScreenPage extends StatelessWidget {
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: Text(
-                                          "Streaks",
+                                          "Streak",
                                           style: TextStyle(
                                             fontSize: 18.fSize,
                                             color: Colors.white,
@@ -275,7 +279,8 @@ class HomeScreenPage extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Image.asset(
-              ImageConstant.imgScreenshot2023,
+              // ImageConstant.imgScreenshot2023,
+              'assets/images/hand_medal.png',
               height: MediaQuery.of(context).size.height / 6,
             ),
           ),
@@ -361,10 +366,11 @@ class HomeScreenPage extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       // leadingWidth: 49.h,
       height: 60.0,
+
       // leading: Container(
       //   height: 28.v,
       //   width: 29.h,
@@ -388,9 +394,18 @@ class HomeScreenPage extends StatelessWidget {
       //     ],
       //   ),
       // ),
-      title: AppbarSubtitle(
-        text: "msg_black_belt_tracker".tr,
-        margin: EdgeInsets.only(left: 8.h),
+      title: ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return LinearGradient(
+            colors: [Colors.black, Colors.orange],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ).createShader(bounds);
+        },
+        child: AppbarSubtitle(
+          text: "msg_black_belt_tracker".tr,
+          margin: EdgeInsets.only(left: 8.h),
+        ),
       ),
       actions: [
         IconButton(
@@ -404,6 +419,14 @@ class HomeScreenPage extends StatelessWidget {
           icon: Icon(Icons.exit_to_app),
           iconSize: 24,
           color: appTheme.gray800,
+        ),
+        IconButton(
+          onPressed: () {
+            deleteAlertBox(context);
+          },
+          icon: Icon(Icons.delete),
+          iconSize: 24,
+          color: Colors.red,
         ),
       ],
       styleType: Style.bgOutline,
@@ -845,6 +868,50 @@ class HomeScreenPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  deleteAlertBox(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(
+              'Delete Account',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Text('Do you want to delete your account?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Get.back(result: false);
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  if (await ApiService.deleteUser()) {
+                    ApiService.logoutUser();
+                    Get.offAllNamed(
+                      AppRoutes.initialRoute,
+                    );
+                  } else {
+                    ApiService.logoutUser();
+                    Get.offAllNamed(
+                      AppRoutes.initialRoute,
+                    );
+                  }
+                },
+                child: Text(
+                  'Delete',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   // padding: EdgeInsets.only(

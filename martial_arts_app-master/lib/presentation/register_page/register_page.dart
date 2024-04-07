@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,15 +24,15 @@ class RegisterPage extends StatelessWidget {
     });
   }
 
-  GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(debugLabel: 'register_form_key');
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>(debugLabel: 'register_form_key');
 
   RegisterController controller =
-      Get.put(RegisterController(RegisterModel().obs));
+  Get.put(RegisterController(RegisterModel().obs));
 
   //new line
   RxBool loading = false.obs;
 // end of new line
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: AppDecoration.fillWhiteA700,
                 child: Column(
                   children: [
-                    //SizedBox(height: 25.v),
+
                     Padding(
                       padding: EdgeInsets.only(
                         left: 20.h,
@@ -94,11 +97,8 @@ class RegisterPage extends StatelessWidget {
                           // ),
                           SizedBox(height: 19.v),
                           //new line
-                          Obx(() {
-                            return loading.value == true
-                                ? Lottie.asset('assets/lottie/loading.json',
-                                    width: 200, height: 80)
-                                : _buildRegisterButton();
+                          Obx((){
+                            return loading.value == true ? Lottie.asset('assets/lottie/loading.json',width: 200,height: 80) : _buildRegisterButton();
                           }),
                           //end of new line
                           SizedBox(height: 20.v),
@@ -243,10 +243,11 @@ class RegisterPage extends StatelessWidget {
         ImageConstant.imgSettings,
         height: 13.0,
         width: 13.0,
+
       ),
       onPressed: () async {
         //new line
-        loading.value = true;
+        loading.value=true;
         if (_formKey.currentState!.validate()) {
           int response = await ApiService.createUser(
               controller.fullNameEditTextController.text.trim(),
@@ -279,15 +280,16 @@ class RegisterPage extends StatelessWidget {
           } else {
             loading.value = false;
 
-            Get.snackbar('Error', 'Username or email already exists',
+            Get.snackbar('Error', 'An error occurred, please try again',
                 backgroundColor: Colors.white,
                 colorText: Colors.blueGrey.withOpacity(.8),
                 margin: EdgeInsets.only(top: 16.0));
           }
-        } else {
+        }else{
           loading.value = false;
         }
         //end of new line
+
       },
       buttonTextStyle: TextStyle(
         color: appTheme.whiteA70001,
@@ -324,7 +326,8 @@ class RegisterPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
+          Platform.isIOS
+              ?Container():Padding(
             padding: EdgeInsets.only(top: 1.v),
             child: Text(
               "lbl_or_sign_up_with".tr,
@@ -400,14 +403,15 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildTextRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildGoogleButton(),
-        // _buildAppleButton(),
-      ],
-    );
+    return
+      Platform.isIOS
+          ?Container():Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildGoogleButton(),
+          // _buildAppleButton(),
+        ],
+      );
   }
 }

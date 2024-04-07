@@ -37,7 +37,7 @@ class HomeScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _getUsername(); // Call function to get username on initialization
+    updateInfo();
     _getProfilePic();
     ever(points, (_) {
       // Update UI whenever username changes
@@ -49,16 +49,17 @@ class HomeScreenController extends GetxController {
 
   void updatePoints() async {
     completed.value++;
-    if (completed.value == 12) {
-      streaks.value = (int.parse(streaks.value) + 1).toString();
-      month_streaks.value = (int.parse(month_streaks.value) + 1).toString();
-      homeScreenModelObj.value.streaks.value = streaks.value;
-    }
-    homeScreenModelObj.value.points.value =
-        (int.parse(homeScreenModelObj.value.points.value) + 5).toString();
     SharedPreferences user = await SharedPreferences.getInstance();
     String encodedUser = user.getString('user') ?? "";
     Map userDict = jsonDecode(encodedUser);
+    if (completed.value == 12) {
+      streaks.value = (int.parse(streaks.value) + 1).toString();
+      month_streaks.value = (int.parse(month_streaks.value) + 1).toString();
+      homeScreenModelObj.value.streaks.value = month_streaks.value;
+      userDict['monthlyStreak']++;
+    }
+    homeScreenModelObj.value.points.value =
+        (int.parse(homeScreenModelObj.value.points.value) + 5).toString();
     userDict['monthly'] += 5;
     user.setString('user', jsonEncode(userDict));
     points.value = (int.parse(points.value) + 5).toString();
@@ -76,20 +77,16 @@ class HomeScreenController extends GetxController {
     username.value = userDict['fullname'].split(' ')[0];
     streaks.value = userDict['streaks'].toString();
     points.value = userDict['points'].toString();
+    month_streaks.value = userDict['monthlyStreak'].toString();
 
-    Map acts = await ApiService.get_activities();
-    completed.value = acts.length;
+    update();
+  }
 
-    DateTime now = DateTime.now();
-
-    // Get the current day of the month
-    int currentDayOfMonth = now.day;
-
-    // Get the total number of days in the current month
-    int totalDaysInMonth = DateTime(now.year, now.month + 1, 0).day;
-    month_streaks.value =
-        min<int>(currentDayOfMonth, userDict['streaks']).toString();
-    total_days.value = totalDaysInMonth.toString();
+  Future<void> updateInfo() async {
+    await ApiService.updatedInfo();
+    _getUsername();
+    homeScreenModelObj.value.getStreaksAndPointsFromSharedPrefs();
+    HomeScreenController(this.homeScreenModelObj);
     update();
   }
 }

@@ -15,15 +15,14 @@ class HomeScreenContainerScreen
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            body: Navigator(
-                key: Get.nestedKey(1),
-                initialRoute: AppRoutes.homeScreenPage,
-                onGenerateRoute: (routeSetting) => GetPageRoute(
-                    page: () => getCurrentPage(routeSetting.name!),
-                    transition: Transition.noTransition)),
-            bottomNavigationBar: _buildBottomBar()));
+    return Scaffold(
+        body: Navigator(
+            key: Get.nestedKey(1),
+            initialRoute: AppRoutes.homeScreenPage,
+            onGenerateRoute: (routeSetting) => GetPageRoute(
+                page: () => getCurrentPage(routeSetting.name!),
+                transition: Transition.noTransition)),
+        bottomNavigationBar: _buildBottomBar());
   }
 
   /// Section Widget
